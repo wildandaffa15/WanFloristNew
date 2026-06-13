@@ -1,0 +1,40 @@
+{
+    "name": "wanflorist/wanflorist-system",
+    "description": "Sistem manajemen pesanan WanFlorist — toko buket bunga UMKM Singojuruh, Banyuwangi",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "WanFlorist Dev",
+            "email": "dev@wanflorist.id"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "giorgiosironi/eris": "^0.13"
+    },
+    "autoload": {
+        "files": [
+            "config/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WanFlorist\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite unit",
+        "test:property": "phpunit --testsuite property",
+        "test:integration": "phpunit --testsuite integration"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}

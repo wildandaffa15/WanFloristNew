@@ -1,0 +1,87 @@
+# ============================================================
+# WanFlorist — Konfigurasi Apache (.htaccess root)
+# ============================================================
+
+# Aktifkan mod_rewrite
+Options -MultiViews
+RewriteEngine On
+
+# ------------------------------------------------------------
+# Keamanan: Lindungi direktori config/ dari akses browser langsung
+# File PHP di config/ hanya boleh di-require oleh kode server,
+# bukan diakses langsung melalui URL.
+# ------------------------------------------------------------
+<IfModule mod_authz_core.c>
+    # Apache 2.4+
+    <FilesMatch "^config/">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# Blokir akses langsung ke seluruh direktori config/
+RewriteRule ^config/ - [F,L]
+
+# ------------------------------------------------------------
+# Keamanan: Nonaktifkan directory listing
+# ------------------------------------------------------------
+Options -Indexes
+
+# ------------------------------------------------------------
+# Keamanan: assets/img/produk/ — tidak ada listing direktori
+# (Options -Indexes sudah berlaku global, ini sebagai penegasan)
+# ------------------------------------------------------------
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
+
+# ------------------------------------------------------------
+# Keamanan: Sembunyikan informasi server
+# ------------------------------------------------------------
+ServerSignature Off
+
+# ------------------------------------------------------------
+# Keamanan: Lindungi file sensitif dari akses browser
+# ------------------------------------------------------------
+<FilesMatch "\.(sql|log|env|ini|conf|bak|sh|bash)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Lindungi composer files
+<FilesMatch "^(composer\.(json|lock)|phpunit\.xml)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ------------------------------------------------------------
+# Performa: Aktifkan kompresi GZIP
+# ------------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript text/plain
+</IfModule>
+
+# ------------------------------------------------------------
+# Performa: Cache aset statis
+# ------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png  "access plus 1 month"
+    ExpiresByType text/css   "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# ------------------------------------------------------------
+# Karakter set default
+# ------------------------------------------------------------
+AddDefaultCharset UTF-8
