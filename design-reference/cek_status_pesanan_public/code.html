@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WanFlorist - Cek Status Pesanan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#803abd",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1f1a22",
+                        "surface-variant": "#e9dfeb",
+                        "secondary-container": "#8a4cfc",
+                        "warning": "#D97706",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary-container": "#eeaf68",
+                        "primary-border": "#E9D5FF",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed": "#ffddbb",
+                        "surface-bright": "#fff7fe",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "secondary": "#712ae2",
+                        "dark-bg": "#1E1040",
+                        "text-muted": "#9CA3AF",
+                        "background": "#fff7fe",
+                        "primary-container": "#6b21a8",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-highest": "#e9dfeb",
+                        "text-primary": "#1A1A2E",
+                        "tertiary-fixed-dim": "#faba72",
+                        "surface-dim": "#e1d7e2",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#f8edf9",
+                        "tertiary-container": "#6d4100",
+                        "on-secondary-fixed": "#25005a",
+                        "on-error": "#ffffff",
+                        "success": "#16A34A",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "dark-text": "#E9D5FF",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4e2d00",
+                        "on-primary-fixed-variant": "#661aa3",
+                        "info": "#2563EB",
+                        "on-surface": "#1f1a22",
+                        "star": "#F59E0B",
+                        "surface": "#fff7fe",
+                        "surface-container-low": "#fbf0fc",
+                        "danger": "#DC2626",
+                        "inverse-surface": "#342e37",
+                        "dark-muted": "#A78BFA",
+                        "outline": "#7e7383",
+                        "primary-hover": "#5B1A90",
+                        "surface-alt": "#FAFAFA",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#efe5f1",
+                        "primary-subtle": "#F5F0FF",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#500088",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#4c4452",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#cfc2d4",
+                        "on-primary-container": "#d7a8ff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-primary-fixed": "#2d0050",
+                        "surface-container": "#f5ebf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-3": "12px",
+                        "space-1": "4px",
+                        "space-16": "64px",
+                        "space-5": "20px",
+                        "space-10": "40px",
+                        "space-2": "8px",
+                        "space-8": "32px",
+                        "space-4": "16px",
+                        "space-24": "96px",
+                        "space-6": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-sm transition-all duration-200 ease-in-out hidden md:flex">
+<div class="flex justify-between items-center px-space-8 py-space-4 max-w-7xl mx-auto w-full">
+<div class="font-display text-headline-md text-primary">WanFlorist</div>
+<div class="flex items-center gap-space-6 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary-hover transition-colors" href="#">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary-hover transition-colors" href="#">Produk</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary-hover transition-colors" href="#">Cek Pesanan</a>
+<a class="text-on-surface-variant hover:text-primary-hover transition-colors" href="#">Tentang Kami</a>
+<a class="text-on-surface-variant hover:text-primary-hover transition-colors" href="#">Kontak</a>
+</div>
+<div class="flex items-center">
+<button class="p-2 text-primary hover:text-primary-hover transition-colors rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Mobile Header (Simplified for non-nav shell) -->
+<header class="md:hidden sticky top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-sm px-space-4 py-space-4 flex justify-between items-center">
+<div class="font-display text-headline-md text-primary">WanFlorist</div>
+<button class="text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full flex flex-col items-center pt-space-10 md:pt-space-16 pb-space-24 px-space-4 md:px-space-8">
+<!-- Search Hero Section -->
+<section class="w-full max-w-3xl mb-space-16">
+<div class="text-center mb-space-8">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-space-2">Cek Status Pesanan</h1>
+<p class="font-body-md text-body-md text-text-secondary">Pantau perkembangan pesanan bunga Anda secara real-time.</p>
+</div>
+<div class="bg-surface-alt rounded-xl shadow-sm border border-primary-border p-space-6">
+<!-- Tabs -->
+<div class="flex mb-space-6 border-b border-surface-dim">
+<button class="flex-1 pb-space-3 font-label-md text-label-md text-primary font-bold border-b-2 border-primary transition-colors">Nomor Pesanan</button>
+<button class="flex-1 pb-space-3 font-label-md text-label-md text-text-muted hover:text-primary transition-colors">Nomor HP</button>
+</div>
+<!-- Input Area -->
+<div class="flex flex-col sm:flex-row gap-space-4">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-space-3 top-1/2 -translate-y-1/2 text-text-muted">receipt_long</span>
+<input class="w-full pl-space-10 pr-space-4 py-space-3 rounded-lg border border-outline-variant bg-surface focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent font-body-md text-body-md text-text-primary transition-shadow" placeholder="Masukkan Nomor Pesanan (mis. WF-20240501)" type="text"/>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-space-8 py-space-3 rounded-full hover:bg-primary-hover transition-colors shadow-sm flex items-center justify-center gap-space-2 whitespace-nowrap">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;">search</span>
+                        Cek Sekarang
+                    </button>
+</div>
+</div>
+</section>
+<!-- Result Card -->
+<section class="w-full max-w-4xl opacity-100 transition-opacity duration-500" id="result-section">
+<div class="bg-surface rounded-xl shadow-md border border-primary-border overflow-hidden">
+<!-- Card Header -->
+<div class="bg-surface-alt px-space-6 py-space-5 border-b border-surface-dim flex flex-col sm:flex-row justify-between items-start sm:items-center gap-space-4">
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider mb-1">Nomor Pesanan</p>
+<h2 class="font-headline-md text-headline-md text-text-primary">WF-20240501-8A</h2>
+</div>
+<div class="bg-primary-subtle px-space-4 py-space-2 rounded-full border border-primary-border flex items-center gap-space-2">
+<div class="w-2 h-2 rounded-full bg-info animate-pulse"></div>
+<span class="font-label-md text-label-md font-bold text-primary">Diproses</span>
+</div>
+</div>
+<!-- Progress Stepper -->
+<div class="px-space-6 py-space-8 border-b border-surface-dim">
+<div class="relative max-w-2xl mx-auto">
+<!-- Progress Bar Background -->
+<div class="absolute top-1/2 left-0 w-full h-1 bg-surface-variant -translate-y-1/2 rounded-full z-0"></div>
+<!-- Progress Bar Active -->
+<div class="absolute top-1/2 left-0 w-1/2 h-1 bg-primary -translate-y-1/2 rounded-full z-0 transition-all duration-1000 ease-in-out"></div>
+<div class="flex justify-between relative z-10">
+<!-- Step 1: Masuk -->
+<div class="flex flex-col items-center gap-space-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-primary font-bold">Masuk</span>
+</div>
+<!-- Step 2: Konfirmasi -->
+<div class="flex flex-col items-center gap-space-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-primary font-bold">Konfirmasi</span>
+</div>
+<!-- Step 3: Diproses -->
+<div class="flex flex-col items-center gap-space-2">
+<div class="w-8 h-8 rounded-full bg-surface border-2 border-primary text-primary flex items-center justify-center shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined" style="font-size: 16px;">local_florist</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Diproses</span>
+</div>
+<!-- Step 4: Siap -->
+<div class="flex flex-col items-center gap-space-2">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-text-muted flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">shopping_bag</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">Siap</span>
+</div>
+<!-- Step 5: Selesai -->
+<div class="flex flex-col items-center gap-space-2">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-text-muted flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">done_all</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">Selesai</span>
+</div>
+</div>
+</div>
+<p class="text-center font-body-md text-body-md text-text-secondary mt-space-6">Pesanan Anda sedang dirangkai oleh florist kami.</p>
+</div>
+<!-- Order Details Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-6 p-space-6">
+<!-- Left Column: Items -->
+<div>
+<h3 class="font-label-md text-label-md text-text-primary font-bold mb-space-4 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">inventory_2</span>
+                            Detail Produk
+                        </h3>
+<ul class="space-y-space-4">
+<li class="flex items-start gap-space-4 bg-surface-alt p-space-3 rounded-lg border border-surface-dim">
+<div class="w-16 h-16 rounded-md bg-surface-dim flex-shrink-0 relative overflow-hidden">
+<img alt="Buket Mawar Merah" class="absolute inset-0 w-full h-full object-cover" data-alt="A beautifully arranged bouquet of fresh red roses in a modern, elegant light-filled studio setting. The lighting is soft and natural, creating a premium, artisanal mood with a sophisticated palette of deep reds against a crisp white background. High resolution, professional product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKiBrqmv8eBb13GHf0siwW3AdzLmsuU7tE0e1jj4zt4wXD0Ob3Cp9Hq2vnlnjNrUdh_-gavMgSsMm7NjULZGdJizZw71s-4oAwgcFKbkUwE6A81iCr6BACjXAK56wmA0edWPXv9ENAhDAoVGCwzTU0CMR7U1196d3K4EEOqwK9cQTaN-Iy3YLueYyZTM5HVUo3EYwRjNk7BxNZ6OweyY1BbS1Ya499ejzwN9dPlJZgymp5kUM6PJeY"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-body-md text-body-md text-text-primary font-bold">Classic Red Romance</h4>
+<p class="font-label-sm text-label-sm text-text-secondary">Buket Mawar Merah (12 Tangkai)</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">Rp 350.000</span>
+<span class="font-label-sm text-label-sm text-text-muted">x 1</span>
+</div>
+</div>
+</li>
+<li class="flex items-start gap-space-4 bg-surface-alt p-space-3 rounded-lg border border-surface-dim">
+<div class="w-16 h-16 rounded-md bg-surface-dim flex-shrink-0 relative overflow-hidden flex items-center justify-center text-text-muted">
+<span class="material-symbols-outlined">style</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-body-md text-body-md text-text-primary font-bold">Kartu Ucapan Kustom</h4>
+<p class="font-label-sm text-label-sm text-text-secondary">"Selamat Ulang Tahun, Sayang!"</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">Rp 15.000</span>
+<span class="font-label-sm text-label-sm text-text-muted">x 1</span>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<!-- Right Column: Info -->
+<div class="space-y-space-6">
+<!-- Pickup Method -->
+<div>
+<h3 class="font-label-md text-label-md text-text-primary font-bold mb-space-3 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">local_shipping</span>
+                                Metode Pengiriman
+                            </h3>
+<div class="bg-surface-alt p-space-4 rounded-lg border border-surface-dim">
+<p class="font-label-md text-label-md text-text-primary font-bold mb-1">Ambil di Toko (Pickup)</p>
+<p class="font-body-md text-body-md text-text-secondary text-sm">Estimasi Siap: 1 Mei 2024, 15:00 WIB</p>
+<div class="mt-space-3 pt-space-3 border-t border-surface-dim flex items-center gap-space-2">
+<span class="material-symbols-outlined text-text-muted" style="font-size: 18px;">location_on</span>
+<span class="font-label-sm text-label-sm text-text-muted">Jl. Bunga Melati No. 12, Bandung</span>
+</div>
+</div>
+</div>
+<!-- Payment Info -->
+<div>
+<h3 class="font-label-md text-label-md text-text-primary font-bold mb-space-3 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">payments</span>
+                                Informasi Pembayaran
+                            </h3>
+<div class="bg-surface-alt p-space-4 rounded-lg border border-surface-dim">
+<div class="flex justify-between items-center mb-space-2">
+<span class="font-label-sm text-label-sm text-text-secondary">Metode Pembayaran</span>
+<span class="font-label-sm text-label-sm text-text-primary font-bold">Transfer Bank (BCA)</span>
+</div>
+<div class="flex justify-between items-center mb-space-2">
+<span class="font-label-sm text-label-sm text-text-secondary">Status Pembayaran</span>
+<span class="font-label-sm text-label-sm text-success font-bold flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">verified</span>Lunas
+                                    </span>
+</div>
+<div class="mt-space-3 pt-space-3 border-t border-surface-dim flex justify-between items-center">
+<span class="font-label-md text-label-md text-text-primary font-bold">Total Pembayaran</span>
+<span class="font-headline-md text-headline-md text-primary font-bold" style="font-size: 18px;">Rp 365.000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-space-16 bg-dark-bg text-dark-text mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-8 px-space-8 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-2">
+<div class="font-display text-headline-md text-dark-text mb-space-4">WanFlorist</div>
+<p class="font-body-md text-body-md text-dark-muted max-w-sm mb-space-6">Menghadirkan keindahan alam dalam setiap momen istimewa Anda dengan rangkaian bunga buatan tangan yang penuh kasih.</p>
+<p class="font-label-sm text-label-sm text-dark-muted">© 2024 WanFlorist. Semua Hak Dilindungi.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary-fixed font-bold mb-space-4">Tautan</h4>
+<ul class="space-y-space-2 font-body-md text-body-md">
+<li><a class="text-dark-muted hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Beranda</a></li>
+<li><a class="text-dark-muted hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Produk</a></li>
+<li><a class="text-primary-fixed font-bold transition-colors opacity-80 hover:opacity-100" href="#">Cek Pesanan</a></li>
+<li><a class="text-dark-muted hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a></li>
+<li><a class="text-dark-muted hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Kontak</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary-fixed font-bold mb-space-4">Hubungi Kami</h4>
+<div class="flex gap-space-4">
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary-hover/20 transition-all" href="#">
+<span class="material-symbols-outlined text-primary-fixed">mail</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary-hover/20 transition-all" href="#">
+<span class="material-symbols-outlined text-primary-fixed">call</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

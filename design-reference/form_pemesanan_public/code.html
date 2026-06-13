@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Form Pemesanan - WanFlorist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#803abd",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1f1a22",
+                        "surface-variant": "#e9dfeb",
+                        "secondary-container": "#8a4cfc",
+                        "warning": "#D97706",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary-container": "#eeaf68",
+                        "primary-border": "#E9D5FF",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed": "#ffddbb",
+                        "surface-bright": "#fff7fe",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "secondary": "#712ae2",
+                        "dark-bg": "#1E1040",
+                        "text-muted": "#9CA3AF",
+                        "background": "#fff7fe",
+                        "primary-container": "#6b21a8",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-highest": "#e9dfeb",
+                        "text-primary": "#1A1A2E",
+                        "tertiary-fixed-dim": "#faba72",
+                        "surface-dim": "#e1d7e2",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#f8edf9",
+                        "tertiary-container": "#6d4100",
+                        "on-secondary-fixed": "#25005a",
+                        "on-error": "#ffffff",
+                        "success": "#16A34A",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "dark-text": "#E9D5FF",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4e2d00",
+                        "on-primary-fixed-variant": "#661aa3",
+                        "info": "#2563EB",
+                        "on-surface": "#1f1a22",
+                        "star": "#F59E0B",
+                        "surface": "#fff7fe",
+                        "surface-container-low": "#fbf0fc",
+                        "danger": "#DC2626",
+                        "inverse-surface": "#342e37",
+                        "dark-muted": "#A78BFA",
+                        "outline": "#7e7383",
+                        "primary-hover": "#5B1A90",
+                        "surface-alt": "#FAFAFA",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#efe5f1",
+                        "primary-subtle": "#F5F0FF",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#500088",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#4c4452",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#cfc2d4",
+                        "on-primary-container": "#d7a8ff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-primary-fixed": "#2d0050",
+                        "surface-container": "#f5ebf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-3": "12px",
+                        "space-1": "4px",
+                        "space-16": "64px",
+                        "space-5": "20px",
+                        "space-10": "40px",
+                        "space-2": "8px",
+                        "space-8": "32px",
+                        "space-4": "16px",
+                        "space-24": "96px",
+                        "space-6": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display", "serif"],
+                        "headline-lg": ["Playfair Display", "serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Playfair Display", "serif"],
+                        "label-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: #fff7fe;
+            color: #1A1A2E;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-surface/90 backdrop-blur-md dark:bg-surface-container/90 shadow-sm dark:shadow-none transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center px-space-8 py-space-4 max-w-7xl mx-auto">
+<a class="font-display text-headline-md text-primary dark:text-primary-fixed" href="#">WanFlorist</a>
+<div class="hidden md:flex space-x-space-6 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Beranda</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Produk</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Cek Pesanan</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Tentang Kami</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Kontak</a>
+</div>
+<div class="flex items-center space-x-space-4">
+<button class="text-primary dark:text-primary-fixed hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow py-space-10 px-space-4 md:px-space-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-space-8">
+<!-- Left Column: Order Form -->
+<div class="w-full max-w-[680px] mx-auto lg:mx-0">
+<header class="mb-space-8">
+<h1 class="font-headline-lg text-headline-lg text-text-primary mb-space-2">Form Pemesanan</h1>
+<p class="text-text-secondary font-body-md text-body-md">Lengkapi data di bawah ini untuk menyelesaikan pesanan Anda.</p>
+</header>
+<form class="space-y-space-8">
+<!-- Data Pemesan -->
+<section class="bg-surface-container-lowest p-space-6 rounded-lg shadow-sm border border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-space-5 flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-primary">person</span>
+                        Data Pemesan
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">Nama Lengkap</label>
+<input class="w-full rounded-sm border-outline-variant bg-surface-alt focus:border-primary-container focus:ring-primary-container p-space-3 font-body-md text-body-md" placeholder="Masukkan nama Anda" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">No HP (WhatsApp)</label>
+<input class="w-full rounded-sm border-outline-variant bg-surface-alt focus:border-primary-container focus:ring-primary-container p-space-3 font-body-md text-body-md" placeholder="08xxxxxxxxxx" type="tel"/>
+</div>
+</div>
+</section>
+<!-- Detail Pesanan -->
+<section class="bg-surface-container-lowest p-space-6 rounded-lg shadow-sm border border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-space-5 flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-primary">local_florist</span>
+                        Detail Pesanan
+                    </h2>
+<div class="space-y-space-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">Pilih Produk</label>
+<select class="w-full rounded-sm border-outline-variant bg-surface-alt focus:border-primary-container focus:ring-primary-container p-space-3 font-body-md text-body-md">
+<option>Buket Mawar Merah Premium</option>
+<option>Buket Matahari Spesial</option>
+<option>Buket Lily Putih Elegance</option>
+</select>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-5 items-end">
+<div class="md:col-span-1">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">Jumlah</label>
+<div class="flex items-center border border-outline-variant rounded-sm bg-surface-alt">
+<button class="px-space-3 py-space-2 text-primary hover:bg-surface-variant transition-colors rounded-l-sm" type="button"><span class="material-symbols-outlined text-sm">remove</span></button>
+<input class="w-full text-center border-none bg-transparent focus:ring-0 p-space-2 font-body-md text-body-md" min="1" type="number" value="1"/>
+<button class="px-space-3 py-space-2 text-primary hover:bg-surface-variant transition-colors rounded-r-sm" type="button"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">Catatan Tambahan (Kartu Ucapan, dll)</label>
+<input class="w-full rounded-sm border-outline-variant bg-surface-alt focus:border-primary-container focus:ring-primary-container p-space-3 font-body-md text-body-md" placeholder="Tuliskan pesan..." type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Jadwal Pengambilan -->
+<section class="bg-surface-container-lowest p-space-6 rounded-lg shadow-sm border border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-space-5 flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-primary">calendar_today</span>
+                        Jadwal &amp; Pengiriman
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-1">Tanggal &amp; Waktu</label>
+<input class="w-full rounded-sm border-outline-variant bg-surface-alt focus:border-primary-container focus:ring-primary-container p-space-3 font-body-md text-body-md" type="datetime-local"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-space-3">Metode Pengiriman</label>
+<div class="space-y-space-3">
+<label class="flex items-center space-x-space-3 cursor-pointer p-space-3 border border-outline-variant rounded-sm hover:border-primary hover:bg-primary-subtle transition-colors">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="delivery" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Ambil Sendiri (Pick Up)</span>
+</label>
+<label class="flex items-center space-x-space-3 cursor-pointer p-space-3 border border-outline-variant rounded-sm hover:border-primary hover:bg-primary-subtle transition-colors">
+<input class="text-primary focus:ring-primary h-4 w-4" name="delivery" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Kirim via Kurir (COD/Gojek)</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Metode Pembayaran -->
+<section class="bg-surface-container-lowest p-space-6 rounded-lg shadow-sm border border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-space-5 flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-primary">payments</span>
+                        Metode Pembayaran
+                    </h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-4">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="payment" type="radio"/>
+<div class="p-space-4 border border-outline-variant rounded-lg text-center hover:bg-surface-variant transition-colors peer-checked:border-primary peer-checked:bg-primary-subtle peer-checked:shadow-sm">
+<span class="material-symbols-outlined text-primary mb-space-2 text-[32px]">account_balance</span>
+<p class="font-label-md text-label-md text-on-surface">Transfer Bank</p>
+<p class="text-xs text-text-secondary mt-1">BCA / Mandiri</p>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="payment" type="radio"/>
+<div class="p-space-4 border border-outline-variant rounded-lg text-center hover:bg-surface-variant transition-colors peer-checked:border-primary peer-checked:bg-primary-subtle peer-checked:shadow-sm">
+<span class="material-symbols-outlined text-primary mb-space-2 text-[32px]">qr_code_scanner</span>
+<p class="font-label-md text-label-md text-on-surface">E-Wallet</p>
+<p class="text-xs text-text-secondary mt-1">ShopeePay / Dana</p>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="payment" type="radio"/>
+<div class="p-space-4 border border-outline-variant rounded-lg text-center hover:bg-surface-variant transition-colors peer-checked:border-primary peer-checked:bg-primary-subtle peer-checked:shadow-sm">
+<span class="material-symbols-outlined text-primary mb-space-2 text-[32px]">delivery_dining</span>
+<p class="font-label-md text-label-md text-on-surface">Bayar di Tempat</p>
+<p class="text-xs text-text-secondary mt-1">COD</p>
+</div>
+</label>
+</div>
+</section>
+<div class="hidden lg:block pt-space-4">
+<button class="w-full bg-primary text-on-primary font-body-lg text-body-lg py-space-3 px-space-6 rounded-full hover:bg-primary-hover transition-colors shadow-md" type="submit">Buat Pesanan</button>
+</div>
+</form>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<aside class="w-full lg:sticky lg:top-[120px] h-fit">
+<div class="bg-surface-container-lowest p-space-6 rounded-xl shadow-lg border border-primary-border">
+<h3 class="font-headline-md text-headline-md text-text-primary mb-space-5 border-b border-surface-variant pb-space-3">Ringkasan Pesanan</h3>
+<div class="flex items-start space-x-space-4 mb-space-6">
+<img alt="Buket Mawar" class="w-20 h-20 object-cover rounded-md shadow-sm" data-alt="A beautiful, romantic bouquet of premium red roses wrapped in elegant dark paper. The lighting is soft and studio-quality, highlighting the deep crimson petals and velvety texture of the flowers. The overall style is luxurious and modern, fitting for a high-end local florist. Background is a clean, bright, light-mode suitable white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWpntHYcYCIN7nYrcog4DYksxdwc_bdGqwaUZQVQK_RVz73DQOxmJAZ9PU94jorhj2Q56rgfCcXfe0FAoJi2e3znqz3bOKZfD3H-1xp_20j0P-ezuIUISPqnC8fqq7tD2UN1KqHISvLjRmRf66aui0glNS3j6ltUR-RhCWl5sLDcJuvcnrD27AhIiXiaceqzwTBoOy9QiNtLFSJ2ovDJWPMqO73ZvkA8APjnYZpxQKWcKuVs_ZGK8B"/>
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-text-primary">Buket Mawar Merah Premium</h4>
+<p class="font-label-sm text-label-sm text-text-secondary mt-1">1x</p>
+<p class="font-label-md text-label-md text-primary mt-1 font-bold">Rp 350.000</p>
+</div>
+</div>
+<div class="space-y-space-3 border-t border-surface-variant pt-space-4 mb-space-4">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal Produk</span>
+<span>Rp 350.000</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Ongkos Kirim</span>
+<span>Rp 0 (Pick Up)</span>
+</div>
+</div>
+<div class="flex justify-between font-headline-md text-headline-md text-text-primary border-t border-surface-variant pt-space-4 mb-space-6">
+<span>Total Keseluruhan</span>
+<span class="text-primary">Rp 350.000</span>
+</div>
+<!-- DP Info Box -->
+<div class="bg-primary-subtle p-space-4 rounded-lg mb-space-6 border border-primary-border flex items-start">
+<span class="material-symbols-outlined text-primary mr-space-3 mt-0.5">info</span>
+<div>
+<p class="font-label-md text-label-md text-primary font-bold mb-1">Informasi Pembayaran</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Pesanan akan diproses setelah pembayaran Down Payment (DP) minimal 50% atau lunas.</p>
+</div>
+</div>
+<div class="lg:hidden mt-space-6">
+<button class="w-full bg-primary text-on-primary font-body-lg text-body-lg py-space-3 px-space-6 rounded-full hover:bg-primary-hover transition-colors shadow-md" type="button">Buat Pesanan</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="bg-dark-bg dark:bg-dark-bg w-full py-space-16 mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-8 px-space-8 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<a class="font-display text-headline-md text-dark-text mb-space-4 block" href="#">WanFlorist</a>
+<p class="font-body-md text-body-md text-dark-muted mb-space-4">Merangkai keindahan untuk setiap momen berharga Anda.</p>
+<p class="font-label-sm text-label-sm text-dark-muted">© 2024 WanFlorist. Semua Hak Dilindungi.</p>
+</div>
+<div>
+<h4 class="font-headline-sm text-dark-text mb-space-4 font-bold">Tautan Cepat</h4>
+<ul class="space-y-space-2">
+<li><a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Beranda</a></li>
+<li><a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Produk</a></li>
+<li><a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Cek Pesanan</a></li>
+<li><a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a></li>
+<li><a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Kontak</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-sm text-dark-text mb-space-4 font-bold">Kontak Kami</h4>
+<ul class="space-y-space-2">
+<li class="font-body-md text-body-md text-dark-muted flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-sm">location_on</span>
+                        Jl. Bunga Melati No. 123, Bandung
+                    </li>
+<li class="font-body-md text-body-md text-dark-muted flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-sm">call</span>
+                        0812-3456-7890
+                    </li>
+<li class="font-body-md text-body-md text-dark-muted flex items-center">
+<span class="material-symbols-outlined mr-space-2 text-sm">mail</span>
+                        hello@wanflorist.com
+                    </li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-sm text-dark-text mb-space-4 font-bold">Ikuti Kami</h4>
+<div class="flex space-x-space-4">
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-dark-text hover:bg-primary-fixed hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">photo_camera</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-dark-text hover:bg-primary-fixed hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

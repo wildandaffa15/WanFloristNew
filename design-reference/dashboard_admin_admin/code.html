@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WanFlorist - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#803abd",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1f1a22",
+                    "surface-variant": "#e9dfeb",
+                    "secondary-container": "#8a4cfc",
+                    "warning": "#D97706",
+                    "primary-fixed": "#f1dbff",
+                    "on-tertiary-container": "#eeaf68",
+                    "primary-border": "#E9D5FF",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "secondary-fixed": "#eaddff",
+                    "tertiary-fixed": "#ffddbb",
+                    "surface-bright": "#fff7fe",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#dfb7ff",
+                    "secondary": "#712ae2",
+                    "dark-bg": "#1E1040",
+                    "text-muted": "#9CA3AF",
+                    "background": "#fff7fe",
+                    "primary-container": "#6b21a8",
+                    "inverse-primary": "#dfb7ff",
+                    "surface-container-highest": "#e9dfeb",
+                    "text-primary": "#1A1A2E",
+                    "tertiary-fixed-dim": "#faba72",
+                    "surface-dim": "#e1d7e2",
+                    "text-secondary": "#6B7280",
+                    "inverse-on-surface": "#f8edf9",
+                    "tertiary-container": "#6d4100",
+                    "on-secondary-fixed": "#25005a",
+                    "on-error": "#ffffff",
+                    "success": "#16A34A",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "dark-text": "#E9D5FF",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#4e2d00",
+                    "on-primary-fixed-variant": "#661aa3",
+                    "info": "#2563EB",
+                    "on-surface": "#1f1a22",
+                    "star": "#F59E0B",
+                    "surface": "#fff7fe",
+                    "surface-container-low": "#fbf0fc",
+                    "danger": "#DC2626",
+                    "inverse-surface": "#342e37",
+                    "dark-muted": "#A78BFA",
+                    "outline": "#7e7383",
+                    "primary-hover": "#5B1A90",
+                    "surface-alt": "#FAFAFA",
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#efe5f1",
+                    "primary-subtle": "#F5F0FF",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#500088",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface-variant": "#4c4452",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#cfc2d4",
+                    "on-primary-container": "#d7a8ff",
+                    "on-tertiary-fixed": "#2b1700",
+                    "on-primary-fixed": "#2d0050",
+                    "surface-container": "#f5ebf6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "space-3": "12px",
+                    "space-1": "4px",
+                    "space-16": "64px",
+                    "space-5": "20px",
+                    "space-10": "40px",
+                    "space-2": "8px",
+                    "space-8": "32px",
+                    "space-4": "16px",
+                    "space-24": "96px",
+                    "space-6": "24px"
+            },
+            "fontFamily": {
+                    "display": ["Playfair Display"],
+                    "headline-lg": ["Playfair Display"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Playfair Display"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                    "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                    "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                    "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                    "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: theme('colors.surface'); color: theme('colors.on-surface'); }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid theme('colors.primary-border');
+            box-shadow: 0 4px 6px rgba(107, 33, 168, 0.05);
+        }
+        .toggle-checkbox:checked { right: 0; border-color: #68D391; }
+        .toggle-checkbox:checked + .toggle-label { background-color: theme('colors.success'); }
+        .toggle-checkbox:checked + .toggle-label:after { transform: translateX(100%); border-color: white; }
+    </style>
+</head>
+<body class="font-body-md text-body-md flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex flex-col h-full py-space-6 bg-dark-bg border-r border-on-surface-variant/10 shadow-lg fixed left-0 top-0 w-[240px] z-50">
+<div class="px-space-6 mb-space-8">
+<h1 class="font-display text-headline-md text-primary-fixed">WanFlorist Admin</h1>
+<p class="font-label-sm text-label-sm text-dark-muted mt-space-1">Management System</p>
+</div>
+<div class="flex-grow flex flex-col gap-space-2 overflow-y-auto px-space-2">
+<!-- Active Tab -->
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 bg-primary-container text-on-primary-container rounded-lg mx-2 transition-all duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Pesanan</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">local_florist</span>
+<span class="font-label-md text-label-md">Produk</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Stok Bahan</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Pembayaran</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Pengeluaran</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-md text-label-md">Laporan</span>
+</a>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</div>
+<div class="mt-auto px-space-4 pt-space-6 border-t border-on-surface-variant/10">
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text hover:bg-primary-hover/20 transition-all rounded-lg mx-2 duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Keluar</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[240px] h-full overflow-y-auto bg-surface relative">
+<div class="max-w-7xl mx-auto px-space-4 md:px-space-8 py-space-8 md:py-space-10">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-space-8 gap-space-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary font-bold">Dashboard</h2>
+<p class="font-body-md text-body-md text-text-secondary mt-space-1">Selamat datang kembali, Admin WanFlorist!</p>
+</div>
+<!-- Owner Availability Toggle -->
+<div class="flex items-center gap-space-3 bg-surface-alt p-space-3 rounded-xl border border-primary-border shadow-sm">
+<span class="font-label-md text-label-md text-on-surface-variant">Status Owner:</span>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="ownerToggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-dim cursor-pointer transition-colors duration-200 ease-in-out" for="ownerToggle"></label>
+</div>
+<span class="font-label-md text-label-md text-success font-semibold" id="ownerStatusText">Aktif</span>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-6 mb-space-10">
+<!-- Stat Card 1 -->
+<div class="glass-card rounded-lg p-space-5 flex flex-col gap-space-3 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-text-secondary">Pesanan Hari Ini</span>
+<div class="w-10 h-10 rounded-full bg-primary-subtle flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+</div>
+<div class="flex items-end gap-space-2">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">24</span>
+<span class="font-label-sm text-label-sm text-success bg-success/10 px-2 py-0.5 rounded-full mb-1 flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +12%</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-card rounded-lg p-space-5 flex flex-col gap-space-3 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-text-secondary">Pesanan Diproses</span>
+<div class="w-10 h-10 rounded-full bg-warning/10 flex items-center justify-center text-warning">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+</div>
+<div class="flex items-end gap-space-2">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">15</span>
+<span class="font-label-sm text-label-sm text-warning bg-warning/10 px-2 py-0.5 rounded-full mb-1">Perlu Perhatian</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-card rounded-lg p-space-5 flex flex-col gap-space-3 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-text-secondary">Pemasukan (Bulan Ini)</span>
+<div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+</div>
+<div class="flex items-end gap-space-2">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Rp 8.5M</span>
+<span class="font-label-sm text-label-sm text-success bg-success/10 px-2 py-0.5 rounded-full mb-1 flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +5%</span>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-card rounded-lg p-space-5 flex flex-col gap-space-3 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-text-secondary">Stok Bahan Kritis</span>
+<div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+</div>
+<div class="flex items-end gap-space-2">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">3</span>
+<span class="font-label-sm text-label-sm text-danger bg-danger/10 px-2 py-0.5 rounded-full mb-1">Item</span>
+</div>
+</div>
+</div>
+<!-- Main Layout: 60/40 Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-6 mb-space-10">
+<!-- Left Column (60%): Pesanan Terbaru Table -->
+<div class="lg:col-span-7 xl:col-span-8 glass-card rounded-xl overflow-hidden flex flex-col">
+<div class="p-space-5 border-b border-primary-border flex justify-between items-center bg-surface-alt">
+<h3 class="font-headline-md text-[20px] text-primary font-semibold">Pesanan Terbaru</h3>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">Lihat Semua</a>
+</div>
+<div class="overflow-x-auto p-space-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-text-secondary font-label-sm text-label-sm border-b border-surface-variant">
+<th class="p-space-3 font-medium">ID Pesanan</th>
+<th class="p-space-3 font-medium">Pelanggan</th>
+<th class="p-space-3 font-medium">Produk</th>
+<th class="p-space-3 font-medium">Status</th>
+<th class="p-space-3 font-medium">Total</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-[14px]">
+<tr class="border-b border-surface-variant hover:bg-primary-subtle/50 transition-colors">
+<td class="p-space-3 text-primary font-medium">#ORD-092</td>
+<td class="p-space-3 text-on-surface">Budi Santoso</td>
+<td class="p-space-3 text-text-secondary">Buket Mawar Merah Premium</td>
+<td class="p-space-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning/10 text-warning">Diproses</span>
+</td>
+<td class="p-space-3 font-medium">Rp 350.000</td>
+</tr>
+<tr class="border-b border-surface-variant hover:bg-primary-subtle/50 transition-colors bg-surface-alt">
+<td class="p-space-3 text-primary font-medium">#ORD-091</td>
+<td class="p-space-3 text-on-surface">Siti Aminah</td>
+<td class="p-space-3 text-text-secondary">Papan Bunga Duka Cita</td>
+<td class="p-space-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success">Selesai</span>
+</td>
+<td class="p-space-3 font-medium">Rp 750.000</td>
+</tr>
+<tr class="border-b border-surface-variant hover:bg-primary-subtle/50 transition-colors">
+<td class="p-space-3 text-primary font-medium">#ORD-090</td>
+<td class="p-space-3 text-on-surface">Andi Wijaya</td>
+<td class="p-space-3 text-text-secondary">Buket Lily Putih</td>
+<td class="p-space-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info/10 text-info">Menunggu Pembayaran</span>
+</td>
+<td class="p-space-3 font-medium">Rp 280.000</td>
+</tr>
+<tr class="hover:bg-primary-subtle/50 transition-colors bg-surface-alt">
+<td class="p-space-3 text-primary font-medium">#ORD-089</td>
+<td class="p-space-3 text-on-surface">Rina Melati</td>
+<td class="p-space-3 text-text-secondary">Standing Flower Grand Opening</td>
+<td class="p-space-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-dim text-on-surface-variant">Dibatalkan</span>
+</td>
+<td class="p-space-3 font-medium">Rp 1.200.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column (40%): Donut Chart Placeholder -->
+<div class="lg:col-span-5 xl:col-span-4 glass-card rounded-xl p-space-5 flex flex-col">
+<h3 class="font-headline-md text-[20px] text-primary font-semibold mb-space-4">Pesanan per Status</h3>
+<div class="flex-1 flex items-center justify-center relative min-h-[200px]">
+<!-- Placeholder for Donut Chart - Using CSS Conic Gradient for a simple visual representation -->
+<div class="w-48 h-48 rounded-full flex items-center justify-center relative shadow-inner" style="background: conic-gradient(theme('colors.success') 0% 45%, theme('colors.warning') 45% 75%, theme('colors.info') 75% 90%, theme('colors.surface-dim') 90% 100%);">
+<div class="w-32 h-32 bg-surface rounded-full flex items-center justify-center shadow-md z-10 absolute">
+<div class="text-center">
+<span class="block font-headline-md text-primary font-bold">128</span>
+<span class="block font-label-sm text-text-secondary">Total (Bulan Ini)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-4 grid grid-cols-2 gap-2 text-sm">
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-success"></span><span class="text-on-surface">Selesai (45%)</span></div>
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-warning"></span><span class="text-on-surface">Diproses (30%)</span></div>
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-info"></span><span class="text-on-surface">Menunggu (15%)</span></div>
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-surface-dim border border-outline"></span><span class="text-on-surface">Batal (10%)</span></div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: 50/50 Split -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-6 pb-space-10">
+<!-- Produk Terlaris -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-space-5 border-b border-primary-border bg-surface-alt">
+<h3 class="font-headline-md text-[20px] text-primary font-semibold">Produk Terlaris</h3>
+</div>
+<div class="p-space-4 flex flex-col gap-space-4">
+<div class="flex items-center gap-space-4 p-space-3 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded bg-primary-subtle overflow-hidden flex-shrink-0 border border-primary-border">
+<img alt="Buket Mawar" class="w-full h-full object-cover" data-alt="A close-up studio shot of a luxurious, handcrafted bouquet of vibrant red roses wrapped in elegant dark paper. The lighting is soft and moody, highlighting the velvety texture of the petals. The overall aesthetic is romantic, premium, and sophisticated, fitting a high-end artisanal flower boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBna7iIc7NQUUurBRb33B79bxZ3Cl_UbuefCe7w4gJLoxMhqMvlXyNIhK3Zh1ZzwUohvhdAKCFJ4LsjbG7gv0mksdTvSJ4Bh4khE2rOQ6LIiE--odzbTouQA0bMmFKS0iLq_L7AcAzueyruypa4gDG_8Hi45_YoJp1eMaAOoHRu3C-AcBgATZVp2DS69KZ82_KJCi2thxU_HDmwpgNU5jRF1-6evboZnnXTu5QV21c1RatZwrXj4WAk"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-on-surface font-medium">Buket Mawar Merah Premium</h4>
+<p class="font-label-sm text-text-secondary">Terjual: 42 item</p>
+</div>
+<span class="font-label-md text-primary font-semibold">Rp 350k</span>
+</div>
+<div class="flex items-center gap-space-4 p-space-3 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded bg-primary-subtle overflow-hidden flex-shrink-0 border border-primary-border">
+<img alt="Papan Bunga" class="w-full h-full object-cover" data-alt="A beautifully arranged floral standing board for a grand opening, featuring a mix of bright lilies, gerberas, and lush green foliage. The setting is bright and celebratory, with clean white light emphasizing the fresh colors. The style is modern corporate yet celebratory, aligning with an elegant florist service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAibitqnGl_8XPpwom7O71fvNvkeu8d9OzaX_hO5SomsOxkFCshGbwBPaBq1rkYWRb5w3rnERixtN3ALysldYDOMkK4hTH4tuuLEb_swSPl7v9q5em14Z3flQjHKU1TYX2-LaPtzQowBPP6hjAK7_T-Z2Zn4-O7LCm6-1DOcgCvfRlkcGdyPpAv4WGxjwpNABAkCxtc8UYozKsj2m6LqfyJp1MSgZrbSnlhjfTnqLdHboc23Btg8P3E"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-on-surface font-medium">Standing Flower Grand Opening</h4>
+<p class="font-label-sm text-text-secondary">Terjual: 18 item</p>
+</div>
+<span class="font-label-md text-primary font-semibold">Rp 1.2M</span>
+</div>
+<div class="flex items-center gap-space-4 p-space-3 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded bg-primary-subtle overflow-hidden flex-shrink-0 border border-primary-border">
+<img alt="Buket Lily" class="w-full h-full object-cover" data-alt="A minimalist and elegant bouquet of pristine white lilies placed against a soft, light purple background. The lighting is bright and diffuse, creating a serene and pure mood. The aesthetic is clean, modern, and artisanal, capturing the gentle beauty of the flowers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXz6Mpv58rBWUS6Du6FTxaNTaMKTq8nSQWFNL_BKj0LnltKOQxV0YIKqEuAlKEiDr3Jmwkydwj3NUxQ8Hmdtdz6-8nUkrEHb3j2Hs6bBILY2vzzc2HZPjnX3rAO-QfiYOKZJKL4cbdm-N9T3e-D406srEqWsbKXP0D2CoT40zRk4XLQddQMaxtjLTKkY8XgHkG-KWpaLn-tOj8qMCCk9WuMDrKETDgG8w1x89Ch__1pIyMzcRznctX"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-on-surface font-medium">Buket Lily Putih Klasik</h4>
+<p class="font-label-sm text-text-secondary">Terjual: 35 item</p>
+</div>
+<span class="font-label-md text-primary font-semibold">Rp 280k</span>
+</div>
+</div>
+</div>
+<!-- Pengeluaran Terakhir -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-space-5 border-b border-primary-border bg-surface-alt flex justify-between items-center">
+<h3 class="font-headline-md text-[20px] text-primary font-semibold">Pengeluaran Terakhir</h3>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">Detail</a>
+</div>
+<div class="p-space-4 flex flex-col gap-space-2">
+<div class="flex justify-between items-center p-space-3 border-b border-surface-variant last:border-0 hover:bg-surface-alt transition-colors rounded-lg">
+<div class="flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-medium">Belanja Bunga Potong</p>
+<p class="font-label-sm text-text-secondary">Supplier: Kebun Indah (Hari Ini)</p>
+</div>
+</div>
+<span class="font-label-md text-danger font-semibold">- Rp 1.500.000</span>
+</div>
+<div class="flex justify-between items-center p-space-3 border-b border-surface-variant last:border-0 hover:bg-surface-alt transition-colors rounded-lg">
+<div class="flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-medium">Bahan Baku (Kertas, Pita)</p>
+<p class="font-label-sm text-text-secondary">Toko Makmur (Kemarin)</p>
+</div>
+</div>
+<span class="font-label-md text-danger font-semibold">- Rp 450.000</span>
+</div>
+<div class="flex justify-between items-center p-space-3 border-b border-surface-variant last:border-0 hover:bg-surface-alt transition-colors rounded-lg">
+<div class="flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-medium">Tagihan Listrik &amp; Air</p>
+<p class="font-label-sm text-text-secondary">Bulanan (2 Hari lalu)</p>
+</div>
+</div>
+<span class="font-label-md text-danger font-semibold">- Rp 850.000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple toggle logic for visual feedback
+        const toggle = document.getElementById('ownerToggle');
+        const statusText = document.getElementById('ownerStatusText');
+        
+        toggle.addEventListener('change', function() {
+            if(this.checked) {
+                statusText.textContent = 'Aktif';
+                statusText.className = 'font-label-md text-label-md text-success font-semibold';
+            } else {
+                statusText.textContent = 'Nonaktif';
+                statusText.className = 'font-label-md text-label-md text-text-secondary font-semibold';
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WanFlorist - Manajemen Stok Bahan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#803abd",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1f1a22",
+                        "surface-variant": "#e9dfeb",
+                        "secondary-container": "#8a4cfc",
+                        "warning": "#D97706",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary-container": "#eeaf68",
+                        "primary-border": "#E9D5FF",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed": "#ffddbb",
+                        "surface-bright": "#fff7fe",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "secondary": "#712ae2",
+                        "dark-bg": "#1E1040",
+                        "text-muted": "#9CA3AF",
+                        "background": "#fff7fe",
+                        "primary-container": "#6b21a8",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-highest": "#e9dfeb",
+                        "text-primary": "#1A1A2E",
+                        "tertiary-fixed-dim": "#faba72",
+                        "surface-dim": "#e1d7e2",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#f8edf9",
+                        "tertiary-container": "#6d4100",
+                        "on-secondary-fixed": "#25005a",
+                        "on-error": "#ffffff",
+                        "success": "#16A34A",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "dark-text": "#E9D5FF",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4e2d00",
+                        "on-primary-fixed-variant": "#661aa3",
+                        "info": "#2563EB",
+                        "on-surface": "#1f1a22",
+                        "star": "#F59E0B",
+                        "surface": "#fff7fe",
+                        "surface-container-low": "#fbf0fc",
+                        "danger": "#DC2626",
+                        "inverse-surface": "#342e37",
+                        "dark-muted": "#A78BFA",
+                        "outline": "#7e7383",
+                        "primary-hover": "#5B1A90",
+                        "surface-alt": "#FAFAFA",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#efe5f1",
+                        "primary-subtle": "#F5F0FF",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#500088",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#4c4452",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#cfc2d4",
+                        "on-primary-container": "#d7a8ff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-primary-fixed": "#2d0050",
+                        "surface-container": "#f5ebf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-3": "12px",
+                        "space-1": "4px",
+                        "space-16": "64px",
+                        "space-5": "20px",
+                        "space-10": "40px",
+                        "space-2": "8px",
+                        "space-8": "32px",
+                        "space-4": "16px",
+                        "space-24": "96px",
+                        "space-6": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface'); color: theme('colors.on-surface'); }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (from JSON, modified for Stok Bahan active state) -->
+<nav class="hidden md:flex flex-col h-full py-space-6 bg-dark-bg border-r border-on-surface-variant/10 shadow-lg fixed left-0 top-0 w-[240px] z-50">
+<div class="px-space-4 mb-space-8">
+<h1 class="font-display text-headline-md text-primary-fixed">WanFlorist Admin</h1>
+<p class="font-body-md text-label-sm text-dark-muted">Management System</p>
+</div>
+<ul class="flex flex-col gap-space-2 flex-grow">
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                    Pesanan
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="local_florist">local_florist</span>
+                    Produk
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 bg-primary-container text-on-primary-container rounded-lg mx-2 font-body-md text-body-md scale-95 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                    Stok Bahan
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Pembayaran
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                    Pengeluaran
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                    Laporan
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg mx-2 transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Pengaturan
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-space-2">
+<a class="flex items-center gap-space-3 px-space-4 py-space-3 text-dark-muted hover:bg-white/10 hover:text-dark-text rounded-lg transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Keluar
+            </a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[240px] p-space-4 md:p-space-8 bg-surface w-full">
+<!-- Header -->
+<header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-space-8 gap-space-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary">Manajemen Stok Bahan</h2>
+<p class="font-body-md text-body-md text-text-secondary mt-space-1">Pantau dan kelola persediaan material florist Anda.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-space-5 py-space-3 rounded-full hover:bg-primary-hover transition-colors flex items-center gap-space-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Tambah Bahan
+            </button>
+</header>
+<!-- Alert Banner -->
+<div class="bg-warning/10 border border-warning/30 rounded-lg p-space-4 mb-space-8 flex items-start gap-space-3 shadow-sm">
+<span class="material-symbols-outlined text-warning shrink-0">warning</span>
+<div>
+<h3 class="font-label-md text-label-md text-warning font-semibold">Perhatian: Stok Menipis</h3>
+<p class="font-body-md text-label-sm text-on-surface-variant mt-1">3 bahan memiliki stok menipis dan perlu segera diisi ulang untuk menghindari gangguan produksi.</p>
+</div>
+</div>
+<!-- Inventory Data Layout (Glassmorphism / Card structure) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<!-- Table Controls -->
+<div class="p-space-4 border-b border-outline-variant flex flex-col sm:flex-row justify-between gap-space-4 bg-surface-alt">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface border border-outline-variant rounded-sm font-body-md text-label-sm text-text-primary focus:outline-none focus:border-primary-light focus:ring-1 focus:ring-primary-light transition-all rounded-sm" placeholder="Cari bahan..." type="text"/>
+</div>
+<div class="flex gap-space-2">
+<button class="px-space-3 py-space-2 bg-surface border border-outline-variant rounded-sm font-label-sm text-label-sm text-text-secondary hover:bg-surface-dim transition-colors flex items-center gap-space-1">
+<span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                    </button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider">Nama Bahan</th>
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider">Jumlah Stok</th>
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider">Satuan</th>
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider">Status Stok</th>
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider">Tgl Update</th>
+<th class="p-space-4 font-label-md text-label-sm text-text-secondary uppercase tracking-wider text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1: Menipis -->
+<tr class="hover:bg-surface-alt transition-colors bg-surface-lowest">
+<td class="p-space-4 font-body-md text-body-md text-text-primary font-medium flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-text-secondary shrink-0">
+<span class="material-symbols-outlined">yard</span>
+</div>
+                                Pita Satin Merah 2cm
+                            </td>
+<td class="p-space-4 font-body-md text-body-md text-text-primary">15</td>
+<td class="p-space-4 font-body-md text-body-md text-text-secondary">Roll</td>
+<td class="p-space-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-warning/20 text-warning font-semibold">
+                                    Menipis
+                                </span>
+</td>
+<td class="p-space-4 font-body-md text-label-sm text-text-secondary">10 Okt 2024</td>
+<td class="p-space-4 text-right">
+<button class="text-primary hover:text-primary-hover font-label-md text-label-sm px-3 py-1 border border-primary-border rounded-full hover:bg-primary-subtle transition-colors">Update</button>
+</td>
+</tr>
+<!-- Row 2: Cukup -->
+<tr class="hover:bg-surface-alt transition-colors bg-surface-alt">
+<td class="p-space-4 font-body-md text-body-md text-text-primary font-medium flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-text-secondary shrink-0">
+<span class="material-symbols-outlined">local_florist</span>
+</div>
+                                Bunga Mawar Merah (Artificial)
+                            </td>
+<td class="p-space-4 font-body-md text-body-md text-text-primary">120</td>
+<td class="p-space-4 font-body-md text-body-md text-text-secondary">Tangkai</td>
+<td class="p-space-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-success/10 text-success font-semibold">
+                                    Cukup
+                                </span>
+</td>
+<td class="p-space-4 font-body-md text-label-sm text-text-secondary">09 Okt 2024</td>
+<td class="p-space-4 text-right">
+<button class="text-primary hover:text-primary-hover font-label-md text-label-sm px-3 py-1 border border-primary-border rounded-full hover:bg-primary-subtle transition-colors">Update</button>
+</td>
+</tr>
+<!-- Row 3: Habis -->
+<tr class="hover:bg-surface-alt transition-colors bg-surface-lowest">
+<td class="p-space-4 font-body-md text-body-md text-text-primary font-medium flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-text-secondary shrink-0">
+<span class="material-symbols-outlined">style</span>
+</div>
+                                Kertas Wrapping Cellophane Hitam
+                            </td>
+<td class="p-space-4 font-body-md text-body-md text-danger font-bold">0</td>
+<td class="p-space-4 font-body-md text-body-md text-text-secondary">Lembar</td>
+<td class="p-space-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">
+                                    Habis
+                                </span>
+</td>
+<td class="p-space-4 font-body-md text-label-sm text-text-secondary">08 Okt 2024</td>
+<td class="p-space-4 text-right">
+<button class="text-primary hover:text-primary-hover font-label-md text-label-sm px-3 py-1 border border-primary-border rounded-full hover:bg-primary-subtle transition-colors">Update</button>
+</td>
+</tr>
+<!-- Row 4: Cukup -->
+<tr class="hover:bg-surface-alt transition-colors bg-surface-alt">
+<td class="p-space-4 font-body-md text-body-md text-text-primary font-medium flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-text-secondary shrink-0">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+                                Oasis Floral Foam
+                            </td>
+<td class="p-space-4 font-body-md text-body-md text-text-primary">45</td>
+<td class="p-space-4 font-body-md text-body-md text-text-secondary">Box</td>
+<td class="p-space-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-success/10 text-success font-semibold">
+                                    Cukup
+                                </span>
+</td>
+<td class="p-space-4 font-body-md text-label-sm text-text-secondary">11 Okt 2024</td>
+<td class="p-space-4 text-right">
+<button class="text-primary hover:text-primary-hover font-label-md text-label-sm px-3 py-1 border border-primary-border rounded-full hover:bg-primary-subtle transition-colors">Update</button>
+</td>
+</tr>
+<!-- Row 5: Menipis -->
+<tr class="hover:bg-surface-alt transition-colors bg-surface-lowest">
+<td class="p-space-4 font-body-md text-body-md text-text-primary font-medium flex items-center gap-space-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-text-secondary shrink-0">
+<span class="material-symbols-outlined">texture</span>
+</div>
+                                Jaring Salju (Snow Net) Putih
+                            </td>
+<td class="p-space-4 font-body-md text-body-md text-text-primary">8</td>
+<td class="p-space-4 font-body-md text-body-md text-text-secondary">Roll</td>
+<td class="p-space-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-warning/20 text-warning font-semibold">
+                                    Menipis
+                                </span>
+</td>
+<td class="p-space-4 font-body-md text-label-sm text-text-secondary">07 Okt 2024</td>
+<td class="p-space-4 text-right">
+<button class="text-primary hover:text-primary-hover font-label-md text-label-sm px-3 py-1 border border-primary-border rounded-full hover:bg-primary-subtle transition-colors">Update</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-space-4 border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+<span class="font-body-md text-label-sm text-text-secondary">Menampilkan 1-5 dari 42 bahan</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 rounded-sm bg-surface flex items-center justify-center border border-outline-variant text-text-secondary hover:bg-surface-dim transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-sm bg-primary text-on-primary flex items-center justify-center font-label-md text-label-sm">1</button>
+<button class="w-8 h-8 rounded-sm bg-surface flex items-center justify-center border border-outline-variant text-text-secondary hover:bg-surface-dim transition-colors font-label-md text-label-sm">2</button>
+<button class="w-8 h-8 rounded-sm bg-surface flex items-center justify-center border border-outline-variant text-text-secondary hover:bg-surface-dim transition-colors font-label-md text-label-sm">3</button>
+<button class="w-8 h-8 rounded-sm bg-surface flex items-center justify-center border border-outline-variant text-text-secondary hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

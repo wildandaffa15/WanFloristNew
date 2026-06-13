@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WanFlorist - Katalog Produk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#803abd",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1f1a22",
+                        "surface-variant": "#e9dfeb",
+                        "secondary-container": "#8a4cfc",
+                        "warning": "#D97706",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary-container": "#eeaf68",
+                        "primary-border": "#E9D5FF",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed": "#ffddbb",
+                        "surface-bright": "#fff7fe",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "secondary": "#712ae2",
+                        "dark-bg": "#1E1040",
+                        "text-muted": "#9CA3AF",
+                        "background": "#fff7fe",
+                        "primary-container": "#6b21a8",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-highest": "#e9dfeb",
+                        "text-primary": "#1A1A2E",
+                        "tertiary-fixed-dim": "#faba72",
+                        "surface-dim": "#e1d7e2",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#f8edf9",
+                        "tertiary-container": "#6d4100",
+                        "on-secondary-fixed": "#25005a",
+                        "on-error": "#ffffff",
+                        "success": "#16A34A",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "dark-text": "#E9D5FF",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4e2d00",
+                        "on-primary-fixed-variant": "#661aa3",
+                        "info": "#2563EB",
+                        "on-surface": "#1f1a22",
+                        "star": "#F59E0B",
+                        "surface": "#fff7fe",
+                        "surface-container-low": "#fbf0fc",
+                        "danger": "#DC2626",
+                        "inverse-surface": "#342e37",
+                        "dark-muted": "#A78BFA",
+                        "outline": "#7e7383",
+                        "primary-hover": "#5B1A90",
+                        "surface-alt": "#FAFAFA",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#efe5f1",
+                        "primary-subtle": "#F5F0FF",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#500088",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#4c4452",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#cfc2d4",
+                        "on-primary-container": "#d7a8ff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-primary-fixed": "#2d0050",
+                        "surface-container": "#f5ebf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-3": "12px",
+                        "space-1": "4px",
+                        "space-16": "64px",
+                        "space-5": "20px",
+                        "space-10": "40px",
+                        "space-2": "8px",
+                        "space-8": "32px",
+                        "space-4": "16px",
+                        "space-24": "96px",
+                        "space-6": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 shadow-sm dark:shadow-none bg-surface dark:bg-surface-container bg-surface/90 backdrop-blur-md dark:bg-surface-container/90 transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center px-space-8 py-space-4 max-w-7xl mx-auto">
+<a class="font-display text-headline-md text-primary dark:text-primary-fixed" href="#">WanFlorist</a>
+<div class="hidden md:flex items-center gap-space-8">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim" href="#">Beranda</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary-hover dark:hover:text-primary-fixed-dim" href="#">Produk</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim" href="#">Cek Pesanan</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim" href="#">Tentang Kami</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim" href="#">Kontak</a>
+</div>
+<div class="flex items-center gap-space-4">
+<div class="relative hidden md:block">
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-4 pr-10 focus:ring-2 focus:ring-primary-container font-body-md text-body-md w-48 text-on-surface placeholder:text-text-muted" placeholder="Cari..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-muted" data-icon="search">search</span>
+</div>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-space-4 md:px-space-8 py-space-10">
+<!-- Header -->
+<div class="mb-space-10">
+<div class="flex items-center gap-2 text-text-muted font-label-md text-label-md mb-space-4">
+<a class="hover:text-primary transition-colors" href="#">Beranda</a>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-medium">Produk</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-space-4">Katalog Produk</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Temukan koleksi rangkaian bunga terbaik kami untuk setiap momen spesial Anda. Dibuat dengan penuh cinta dan dedikasi.</p>
+</div>
+<!-- Filter & Search Row -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-space-6 mb-space-10 bg-surface-alt p-space-6 rounded-xl shadow-sm border border-primary-border/30">
+<div class="w-full md:w-auto relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary" data-icon="search">search</span>
+<input class="w-full bg-white border border-primary-border rounded-full py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent font-body-md text-body-md text-on-surface shadow-sm" placeholder="Cari produk..." type="text"/>
+</div>
+<div class="flex items-center gap-space-4 w-full md:w-auto">
+<div class="relative w-full md:w-48">
+<select class="w-full appearance-none bg-white border border-primary-border rounded-full py-3 px-4 pr-10 focus:ring-2 focus:ring-primary focus:border-transparent font-body-md text-body-md text-on-surface shadow-sm cursor-pointer">
+<option>Terbaru</option>
+<option>Terpopuler</option>
+<option>Harga: Rendah ke Tinggi</option>
+<option>Harga: Tinggi ke Rendah</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Categories -->
+<div class="flex overflow-x-auto pb-4 mb-space-8 gap-space-3 no-scrollbar">
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary text-white font-label-md text-label-md transition-colors shadow-sm">Semua</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Mawar</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Sunflower</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Tulip</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Mix Bouquet</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Wedding</button>
+<button class="whitespace-nowrap px-space-6 py-2 rounded-full bg-primary-subtle text-primary hover:bg-primary-container hover:text-white font-label-md text-label-md border border-primary-border transition-colors">Custom</button>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-8">
+<!-- Card 1 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="absolute top-3 left-3 z-10">
+<span class="bg-primary text-white font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Terlaris</span>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Buket Mawar Pink" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautiful, romantic bouquet of soft pink roses wrapped in elegant minimalist beige paper. The arrangement is professionally styled in a bright, modern studio setting with soft, diffused light mode lighting. The overall aesthetic is premium, approachable, and warm, featuring delicate floral details against a pristine white background. A touch of elegant corporate minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Dc4Kc_natG4je8ns6xlb6hegZXr4UVGSMZcBzuC2KPaJiOH_Mua4-_P5zVvIGYfXbcCFVoNinTR_EVDKSbOkyoYTCllvI0RNXTU0Y3VWZGFEa4utpm6K8yGin_npvhnCoeSC9yZLiTT-RJH6SDru3PoaoPryZ0dpPflMvbJT_o9JiwQsxy-jCGlpiSRk7folWaAAiQb02R1jSuiyWUCTbX42jako-3FShB5Kpyymv34V-pWmpL63"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Buket Mawar Pink</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">12 Tangkai Mawar Premium</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 350.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Buket Sunflower Ceria" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, cheerful bouquet featuring large, bright yellow sunflowers mixed with delicate white baby's breath. The arrangement is beautifully wrapped in rustic kraft paper with a subtle purple ribbon accent. Shot in a well-lit, modern space with a clean, light mode aesthetic. The mood is warm, welcoming, and professionally crafted." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL4jaIlsBWmLkJL0-hO3CUT2sd22AAGeflHo5pydjbPpN5933K4qbDCcSLmqGxELiYgWZxrwX5lZMWArAjHvSN8LA_aTasJoWRgHolSFeouZ9TQzpTnhfeVdgXAJifaWyLgOgE2-CZOT_rIWjrebM6wRX4fG9HNtepSe9kTIxaAVVgqQkYT-8Oo8yz9XWub5-dZNbtMwgg8MDYs2ICnmPx4a6WvWHMhdRG1eISvJtXUfw8StcbQWQb"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Buket Sunflower Ceria</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">5 Tangkai Sunflower + Baby Breath</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 280.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="absolute top-3 left-3 z-10">
+<span class="bg-secondary-container text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Baru</span>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Tulip Elegance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An elegant, minimalist arrangement of fresh white and pale purple tulips in a clear glass vase. The setting is a bright, contemporary interior with soft, natural lighting creating a serene, light mode atmosphere. The visual aesthetic is sophisticated and premium, perfect for a high-end floral boutique. Gentle pastel tones dominate the scene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWgYnmAotfdOpk7LNHuoSdHPP8MHmso2olAL3BLPEOLrBHTeKc-8sPMLDO_3vs5CmVxUl5qIhtQU_zfSeWEOnrDmcdxffBDsPGiGRD98VWSKeORzu2EmvoizeLvHvPcz7gXzTRUccBSPd2d6IMsmoiGClAHoin_Jov5Ajd1VeGU-0HUDXevRDHCs6lUhRAqXm5gt1BespAuir2UG5_BC9-_AIdhKJTQPqaXmzOl42meITIFZRF95LB"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Tulip Elegance</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">10 Tangkai Tulip Import</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 450.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Mix Pastel Dream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lush, expertly designed mixed floral bouquet featuring soft pastel colors—lavender, blush pink, and creamy white. It includes roses, peonies, and delicate greenery. The arrangement is showcased against a clean, light-colored background in a modern, well-lit studio environment. The mood is romantic and luxurious, reflecting a premium boutique style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRt91UL24zlFxx0Gi4mQe5kuZ1v4X5duvxahtmiYlH2sk_FpjchC9L8X-T0Iv__bEfBvhtIrYqOfnljRara-V4aTy4aEgvqZximZDf2z8mc0cRTNZaER8_rN_pWNWPUHIfhWf-3d0frYBXQY7ag3etkB74EfwNUYKqEXs4zUgQDUs9B2f5PNo4o4bQMGZe6Y341lsmMKu7pbgTmAd3qFZfhSQQncoUtJcfuLK__B7HiDc-jZBai6Dc"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Mix Pastel Dream</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">Mix Bunga Premium Nuansa Pastel</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 550.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Classic Red Roses" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A striking, classic bouquet of deep crimson red roses tightly arranged and wrapped in sleek black paper with a subtle purple satin ribbon. The lighting is bright and high-key, highlighting the rich velvet texture of the petals against a pure white background. The aesthetic is modern, bold, and highly professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBclinx9NTkiZfMSPdYygJ6AnNdBaXmLr_068okvd9sU4jJyBuhBgZVlY3v-eB47QvuiV6rEhsu_NmFBPxevNwzavtDTiuqQRihmZndQUKPyN2AaxPMSCmnvWH3CSWMaFhi00KkhUAgLjcvu2OPmGnOoxlYvisHwJuqOmvvTarMQWmyuxeuYV_W-Bm81tiMQSQAzLFOZjMAYTMPj3iddFQKV4Z_n6okJD6-lqKJeBZDObHBu0pT9hPe"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Classic Red Roses</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">20 Tangkai Mawar Merah</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 480.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="absolute top-3 left-3 z-10">
+<span class="bg-primary text-white font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Terlaris</span>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="White Lily Grace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pristine, elegant arrangement of white lilies in full bloom, complemented by lush green foliage. The bouquet is wrapped in semi-transparent frosty paper. The setting is bright and airy, representing a sophisticated light mode aesthetic typical of a premium floral boutique. The mood is calm, pure, and refined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV7IwFivyIay2zf1LWP4Qi3mtjxm_Q_vyYqhKbuLM7rS1BixRKMOKq1PHc5cpOYMSpYGIwPNzE5cEEM25dcm3FwxahXWz7r7ehXKuZ_33P-XV7h1CXm4qzmXmFUMNiuYdAb8_sGx4T2-Ti-B1_24ajTrZWNsTOPmdv7UIpbB3Wm3cMSeroLhW21LTKDNreH9sHEjnb4BSg52J15utlEQkTB5CJgDhoQlP1CTwCCUOwiKDFI54hGWEM"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">White Lily Grace</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">5 Tangkai Lily Putih Premium</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 320.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Purple Majesty Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A luxurious floral box arrangement featuring an array of purple blooms, including orchids, lavender roses, and lisianthus. The flowers are densely packed in a premium white, minimalist round box. The scene is brightly lit with soft shadows, creating a sophisticated, high-end corporate aesthetic suitable for a modern boutique's catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ57Te6Kt0JSmkvCmSVz70FIHNmxaajQTL-po99JPG8vZJ5y3kKWLUmkHfuX3SjtOoYPlHEgVoN7iiQKYBLqXLq-q2oYDJsb4McKJmf6kJ9uEm-tRxyhOD6enMQXzZLbcvmPspGoIg7AShEBV_F5RzErHUjB6TYg4BFDCgW9hUxhVe1sxz08TBo53TDcK6FZsz6X9DXe96sORfSaJglLBjvctHt0HFByiqMqrtA7jlSFECTPCSSJZI"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Purple Majesty Box</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">Premium Bloom Box Nuansa Ungu</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 650.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary-border/50 overflow-hidden flex flex-col h-full relative">
+<div class="absolute top-3 left-3 z-10">
+<span class="bg-secondary-container text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Baru</span>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img alt="Rustic Dried Bouquet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A trendy, artisanal bouquet of dried flowers and pampas grass in muted, earthy tones of beige, pale pink, and soft lavender. The arrangement has an organic, asymmetric shape and is tied with a natural twine. Set against a clean white backdrop with bright, airy lighting, embodying a modern, chic, and welcoming boutique style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsStSXcfgJN8oSAL4dNsgHBMZpngzsXKA64jtA4aRvHWJMPaeBiyrv8r4KG73eiTAI7-lL2_KOT4GsLPCieO9f2w2ODTLx1V8cYdOHteG0orY44PKlEwR1K1nTExmB4oQ7Vx3cX7Ov83hUH_cHlcwZNchuBD7bwoAYv_DjmrqiymBczP4jLJM9k3WqAa_vd5bofyOPrMvn6xhC9qSi_V86aWqLLaHGMl63lD1u3Y4M_MVDqmAOQNru"/>
+</div>
+<div class="p-space-4 flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Rustic Dried Bouquet</h3>
+<p class="font-body-md text-body-md text-text-muted mb-space-4">Rangkaian Bunga Kering Premium</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Rp 380.000</span>
+<button aria-label="Tambah ke keranjang" class="bg-primary-subtle text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination (Optional but good for a catalog) -->
+<div class="flex justify-center items-center mt-space-10 gap-space-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center border border-primary-border text-text-muted hover:bg-primary-subtle hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-label-md text-label-md shadow-sm">1</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center border border-primary-border text-on-surface hover:bg-primary-subtle hover:text-primary transition-colors font-label-md text-label-md">2</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center border border-primary-border text-on-surface hover:bg-primary-subtle hover:text-primary transition-colors font-label-md text-label-md">3</button>
+<span class="text-text-muted">...</span>
+<button class="w-10 h-10 rounded-full flex items-center justify-center border border-primary-border text-on-surface hover:bg-primary-subtle hover:text-primary transition-colors font-label-md text-label-md">8</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center border border-primary-border text-text-muted hover:bg-primary-subtle hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-space-16 bg-dark-bg bg-dark-bg dark:bg-dark-bg flat no shadows opacity-80 hover:opacity-100 mt-space-16">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-8 px-space-8 max-w-7xl mx-auto">
+<div class="flex flex-col gap-space-4 md:col-span-1">
+<span class="font-display text-headline-md text-dark-text font-display text-headline-md text-dark-text">WanFlorist</span>
+<p class="font-body-md text-body-md text-dark-muted">Rangkaian bunga segar untuk setiap momen spesial Anda. Dibuat dengan sepenuh hati.</p>
+</div>
+<div class="flex flex-col gap-space-4">
+<h4 class="font-headline-md text-headline-md text-dark-text text-lg">Tautan Cepat</h4>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors" href="#">Beranda</a>
+<a class="font-body-md text-body-md text-primary-fixed font-bold hover:text-primary-fixed transition-colors" href="#">Produk</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors" href="#">Cek Pesanan</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors" href="#">Tentang Kami</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors" href="#">Kontak</a>
+</div>
+</div>
+<div class="flex flex-col gap-space-4">
+<h4 class="font-headline-md text-headline-md text-dark-text text-lg">Kontak</h4>
+<div class="flex flex-col gap-2 text-dark-muted font-body-md text-body-md">
+<p>Jl. Bunga Melati No. 123</p>
+<p>Jakarta Selatan, 12345</p>
+<p>WA: 0812-3456-7890</p>
+<p>Email: hello@wanflorist.com</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-4">
+<h4 class="font-headline-md text-headline-md text-dark-text text-lg">Sosial Media</h4>
+<div class="flex gap-space-4">
+<a class="text-dark-muted hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+</a>
+<a class="text-dark-muted hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="facebook">face_nod</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-space-16 pt-space-8 border-t border-dark-text/10 text-center px-space-8">
+<p class="font-body-md text-body-md text-dark-muted">© 2024 WanFlorist. Semua Hak Dilindungi.</p>
+</div>
+</footer>
+</body></html>

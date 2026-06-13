@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WanFlorist - Toko Buket Bunga Segar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#803abd",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1f1a22",
+                        "surface-variant": "#e9dfeb",
+                        "secondary-container": "#8a4cfc",
+                        "warning": "#D97706",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary-container": "#eeaf68",
+                        "primary-border": "#E9D5FF",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed": "#ffddbb",
+                        "surface-bright": "#fff7fe",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "secondary": "#712ae2",
+                        "dark-bg": "#1E1040",
+                        "text-muted": "#9CA3AF",
+                        "background": "#fff7fe",
+                        "primary-container": "#6b21a8",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-highest": "#e9dfeb",
+                        "text-primary": "#1A1A2E",
+                        "tertiary-fixed-dim": "#faba72",
+                        "surface-dim": "#e1d7e2",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#f8edf9",
+                        "tertiary-container": "#6d4100",
+                        "on-secondary-fixed": "#25005a",
+                        "on-error": "#ffffff",
+                        "success": "#16A34A",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "dark-text": "#E9D5FF",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4e2d00",
+                        "on-primary-fixed-variant": "#661aa3",
+                        "info": "#2563EB",
+                        "on-surface": "#1f1a22",
+                        "star": "#F59E0B",
+                        "surface": "#fff7fe",
+                        "surface-container-low": "#fbf0fc",
+                        "danger": "#DC2626",
+                        "inverse-surface": "#342e37",
+                        "dark-muted": "#A78BFA",
+                        "outline": "#7e7383",
+                        "primary-hover": "#5B1A90",
+                        "surface-alt": "#FAFAFA",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#efe5f1",
+                        "primary-subtle": "#F5F0FF",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#500088",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#4c4452",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#cfc2d4",
+                        "on-primary-container": "#d7a8ff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-primary-fixed": "#2d0050",
+                        "surface-container": "#f5ebf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-3": "12px",
+                        "space-1": "4px",
+                        "space-16": "64px",
+                        "space-5": "20px",
+                        "space-10": "40px",
+                        "space-2": "8px",
+                        "space-8": "32px",
+                        "space-4": "16px",
+                        "space-24": "96px",
+                        "space-6": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display", "serif"],
+                        "headline-lg": ["Playfair Display", "serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Playfair Display", "serif"],
+                        "label-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-x-hidden selection:bg-primary-subtle selection:text-primary">
+<!-- TopNavBar (Shared Component JSON) -->
+<nav class="sticky top-0 w-full z-50 bg-surface/90 backdrop-blur-md dark:bg-surface-container/90 shadow-sm dark:shadow-none transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center px-space-8 py-space-4 max-w-7xl mx-auto">
+<a class="font-display text-headline-md text-primary dark:text-primary-fixed tracking-tight" href="#">WanFlorist</a>
+<div class="hidden md:flex items-center gap-space-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-all duration-200 ease-in-out" href="#">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-all duration-200 ease-in-out" href="#">Produk</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-all duration-200 ease-in-out" href="#">Cek Pesanan</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-all duration-200 ease-in-out" href="#">Tentang Kami</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-hover dark:hover:text-primary-fixed-dim transition-all duration-200 ease-in-out" href="#">Kontak</a>
+</div>
+<div class="flex items-center gap-space-4">
+<button aria-label="Search" class="p-space-2 text-primary hover:text-primary-hover transition-colors rounded-full hover:bg-primary-subtle">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button aria-label="Menu" class="md:hidden p-space-2 text-primary hover:text-primary-hover transition-colors rounded-full hover:bg-primary-subtle">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Owner Availability Banner -->
+<div class="w-full bg-primary-subtle border-b border-primary-border py-space-2 px-space-4 flex justify-center items-center gap-space-2">
+<span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+<p class="font-label-sm text-label-sm text-primary">Owner sedang tersedia — Homestore buka hari ini</p>
+</div>
+<!-- Hero Section -->
+<section class="relative pt-space-16 pb-space-24 px-space-4 md:px-space-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-space-16 overflow-hidden">
+<!-- Decorative Background Blob -->
+<div class="absolute top-0 right-0 -z-10 w-full h-full opacity-30 pointer-events-none">
+<div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary-subtle to-secondary-fixed-dim blur-3xl mix-blend-multiply"></div>
+<div class="absolute bottom-[10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-surface-variant to-primary-fixed-dim blur-3xl mix-blend-multiply"></div>
+</div>
+<div class="lg:w-1/2 flex flex-col items-start space-y-space-6 z-10">
+<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-alt border border-primary-border text-primary font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[16px]">local_florist</span>
+                Toko Buket
+            </span>
+<h1 class="font-display text-display text-text-primary tracking-tight">Wanflorist</h1>
+<p class="font-body-lg text-body-lg text-text-secondary max-w-md">Menghadirkan keindahan bunga segar untuk setiap momen spesial. Dirangkai dengan cinta dan ketelitian oleh artisan lokal.</p>
+<div class="flex flex-wrap gap-space-4 pt-space-2">
+<a class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-hover hover:shadow-lg hover:shadow-primary/20 transition-all duration-300" href="#">
+                    Belanja Sekarang <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-transparent border-2 border-primary text-primary font-label-md text-label-md hover:bg-primary-subtle transition-all duration-300" href="#">
+                    Lihat Koleksi
+                </a>
+</div>
+<!-- Stats Row -->
+<div class="flex items-center gap-space-8 pt-space-8 mt-space-4 border-t border-surface-variant w-full max-w-md">
+<div>
+<p class="font-headline-md text-headline-md text-primary">200+</p>
+<p class="font-label-sm text-label-sm text-text-secondary">Pesanan</p>
+</div>
+<div class="w-px h-10 bg-surface-variant"></div>
+<div>
+<p class="font-headline-md text-headline-md text-primary">50+</p>
+<p class="font-label-sm text-label-sm text-text-secondary">Produk Buket</p>
+</div>
+<div class="w-px h-10 bg-surface-variant"></div>
+<div>
+<p class="font-headline-md text-headline-md text-primary flex items-center">4.9<span class="material-symbols-outlined text-star text-[20px] ml-1" style="font-variation-settings: 'FILL' 1;">star</span></p>
+<p class="font-label-sm text-label-sm text-text-secondary">Rating</p>
+</div>
+</div>
+</div>
+<div class="lg:w-1/2 w-full relative z-10 flex justify-center lg:justify-end">
+<!-- Hero Image Bento Style -->
+<div class="relative w-full max-w-[500px] aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl shadow-primary/10 border-4 border-surface p-2 bg-surface">
+<img alt="Beautiful fresh flower bouquet" class="w-full h-full object-cover rounded-[24px]" data-alt="A highly detailed professional photography shot of a luxurious fresh flower bouquet wrapped in premium paper. The bouquet features vibrant pink roses, delicate white lilies, and lush green foliage. It is placed on a clean, bright, white marble table. Soft, natural sunlight streams from a window on the left, casting gentle shadows and highlighting the dew drops on the petals. The overall aesthetic is elegant, modern, and high-end, fitting a premium boutique florist brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-6YyPDD7Gjm1xIlVRvSaLp44DzMgHGQ9oAbGQT5wg9kNwtzFC0ST4MI4JL3F2Zr16PoppZlnMWpm04ckZDuN9JIg0_tP4cVwp_7AY5TUjC3PV_B_DhTgBMQ9H14yvOSslXZq5It-QRy85u-xln0CQFLPCNXEvGukmE7D8QyBweFA6k5faKULx5FZOH8SvHlajowQmFMuZfqjLD1Ja-nS_Znyzio0dG7_JYlNlQz-61HE89-y15OtH"/>
+<!-- Floating Element -->
+<div class="absolute -bottom-6 -left-6 bg-surface p-space-4 rounded-xl shadow-lg border border-primary-border flex items-center gap-3 animate-[bounce_4s_infinite]">
+<div class="w-12 h-12 rounded-full bg-primary-subtle flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary">Terjual Hari Ini</p>
+<p class="font-label-md text-label-md text-text-primary font-bold">12 Buket</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Kategori Section -->
+<section class="py-space-16 px-space-4 max-w-7xl mx-auto">
+<div class="text-center mb-space-8">
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-space-2">Kategori Pilihan</h2>
+<p class="font-body-md text-body-md text-text-secondary">Temukan buket sempurna untuk setiap momen</p>
+</div>
+<div class="flex flex-wrap justify-center gap-space-4">
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">🌹 Mawar</button>
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">🌻 Sunflower</button>
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">🌷 Tulip</button>
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">💐 Mix Bouquet</button>
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">💍 Wedding</button>
+<button class="px-6 py-3 rounded-full bg-surface-alt border border-primary-border hover:bg-primary-subtle hover:border-primary text-text-primary font-label-md text-label-md transition-all shadow-sm">✂️ Custom</button>
+</div>
+</section>
+<!-- Produk Terlaris -->
+<section class="py-space-16 px-space-4 bg-surface-alt">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-space-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-space-2">Produk Terlaris</h2>
+<p class="font-body-md text-body-md text-text-secondary">Koleksi favorit pelanggan kami</p>
+</div>
+<a class="hidden md:inline-flex items-center text-primary font-label-md text-label-md hover:text-primary-hover group" href="#">
+                    Lihat Semua <span class="material-symbols-outlined ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-6">
+<!-- Product Card 1 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-primary-border group flex flex-col">
+<div class="relative aspect-square overflow-hidden bg-surface-variant">
+<span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm shadow-sm backdrop-blur-sm">Terlaris</span>
+<img alt="Buket Mawar Merah" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up studio shot of a classic red rose bouquet beautifully arranged with baby's breath. The lighting is soft and romantic, highlighting the deep velvet texture of the rose petals. The background is a clean, neutral off-white to make the vibrant red colors pop, aligning perfectly with a modern, elegant floral brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPgZdYx2u_bUwg5NZFmWgMzkXHmDkCnEq1fCPMgOmR9ZuDsYaYOa5d6mx8EA3kQu6qgVypQqeNNlmdaM-tLUE40CWEN3syj_FKwDSoGJMPZLel9UO55SuUiekwO_9ftm06OsgD-og2PIoPWK_clkh7NaqkeR8FsX5HGEOt0U_aYn4pUmR068cVMPi1cCpurmdhdQMSyGzedQjKWVTKyr6eEscwxVSb1xhXiAGw9c3l3iSRkwvqQldg"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-surface text-primary shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all hover:bg-primary hover:text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</button>
+</div>
+<div class="p-space-4 flex-1 flex flex-col">
+<h3 class="font-label-md text-label-md text-text-primary font-semibold mb-1 line-clamp-1">Classic Red Rose Bouquet</h3>
+<p class="font-label-sm text-label-sm text-text-secondary mb-3">Mawar merah premium</p>
+<div class="mt-auto flex items-center justify-between">
+<p class="font-headline-md text-headline-md text-primary" style="font-size: 18px;">Rp 250.000</p>
+<button class="px-4 py-2 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors">Pesan</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-primary-border group flex flex-col">
+<div class="relative aspect-square overflow-hidden bg-surface-variant">
+<span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm shadow-sm backdrop-blur-sm">Terlaris</span>
+<img alt="Buket Sunflower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bright and cheerful composition featuring a large, vibrant yellow sunflower bouquet wrapped in rustic brown kraft paper. The bouquet sits on a light wooden surface. Warm, sunny natural light creates a happy and uplifting mood. The overall tone is fresh, artisanal, and welcoming, fitting a local premium flower shop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzxYN8HEznGGRAs1nh49Jp9maZmdrAbRVgYYTfIJdZFgYaBcBkFIDN7sSUcsEVeyq5Kryk5i9jAIuLltXaGQBJRshBBQPdr3olcDCgL5viU0-l1LoOfVKI-V45ppQe7z49fX_FFVL-RI24jo84UC6g-T7KnDxdcD87z1HyqIwI8c_A3t-aomKXZ3_6zUuSfqDlHinRGjDMuInqMTkwENJwZjR8OdIlJCFARi-NCPEBazntD_I-AnqL"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-surface text-primary shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all hover:bg-primary hover:text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</button>
+</div>
+<div class="p-space-4 flex-1 flex flex-col">
+<h3 class="font-label-md text-label-md text-text-primary font-semibold mb-1 line-clamp-1">Sunshine Sunflower</h3>
+<p class="font-label-sm text-label-sm text-text-secondary mb-3">Bunga matahari segar</p>
+<div class="mt-auto flex items-center justify-between">
+<p class="font-headline-md text-headline-md text-primary" style="font-size: 18px;">Rp 180.000</p>
+<button class="px-4 py-2 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors">Pesan</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-primary-border group flex flex-col">
+<div class="relative aspect-square overflow-hidden bg-surface-variant">
+<span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm shadow-sm backdrop-blur-sm">Terlaris</span>
+<img alt="Buket Tulip Pink" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An elegant arrangement of soft pink and white tulips in a modern glass vase, though styled to look like a hand-tied bouquet ready for gifting. The lighting is soft and diffused, creating a serene, delicate atmosphere. The background is a crisp white to emphasize the clean, minimalist lines of the tulips. The aesthetic is highly polished, modern, and boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwKaDU1lrMkz9xJhd5ghf34cVqySfad4b-52J18OU1E94cXQoUHqouRTrONL0FuE7OvY2BoTCmYZsAFiLtdwWHlt64RCRyOVQjCcp65InseHrBWroPhyMvGBmFe8fXByNnMenCdmtjI1vsq_m72B76ngdC28XhScmATXRH41IoDoGDWBqb6BoYM0-oEWPTw2Vy_NJn2qNYgGDTt6DPe9IZuD0Y1GNQE6Xm4b4H3OGXgXBOclU2-Z46"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-surface text-primary shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all hover:bg-primary hover:text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</button>
+</div>
+<div class="p-space-4 flex-1 flex flex-col">
+<h3 class="font-label-md text-label-md text-text-primary font-semibold mb-1 line-clamp-1">Sweet Pink Tulips</h3>
+<p class="font-label-sm text-label-sm text-text-secondary mb-3">Tulip import Belanda</p>
+<div class="mt-auto flex items-center justify-between">
+<p class="font-headline-md text-headline-md text-primary" style="font-size: 18px;">Rp 320.000</p>
+<button class="px-4 py-2 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors">Pesan</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-primary-border group flex flex-col">
+<div class="relative aspect-square overflow-hidden bg-surface-variant">
+<span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm shadow-sm backdrop-blur-sm">Terlaris</span>
+<img alt="Mix Pastel Bouquet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lush, expertly arranged mixed floral bouquet featuring pastel colors: soft lavender, pale pink, and creamy white blossoms. The arrangement is textured with various green eucalyptus leaves. Photographed against a very soft, light grey studio background. The mood is sophisticated, gentle, and highly artisanal, reflecting top-tier florist craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsBuWkZvEVRp5btsmndLGcQqUBWR-iQBIJD5iPo9mSOZO1Y6qoSX1Mq0WeZ-0nXTaPRTjxgStzL_1hLPWf_5FZgeq9ZizUjuMab7Jk9ZRrVrRNL9V4D_YFbUzFh6huXez1FOsiZATIqBq86nXB_qRw1p5twqGuISTCHRyH3Zm7Dc7dp7BOz6PAnebB1T3zNB_FWH78H_ZjwGtgx4M_HbHLWlCRkRsZm-qtbdhBkNS1bOat9AxppIyU"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-surface text-primary shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all hover:bg-primary hover:text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</button>
+</div>
+<div class="p-space-4 flex-1 flex flex-col">
+<h3 class="font-label-md text-label-md text-text-primary font-semibold mb-1 line-clamp-1">Pastel Dream Mix</h3>
+<p class="font-label-sm text-label-sm text-text-secondary mb-3">Mix bunga warna pastel</p>
+<div class="mt-auto flex items-center justify-between">
+<p class="font-headline-md text-headline-md text-primary" style="font-size: 18px;">Rp 280.000</p>
+<button class="px-4 py-2 rounded-full bg-primary-subtle text-primary font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors">Pesan</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-8 text-center md:hidden">
+<a class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-transparent border border-primary text-primary font-label-md text-label-md hover:bg-primary-subtle transition-all" href="#">
+                    Lihat Semua Produk
+                </a>
+</div>
+</div>
+</section>
+<!-- About CTA Section -->
+<section class="py-space-24 px-space-4">
+<div class="max-w-6xl mx-auto bg-dark-bg rounded-[40px] overflow-hidden shadow-2xl relative">
+<!-- Decorative circle -->
+<div class="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] bg-secondary-fixed opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col md:flex-row items-center">
+<div class="w-full md:w-1/2 p-space-8 md:p-space-16 z-10 flex justify-center">
+<!-- Arch Image -->
+<div class="w-full max-w-[350px] aspect-[3/4] rounded-t-full rounded-b-xl overflow-hidden border-4 border-surface/10 shadow-lg">
+<img alt="Florist working" class="w-full h-full object-cover" data-alt="A portrait of a skilled artisan florist arranging a beautiful bouquet in a cozy, softly lit flower shop. The environment is filled with various fresh cut flowers in buckets. The lighting is warm and inviting, casting a gentle glow that emphasizes the care and dedication put into the craft. The image conveys trust, artisanal quality, and small business charm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6QUh4OtksCkrOjtwK31VO0WWQzsjNIjyzJyJaw_q_aign-PGwoajEsNdXnVcwD8GpJvB2btK2a97U_ESfiJwFYbxUwnH7G7p2aMHh37Y_OENpGNSzOzwf8EH-PPFOYwObkKRQOq7RsTcr7vrCc4d3f18fWncYSKLDQk1lEwMbzVHoW2t18LPpTpXm18y9Ot9dixHOqrMYXyux2T-Mx15XqLhcWEVv1g7zHkY0FnSm1buUQP6zyp17"/>
+</div>
+</div>
+<div class="w-full md:w-1/2 p-space-8 md:p-space-16 z-10 flex flex-col items-start space-y-space-6 text-left">
+<h2 class="font-display text-headline-lg text-dark-text">Menghadirkan Bunga Segar Setiap Hari</h2>
+<p class="font-body-md text-body-md text-dark-muted max-w-md">Di WanFlorist, kami percaya setiap rangkaian bunga memiliki ceritanya sendiri. Kami memilih bunga terbaik setiap pagi untuk memastikan pesan Anda tersampaikan dengan indah dan tahan lama.</p>
+<a class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-on-primary text-primary font-label-md text-label-md hover:bg-surface-alt hover:shadow-lg transition-all duration-300 mt-space-4" href="#">
+                        Kenali Kami Lebih Dekat
+                    </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimoni Section -->
+<section class="py-space-16 px-space-4 max-w-7xl mx-auto mb-space-16">
+<div class="text-center mb-space-10">
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-space-2">Kata Mereka</h2>
+<p class="font-body-md text-body-md text-text-secondary">Pelanggan yang mempercayakan momen spesialnya pada kami</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-6">
+<!-- Testimonial 1 -->
+<div class="bg-surface rounded-2xl p-space-6 border border-primary-border shadow-sm flex flex-col gap-space-4 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute top-0 right-0 p-4 opacity-5 text-primary">
+<span class="material-symbols-outlined text-[60px]" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+</div>
+<div class="flex text-star">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-text-secondary flex-grow italic">"Bunganya sangat segar dan rangkaiannya cantik sekali! Pengiriman juga on time. Pacar saya sangat suka dengan buket mawarnya."</p>
+<div class="flex items-center gap-3 pt-4 border-t border-surface-variant">
+<div class="w-10 h-10 rounded-full bg-primary-subtle flex items-center justify-center text-primary font-bold">A</div>
+<div>
+<p class="font-label-md text-label-md text-text-primary font-semibold">Andi S.</p>
+<p class="font-label-sm text-label-sm text-text-secondary">Pesan: Classic Red Rose</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface rounded-2xl p-space-6 border border-primary-border shadow-sm flex flex-col gap-space-4 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute top-0 right-0 p-4 opacity-5 text-primary">
+<span class="material-symbols-outlined text-[60px]" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+</div>
+<div class="flex text-star">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-text-secondary flex-grow italic">"Pelayanan adminnya sangat ramah, bisa custom buket sesuai budget. Hasil jadinya melebihi ekspektasi. Terima kasih WanFlorist!"</p>
+<div class="flex items-center gap-3 pt-4 border-t border-surface-variant">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-primary font-bold">D</div>
+<div>
+<p class="font-label-md text-label-md text-text-primary font-semibold">Dina M.</p>
+<p class="font-label-sm text-label-sm text-text-secondary">Pesan: Custom Mix Bouquet</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface rounded-2xl p-space-6 border border-primary-border shadow-sm flex flex-col gap-space-4 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute top-0 right-0 p-4 opacity-5 text-primary">
+<span class="material-symbols-outlined text-[60px]" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+</div>
+<div class="flex text-star">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]">star_half</span>
+</div>
+<p class="font-body-md text-body-md text-text-secondary flex-grow italic">"Beli untuk acara wisuda adik. Bunga mataharinya besar dan segar, wrappingnya rapi dan estetik. Bakal langganan di sini."</p>
+<div class="flex items-center gap-3 pt-4 border-t border-surface-variant">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary font-bold">R</div>
+<div>
+<p class="font-label-md text-label-md text-text-primary font-semibold">Reza K.</p>
+<p class="font-label-sm text-label-sm text-text-secondary">Pesan: Sunshine Sunflower</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer (Shared Component JSON) -->
+<footer class="w-full py-space-16 bg-dark-bg dark:bg-dark-bg flat no shadows">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-8 px-space-8 max-w-7xl mx-auto">
+<div class="flex flex-col gap-space-4 col-span-1 md:col-span-2">
+<a class="font-display text-headline-md text-dark-text tracking-tight" href="#">WanFlorist</a>
+<p class="font-body-md text-body-md text-dark-muted max-w-sm">Toko buket bunga terpercaya. Menghadirkan keindahan dan kesegaran dalam setiap rangkaian untuk momen spesial Anda.</p>
+</div>
+<div class="flex flex-col gap-space-4">
+<h3 class="font-label-md text-label-md font-bold text-dark-text mb-2">Navigasi</h3>
+<a class="font-body-md text-body-md text-primary-fixed font-bold opacity-80 hover:opacity-100 transition-colors" href="#">Beranda</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Produk</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Cek Pesanan</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a>
+</div>
+<div class="flex flex-col gap-space-4">
+<h3 class="font-label-md text-label-md font-bold text-dark-text mb-2">Bantuan</h3>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Kontak</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">FAQ</a>
+<a class="font-body-md text-body-md text-dark-muted hover:text-dark-text hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Syarat &amp; Ketentuan</a>
+</div>
+</div>
+<div class="border-t border-white/10 mt-space-8 pt-space-8 px-space-8 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-dark-muted">© 2024 WanFlorist. Semua Hak Dilindungi.</p>
+<div class="flex gap-4">
+<!-- Social placeholders -->
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-dark-text hover:bg-primary-hover transition-colors" href="#">
+<span class="material-symbols-outlined">camera_alt</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-dark-text hover:bg-primary-hover transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+</div>
+</footer>
+</body></html>
