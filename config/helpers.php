@@ -178,10 +178,9 @@ function validate_csrf(string $token): bool
  * Validasi input form pemesanan.
  *
  * @param array $input Array input dengan kunci:
- *   - nama_pemesan (string)
- *   - no_whatsapp (string)
- *   - alamat (string)
- *   - tanggal_kirim (string, format Y-m-d)
+ *   - nama_pembeli (string)
+ *   - no_hp (string)
+ *   - tanggal_ambil (string, format Y-m-d)
  *   - produk (array, minimal satu item dengan jumlah >= 1)
  * @return array Array error per field; array kosong berarti semua valid.
  *
@@ -191,37 +190,30 @@ function validasi_form_pemesanan(array $input): array
 {
     $errors = [];
 
-    $nama = trim($input['nama_pemesan'] ?? '');
+    $nama = trim($input['nama_pembeli'] ?? '');
     if ($nama === '') {
-        $errors['nama_pemesan'] = 'Nama pemesan tidak boleh kosong.';
+        $errors['nama_pembeli'] = 'Nama pembeli tidak boleh kosong.';
     } elseif (mb_strlen($nama) > 100) {
-        $errors['nama_pemesan'] = 'Nama pemesan maksimal 100 karakter.';
+        $errors['nama_pembeli'] = 'Nama pembeli maksimal 100 karakter.';
     }
 
-    $wa = trim($input['no_whatsapp'] ?? '');
-    if ($wa === '') {
-        $errors['no_whatsapp'] = 'Nomor WhatsApp tidak boleh kosong.';
-    } elseif (!preg_match('/^\d{8,15}$/', $wa)) {
-        $errors['no_whatsapp'] = 'Nomor WhatsApp harus berupa 8–15 digit angka.';
+    $hp = trim($input['no_hp'] ?? '');
+    if ($hp === '') {
+        $errors['no_hp'] = 'Nomor HP tidak boleh kosong.';
+    } elseif (!preg_match('/^\d{8,15}$/', $hp)) {
+        $errors['no_hp'] = 'Nomor HP harus berupa 8–15 digit angka.';
     }
 
-    $alamat = trim($input['alamat'] ?? '');
-    if ($alamat === '') {
-        $errors['alamat'] = 'Alamat tidak boleh kosong.';
-    } elseif (mb_strlen($alamat) > 500) {
-        $errors['alamat'] = 'Alamat maksimal 500 karakter.';
-    }
-
-    $tgl_kirim = trim($input['tanggal_kirim'] ?? '');
-    if ($tgl_kirim === '') {
-        $errors['tanggal_kirim'] = 'Tanggal pengiriman tidak boleh kosong.';
+    $tgl_ambil = trim($input['tanggal_ambil'] ?? '');
+    if ($tgl_ambil === '') {
+        $errors['tanggal_ambil'] = 'Tanggal pengambilan tidak boleh kosong.';
     } else {
-        $tgl_dt = DateTime::createFromFormat('Y-m-d', $tgl_kirim);
+        $tgl_dt = DateTime::createFromFormat('Y-m-d', $tgl_ambil);
         $today  = new DateTime('today');
-        if (!$tgl_dt || $tgl_dt->format('Y-m-d') !== $tgl_kirim) {
-            $errors['tanggal_kirim'] = 'Format tanggal tidak valid.';
+        if (!$tgl_dt || $tgl_dt->format('Y-m-d') !== $tgl_ambil) {
+            $errors['tanggal_ambil'] = 'Format tanggal tidak valid.';
         } elseif ($tgl_dt < $today) {
-            $errors['tanggal_kirim'] = 'Tanggal pengiriman tidak boleh di masa lalu.';
+            $errors['tanggal_ambil'] = 'Tanggal pengambilan tidak boleh di masa lalu.';
         }
     }
 

@@ -36,8 +36,8 @@ $stmt = $pdo->query("SELECT COUNT(*) FROM stok_bahan WHERE stok_saat_ini < stok_
 $stok_kritis = (int) $stmt->fetchColumn();
 
 $stmt = $pdo->query(
-    "SELECT id_pesanan, no_pesanan, nama_pemesan, total_harga,
-            status, metode_bayar, created_at
+    "SELECT id_pesanan, no_pesanan, nama_pembeli, total_harga,
+            status, metode_pengambilan, created_at
      FROM pesanan
      ORDER BY created_at DESC
      LIMIT 5"
@@ -230,7 +230,7 @@ $css_extra   = '/assets/css/admin.css';
                                         ?>
                                         <tr>
                                             <td><?= e($p['no_pesanan']) ?></td>
-                                            <td><?= e($p['nama_pemesan']) ?></td>
+                                            <td><?= e($p['nama_pembeli']) ?></td>
                                             <td><?= e(format_rupiah((int) $p['total_harga'])) ?></td>
                                             <td>
                                                 <span class="badge <?= e($badge_class) ?>">

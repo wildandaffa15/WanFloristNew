@@ -30,7 +30,7 @@ $where  = [];
 $params = [];
 
 if ($q !== '') {
-    $where[]        = '(no_pesanan LIKE :q OR nama_pemesan LIKE :q)';
+    $where[]        = '(no_pesanan LIKE :q OR nama_pembeli LIKE :q)';
     $params[':q']   = "%{$q}%";
 }
 if ($filter_status !== '') {
@@ -46,17 +46,17 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     echo "\xEF\xBB\xBF"; // UTF-8 BOM agar Excel membaca karakter Indonesia dengan benar
 
     $out = fopen('php://output', 'w');
-    fputcsv($out, ['No. Pesanan', 'Nama Pemesan', 'Total Harga', 'Metode Bayar', 'Status', 'Tanggal Pesan']);
+    fputcsv($out, ['No. Pesanan', 'Nama Pembeli', 'Total Harga', 'Metode Pengambilan', 'Status', 'Tanggal Pesan']);
 
-    $stmt_csv = $pdo->prepare("SELECT no_pesanan, nama_pemesan, total_harga, metode_bayar, status, created_at FROM pesanan {$where_sql} ORDER BY created_at DESC");
+    $stmt_csv = $pdo->prepare("SELECT no_pesanan, nama_pembeli, total_harga, metode_pengambilan, status, created_at FROM pesanan {$where_sql} ORDER BY created_at DESC");
     $stmt_csv->execute($params);
 
     while ($row = $stmt_csv->fetch()) {
         fputcsv($out, [
             $row['no_pesanan'],
-            $row['nama_pemesan'],
+            $row['nama_pembeli'],
             $row['total_harga'],
-            $row['metode_bayar'],
+            $row['metode_pengambilan'],
             $row['status'],
             $row['created_at'],
         ]);
@@ -165,7 +165,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                         type="search"
                                         name="q"
                                         value="<?= e($q) ?>"
-                                        placeholder="No. pesanan atau nama pemesan…"
+                                        placeholder="No. pesanan atau nama pembeli…"
                                         autocomplete="off"
                                     >
                                 </div>
@@ -216,9 +216,9 @@ function pagination_url(int $pg, string $q, string $status): string
                         <thead>
                             <tr>
                                 <th>No. Pesanan</th>
-                                <th>Nama Pemesan</th>
+                                <th>Nama Pembeli</th>
                                 <th>Total Harga</th>
-                                <th>Metode Bayar</th>
+                                <th>Metode Pengambilan</th>
                                 <th>Status</th>
                                 <th>Tanggal Pesan</th>
                                 <th style="text-align:center;">Aksi</th>
@@ -249,12 +249,12 @@ function pagination_url(int $pg, string $q, string $status): string
                                                 <?= e($p['no_pesanan']) ?>
                                             </strong>
                                         </td>
-                                        <td><?= e($p['nama_pemesan']) ?></td>
+                                        <td><?= e($p['nama_pembeli']) ?></td>
                                         <td style="white-space:nowrap;">
                                             <strong><?= e(format_rupiah((int) $p['total_harga'])) ?></strong>
                                         </td>
                                         <td style="text-transform:capitalize;">
-                                            <?= e(str_replace('_', ' ', $p['metode_bayar'] ?? '-')) ?>
+                                            <?= e(str_replace('_', ' ', $p['metode_pengambilan'] ?? '-')) ?>
                                         </td>
                                         <td>
                                             <span class="badge <?= e(status_badge_class($p['status'])) ?>">

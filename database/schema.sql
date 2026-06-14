@@ -38,23 +38,22 @@ CREATE TABLE IF NOT EXISTS produk (
 -- Tabel: pesanan
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS pesanan (
-    id_pesanan   INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
-    no_pesanan   VARCHAR(20)     NOT NULL UNIQUE,    -- format: WF-YYYYMMDD-XXXX
-    nama_pemesan VARCHAR(100)    NOT NULL,
-    no_whatsapp  VARCHAR(15)     NOT NULL,
-    alamat       TEXT            NOT NULL,
-    tanggal_kirim DATE           NOT NULL,
-    metode_bayar ENUM('transfer', 'cod') NOT NULL,
-    catatan      TEXT            DEFAULT NULL,
-    status       ENUM(
-                     'menunggu_konfirmasi',
-                     'diproses',
-                     'selesai',
-                     'dibatalkan'
-                 ) NOT NULL DEFAULT 'menunggu_konfirmasi',
-    total_harga  DECIMAL(12,2)   NOT NULL DEFAULT 0,
-    created_at   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id_pesanan          INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
+    no_pesanan          VARCHAR(20)     NOT NULL UNIQUE,    -- format: WF-YYYYMMDD-XXXX
+    nama_pembeli        VARCHAR(100)    NOT NULL,
+    no_hp               VARCHAR(15)     NOT NULL,
+    tanggal_ambil       DATE            NOT NULL,
+    metode_pengambilan  ENUM('ambil_sendiri', 'cod') NOT NULL,
+    catatan             TEXT            DEFAULT NULL,
+    status              ENUM(
+                            'menunggu_konfirmasi',
+                            'diproses',
+                            'selesai',
+                            'dibatalkan'
+                        ) NOT NULL DEFAULT 'menunggu_konfirmasi',
+    total_harga         DECIMAL(12,2)   NOT NULL DEFAULT 0,
+    created_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------

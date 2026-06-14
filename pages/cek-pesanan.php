@@ -28,8 +28,8 @@ $not_found  = false;
 
 if ($no_input !== '') {
     $stmt = $pdo->prepare(
-        "SELECT id_pesanan, no_pesanan, nama_pemesan, no_whatsapp, alamat,
-                tanggal_kirim, metode_bayar, catatan, status, total_harga, created_at
+        "SELECT id_pesanan, no_pesanan, nama_pembeli, no_hp,
+                tanggal_ambil, metode_pengambilan, catatan, status, total_harga, created_at
            FROM pesanan
           WHERE no_pesanan = :no
           LIMIT 1"
@@ -112,8 +112,8 @@ $step_state = static function (int $stepIdx, int $currentStep, string $status): 
 };
 
 $metode_label = [
-    'transfer' => 'Transfer Bank',
-    'cod'      => 'COD (Bayar di Tempat)',
+    'ambil_sendiri' => 'Ambil Sendiri',
+    'cod'           => 'COD (Diantar ke Lokasi)',
 ];
 
 $status_label = [
@@ -208,7 +208,7 @@ $css_extra   = '/assets/css/public.css';
                         <p class="cp-label-small">Nomor Pesanan</p>
                         <h2 class="cp-no-pesanan"><?= e($pesanan['no_pesanan']) ?></h2>
                         <p class="cp-label-small cp-nama-pemesan">
-                            atas nama <strong><?= e($pesanan['nama_pemesan']) ?></strong>
+                            atas nama <strong><?= e($pesanan['nama_pembeli']) ?></strong>
                         </p>
                     </div>
                     <div class="cp-card-header__right">
@@ -328,23 +328,19 @@ $css_extra   = '/assets/css/public.css';
 
                         <div class="cp-info-card">
                             <div class="cp-info-row">
-                                <span class="cp-info-label">Tanggal Kirim</span>
+                                <span class="cp-info-label">Tanggal Ambil</span>
                                 <span class="cp-info-value">
                                     <?php
-                                    $dt = DateTime::createFromFormat('Y-m-d', $pesanan['tanggal_kirim']);
-                                    echo $dt ? e(format_tanggal_id($dt)) : e($pesanan['tanggal_kirim']);
+                                    $dt = DateTime::createFromFormat('Y-m-d', $pesanan['tanggal_ambil']);
+                                    echo $dt ? e(format_tanggal_id($dt)) : e($pesanan['tanggal_ambil']);
                                     ?>
                                 </span>
                             </div>
                             <div class="cp-info-row">
-                                <span class="cp-info-label">Metode Bayar</span>
+                                <span class="cp-info-label">Metode Pengambilan</span>
                                 <span class="cp-info-value">
-                                    <?= e($metode_label[$pesanan['metode_bayar']] ?? $pesanan['metode_bayar']) ?>
+                                    <?= e($metode_label[$pesanan['metode_pengambilan']] ?? $pesanan['metode_pengambilan']) ?>
                                 </span>
-                            </div>
-                            <div class="cp-info-row">
-                                <span class="cp-info-label">Alamat</span>
-                                <span class="cp-info-value"><?= e($pesanan['alamat']) ?></span>
                             </div>
                             <?php if (!empty($pesanan['catatan'])): ?>
                             <div class="cp-info-row">
@@ -377,7 +373,7 @@ $css_extra   = '/assets/css/public.css';
                                 </span>
                                 <?php else: ?>
                                 <span class="cp-info-value cp-payment-unpaid">
-                                    <?= ($pesanan['metode_bayar'] === 'cod') ? '— (COD)' : '⏳ Belum Dibayar' ?>
+                                    <?= ($pesanan['metode_pengambilan'] === 'cod') ? '— (COD)' : '⏳ Belum Dibayar' ?>
                                 </span>
                                 <?php endif; ?>
                             </div>
@@ -413,7 +409,7 @@ $css_extra   = '/assets/css/public.css';
 
                         </div>
 
-                        <?php if ($pesanan['metode_bayar'] === 'transfer' && !$lunas_row): ?>
+                        <?php if ($pesanan['metode_pengambilan'] === 'ambil_sendiri' && !$lunas_row): ?>
                         <div class="alert alert-info cp-dp-reminder" role="status">
                             <span aria-hidden="true">ℹ️</span>
                             <div>

@@ -6,7 +6,7 @@
  * Menangani:
  *   - Pre-fill produk dari query string ?id=
  *   - Daftar semua produk tersedia untuk selector
- *   - Validasi server-side (nama, WA, alamat, tanggal, produk)
+ *   - Validasi server-side (nama, WA, tanggal, produk)
  *   - Perlindungan CSRF
  *   - INSERT pesanan + detail_pesanan dalam satu transaksi
  *   - PRG redirect ke cek-pesanan.php setelah berhasil
@@ -55,11 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $input = [
-        'nama_pemesan'  => $_POST['nama_pemesan'] ?? '',
-        'no_whatsapp'   => $_POST['no_whatsapp'] ?? '',
-        'alamat'        => $_POST['alamat'] ?? '',
-        'tanggal_kirim' => $_POST['tanggal_kirim'] ?? '',
-        'produk'        => $items,
+        'nama_pembeli'       => $_POST['nama_pembeli'] ?? '',
+        'no_hp'              => $_POST['no_hp'] ?? '',
+        'tanggal_ambil'      => $_POST['tanggal_ambil'] ?? '',
+        'produk'             => $items,
     ];
 
     $errors = validasi_form_pemesanan($input);
@@ -68,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo->beginTransaction();
 
-            $no_pesanan   = generate_no_pesanan($pdo);
-            $metode_bayar = in_array($_POST['metode_bayar'] ?? '', ['transfer', 'cod']) ? $_POST['metode_bayar'] : 'transfer';
-            $catatan      = trim($_POST['catatan'] ?? '');
+            $no_pesanan          = generate_no_pesanan($pdo);
+            $metode_pengambilan  = in_array($_POST['metode_pengambilan'] ?? '', ['ambil_sendiri', 'cod']) ? $_POST['metode_pengambilan'] : 'ambil_sendiri';
+            $catatan             = trim($_POST['catatan'] ?? '');
 
             // Calculate total — fetch prices from DB to prevent tampering
             $total        = 0;
@@ -93,16 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt_ins = $pdo->prepare(
-                "INSERT INTO pesanan (no_pesanan, nama_pemesan, no_whatsapp, alamat, tanggal_kirim, metode_bayar, catatan, total_harga)
-                 VALUES (:no, :nama, :wa, :alamat, :tgl, :metode, :catatan, :total)"
+                "INSERT INTO pesanan (no_pesanan, nama_pembeli, no_hp, tanggal_ambil, metode_pengambilan, catatan, total_harga)
+                 VALUES (:no, :nama, :hp, :tgl, :metode, :catatan, :total)"
             );
             $stmt_ins->execute([
                 ':no'      => $no_pesanan,
-                ':nama'    => trim($input['nama_pemesan']),
-                ':wa'      => trim($input['no_whatsapp']),
-                ':alamat'  => trim($input['alamat']),
-                ':tgl'     => $input['tanggal_kirim'],
-                ':metode'  => $metode_bayar,
+                ':nama'    => trim($input['nama_pembeli']),
+                ':hp'      => trim($input['no_hp']),
+                ':tgl'     => $input['tanggal_ambil'],
+                ':metode'  => $metode_pengambilan,
                 ':catatan' => $catatan,
                 ':total'   => $total,
             ]);
@@ -139,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form_data = $input;
 }
 
-$saved_metode  = $form_data['metode_bayar'] ?? $_POST['metode_bayar'] ?? 'transfer';
+$saved_metode  = $form_data['metode_pengambilan'] ?? $_POST['metode_pengambilan'] ?? 'ambil_sendiri';
 $saved_catatan = trim($form_data['catatan'] ?? $_POST['catatan'] ?? '');
 
 $page_title = 'Form Pemesanan';
@@ -189,64 +187,46 @@ $css_extra   = '/assets/css/pemesanan.css';
                         <div class="pem-grid-2">
 
                             <div class="form-group">
-                                <label for="nama_pemesan" class="form-label">
-                                    Nama Pemesan <span class="pem-required" aria-hidden="true">*</span>
+                                <label for="nama_pembeli" class="form-label">
+                                    Nama Pembeli <span class="pem-required" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="text"
-                                    id="nama_pemesan"
-                                    name="nama_pemesan"
+                                    id="nama_pembeli"
+                                    name="nama_pembeli"
                                     maxlength="100"
                                     placeholder="Masukkan nama lengkap Anda"
-                                    value="<?= e($form_data['nama_pemesan'] ?? '') ?>"
-                                    class="<?= !empty($errors['nama_pemesan']) ? 'input-error' : '' ?>"
-                                    aria-describedby="<?= !empty($errors['nama_pemesan']) ? 'err-nama' : '' ?>"
+                                    value="<?= e($form_data['nama_pembeli'] ?? '') ?>"
+                                    class="<?= !empty($errors['nama_pembeli']) ? 'input-error' : '' ?>"
+                                    aria-describedby="<?= !empty($errors['nama_pembeli']) ? 'err-nama' : '' ?>"
                                     autocomplete="name"
                                 >
-                                <?php if (!empty($errors['nama_pemesan'])): ?>
-                                <span id="err-nama" class="form-error" role="alert"><?= e($errors['nama_pemesan']) ?></span>
+                                <?php if (!empty($errors['nama_pembeli'])): ?>
+                                <span id="err-nama" class="form-error" role="alert"><?= e($errors['nama_pembeli']) ?></span>
                                 <?php endif; ?>
                             </div>
 
                             <div class="form-group">
-                                <label for="no_whatsapp" class="form-label">
-                                    Nomor WhatsApp <span class="pem-required" aria-hidden="true">*</span>
+                                <label for="no_hp" class="form-label">
+                                    Nomor HP <span class="pem-required" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="tel"
-                                    id="no_whatsapp"
-                                    name="no_whatsapp"
+                                    id="no_hp"
+                                    name="no_hp"
                                     placeholder="08123456789"
-                                    value="<?= e($form_data['no_whatsapp'] ?? '') ?>"
-                                    class="<?= !empty($errors['no_whatsapp']) ? 'input-error' : '' ?>"
-                                    aria-describedby="<?= !empty($errors['no_whatsapp']) ? 'err-wa' : 'hint-wa' ?>"
+                                    value="<?= e($form_data['no_hp'] ?? '') ?>"
+                                    class="<?= !empty($errors['no_hp']) ? 'input-error' : '' ?>"
+                                    aria-describedby="<?= !empty($errors['no_hp']) ? 'err-hp' : 'hint-hp' ?>"
                                     autocomplete="tel"
                                 >
-                                <?php if (!empty($errors['no_whatsapp'])): ?>
-                                <span id="err-wa" class="form-error" role="alert"><?= e($errors['no_whatsapp']) ?></span>
+                                <?php if (!empty($errors['no_hp'])): ?>
+                                <span id="err-hp" class="form-error" role="alert"><?= e($errors['no_hp']) ?></span>
                                 <?php else: ?>
-                                <span id="hint-wa" class="form-hint">8–15 digit angka, tanpa tanda (+) atau spasi.</span>
+                                <span id="hint-hp" class="form-hint">8–15 digit angka, tanpa tanda (+) atau spasi.</span>
                                 <?php endif; ?>
                             </div>
 
-                        </div>
-
-                        <div class="form-group">
-                            <label for="alamat" class="form-label">
-                                Alamat Pengiriman <span class="pem-required" aria-hidden="true">*</span>
-                            </label>
-                            <textarea
-                                id="alamat"
-                                name="alamat"
-                                maxlength="500"
-                                rows="3"
-                                placeholder="Jl. Contoh No. 1, Kelurahan, Kecamatan, Kota"
-                                class="<?= !empty($errors['alamat']) ? 'input-error' : '' ?>"
-                                aria-describedby="<?= !empty($errors['alamat']) ? 'err-alamat' : '' ?>"
-                            ><?= e($form_data['alamat'] ?? '') ?></textarea>
-                            <?php if (!empty($errors['alamat'])): ?>
-                            <span id="err-alamat" class="form-error" role="alert"><?= e($errors['alamat']) ?></span>
-                            <?php endif; ?>
                         </div>
 
                     </div>
@@ -260,53 +240,53 @@ $css_extra   = '/assets/css/pemesanan.css';
                         <div class="pem-grid-2">
 
                             <div class="form-group">
-                                <label for="tanggal_kirim" class="form-label">
-                                    Tanggal Pengiriman <span class="pem-required" aria-hidden="true">*</span>
+                                <label for="tanggal_ambil" class="form-label">
+                                    Tanggal Pengambilan <span class="pem-required" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="date"
-                                    id="tanggal_kirim"
-                                    name="tanggal_kirim"
+                                    id="tanggal_ambil"
+                                    name="tanggal_ambil"
                                     min="<?= date('Y-m-d') ?>"
-                                    value="<?= e($form_data['tanggal_kirim'] ?? '') ?>"
-                                    class="<?= !empty($errors['tanggal_kirim']) ? 'input-error' : '' ?>"
-                                    aria-describedby="<?= !empty($errors['tanggal_kirim']) ? 'err-tgl' : '' ?>"
+                                    value="<?= e($form_data['tanggal_ambil'] ?? '') ?>"
+                                    class="<?= !empty($errors['tanggal_ambil']) ? 'input-error' : '' ?>"
+                                    aria-describedby="<?= !empty($errors['tanggal_ambil']) ? 'err-tgl' : '' ?>"
                                 >
-                                <?php if (!empty($errors['tanggal_kirim'])): ?>
-                                <span id="err-tgl" class="form-error" role="alert"><?= e($errors['tanggal_kirim']) ?></span>
+                                <?php if (!empty($errors['tanggal_ambil'])): ?>
+                                <span id="err-tgl" class="form-error" role="alert"><?= e($errors['tanggal_ambil']) ?></span>
                                 <?php endif; ?>
                             </div>
 
                             <div class="form-group">
                                 <fieldset class="pem-fieldset">
                                     <legend class="form-label">
-                                        Metode Pembayaran <span class="pem-required" aria-hidden="true">*</span>
+                                        Metode Pengambilan <span class="pem-required" aria-hidden="true">*</span>
                                     </legend>
                                     <div class="pem-radio-group">
-                                        <label class="pem-radio-card <?= ($saved_metode === 'transfer') ? 'pem-radio-card--checked' : '' ?>">
+                                        <label class="pem-radio-card <?= ($saved_metode === 'ambil_sendiri') ? 'pem-radio-card--checked' : '' ?>">
                                             <input
                                                 type="radio"
-                                                name="metode_bayar"
-                                                value="transfer"
-                                                <?= ($saved_metode === 'transfer') ? 'checked' : '' ?>
+                                                name="metode_pengambilan"
+                                                value="ambil_sendiri"
+                                                <?= ($saved_metode === 'ambil_sendiri') ? 'checked' : '' ?>
                                                 class="pem-radio-input"
                                             >
                                             <span class="pem-radio-label">
-                                                <span class="pem-radio-title">🏦 Transfer</span>
-                                                <span class="pem-radio-desc">BCA / Mandiri / dll.</span>
+                                                <span class="pem-radio-title">🏪 Ambil Sendiri</span>
+                                                <span class="pem-radio-desc">Ambil langsung di toko</span>
                                             </span>
                                         </label>
                                         <label class="pem-radio-card <?= ($saved_metode === 'cod') ? 'pem-radio-card--checked' : '' ?>">
                                             <input
                                                 type="radio"
-                                                name="metode_bayar"
+                                                name="metode_pengambilan"
                                                 value="cod"
                                                 <?= ($saved_metode === 'cod') ? 'checked' : '' ?>
                                                 class="pem-radio-input"
                                             >
                                             <span class="pem-radio-label">
                                                 <span class="pem-radio-title">🛵 COD</span>
-                                                <span class="pem-radio-desc">Bayar di tempat</span>
+                                                <span class="pem-radio-desc">Diantar ke lokasi</span>
                                             </span>
                                         </label>
                                     </div>
@@ -493,12 +473,12 @@ $css_extra   = '/assets/css/pemesanan.css';
                         <span id="pem-summary-total" class="pem-summary-total-value">Rp 0</span>
                     </div>
 
-                    <!-- DP Info box: shown by JS when total > 100000 AND metode = transfer -->
+                    <!-- Info box: shown by JS when metode = cod -->
                     <div id="pem-dp-info" class="alert alert-info pem-dp-info" style="display:none;" role="status">
                         <span>ℹ️</span>
                         <div>
-                            <strong>Informasi Pembayaran DP</strong><br>
-                            Pesanan di atas Rp 100.000 dengan metode Transfer memerlukan Down Payment (DP) minimal 50% sebelum pesanan diproses.
+                            <strong>Informasi COD</strong><br>
+                            Pesanan dengan metode COD akan diantar ke lokasi Anda. Pastikan nomor HP dan catatan alamat (jika ada) sudah benar.
                         </div>
                     </div>
 

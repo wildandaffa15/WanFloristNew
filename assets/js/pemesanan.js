@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (
             e.target.matches('select[name="produk_id[]"]') ||
             e.target.matches('input[name="jumlah[]"]') ||
-            e.target.matches('input[name="metode_bayar"]')
+            e.target.matches('input[name="metode_pengambilan"]')
         ) {
             updateSummary();
         }
@@ -43,31 +43,25 @@ document.addEventListener('DOMContentLoaded', function () {
         clearErrors();
         var isValid = true;
 
-        var nama = form.querySelector('[name="nama_pemesan"]');
+        var nama = form.querySelector('[name="nama_pembeli"]');
         if (!nama || nama.value.trim() === '') {
-            showError(nama, 'Nama pemesan tidak boleh kosong.');
+            showError(nama, 'Nama pembeli tidak boleh kosong.');
             isValid = false;
         }
 
-        var wa = form.querySelector('[name="no_whatsapp"]');
-        if (!wa || !/^\d{8,15}$/.test(wa.value.trim())) {
-            showError(wa, 'Nomor WhatsApp harus berupa 8–15 digit angka.');
+        var hp = form.querySelector('[name="no_hp"]');
+        if (!hp || !/^\d{8,15}$/.test(hp.value.trim())) {
+            showError(hp, 'Nomor HP harus berupa 8–15 digit angka.');
             isValid = false;
         }
 
-        var alamat = form.querySelector('[name="alamat"]');
-        if (!alamat || alamat.value.trim() === '') {
-            showError(alamat, 'Alamat tidak boleh kosong.');
-            isValid = false;
-        }
-
-        var tgl = form.querySelector('[name="tanggal_kirim"]');
+        var tgl = form.querySelector('[name="tanggal_ambil"]');
         if (tgl) {
             var today = new Date();
             today.setHours(0, 0, 0, 0);
             var selected = new Date(tgl.value);
             if (!tgl.value || selected < today) {
-                showError(tgl, 'Tanggal pengiriman tidak boleh di masa lalu.');
+                showError(tgl, 'Tanggal pengambilan tidak boleh di masa lalu.');
                 isValid = false;
             }
         }
@@ -178,11 +172,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         summaryTotal.textContent = formatRupiah(total);
 
-        // DP info box: show when total > 100000 AND metode = transfer
+        // Info box: show when metode = cod
         if (dpInfo) {
-            var metodeInput = form.querySelector('input[name="metode_bayar"]:checked');
-            var metode      = metodeInput ? metodeInput.value : 'transfer';
-            if (total > 100000 && metode === 'transfer') {
+            var metodeInput = form.querySelector('input[name="metode_pengambilan"]:checked');
+            var metode      = metodeInput ? metodeInput.value : 'ambil_sendiri';
+            if (metode === 'cod') {
                 dpInfo.style.display = '';
             } else {
                 dpInfo.style.display = 'none';

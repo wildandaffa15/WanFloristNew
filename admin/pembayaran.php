@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
         $pesanan_row = null;
         if (empty($errors)) {
             $stmt = $pdo->prepare(
-                "SELECT id_pesanan, total_harga, metode_bayar, status
+                "SELECT id_pesanan, total_harga, metode_pengambilan, status
                    FROM pesanan
                   WHERE id_pesanan = :id AND status = 'diproses'
                   LIMIT 1"
@@ -127,9 +127,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
 
         if (empty($errors) && $pesanan_row) {
             $total_harga  = (int) $pesanan_row['total_harga'];
-            $metode_bayar = $pesanan_row['metode_bayar'];
+            $metode_pengambilan = $pesanan_row['metode_pengambilan'];
 
-            if ($metode_bayar === 'transfer') {
+            if ($metode_pengambilan === 'ambil_sendiri') {
                 $stmt = $pdo->prepare(
                     "SELECT jumlah_dp FROM dp WHERE id_pesanan = :id LIMIT 1"
                 );
@@ -206,8 +206,8 @@ $menunggu_bayar = (int) $pdo->query(
 )->fetchColumn();
 
 $stmt_dp_pending = $pdo->query(
-    "SELECT p.id_pesanan, p.no_pesanan, p.nama_pemesan,
-            p.total_harga, p.metode_bayar, p.created_at
+    "SELECT p.id_pesanan, p.no_pesanan, p.nama_pembeli,
+            p.total_harga, p.metode_pengambilan, p.created_at
        FROM pesanan p
       WHERE p.status = 'menunggu_konfirmasi'
         AND NOT EXISTS (
@@ -218,8 +218,8 @@ $stmt_dp_pending = $pdo->query(
 $orders_dp = $stmt_dp_pending->fetchAll();
 
 $stmt_lunas_pending = $pdo->query(
-    "SELECT p.id_pesanan, p.no_pesanan, p.nama_pemesan,
-            p.total_harga, p.metode_bayar,
+    "SELECT p.id_pesanan, p.no_pesanan, p.nama_pembeli,
+            p.total_harga, p.metode_pengambilan,
             COALESCE(d.jumlah_dp, 0) AS jumlah_dp_terbayar
        FROM pesanan p
        LEFT JOIN dp d ON d.id_pesanan = p.id_pesanan
@@ -370,9 +370,9 @@ $css_extra   = '/assets/css/admin.css';
                             <thead>
                                 <tr>
                                     <th>No. Pesanan</th>
-                                    <th>Nama Pemesan</th>
+                                    <th>Nama Pembeli</th>
                                     <th>Total Harga</th>
-                                    <th>Metode Bayar</th>
+                                    <th>Metode Pengambilan</th>
                                     <th>Tanggal Pesan</th>
                                 </tr>
                             </thead>
@@ -397,10 +397,10 @@ $css_extra   = '/assets/css/admin.css';
                                             <?= e($row['no_pesanan']) ?>
                                         </span>
                                     </td>
-                                    <td><?= e($row['nama_pemesan']) ?></td>
+                                    <td><?= e($row['nama_pembeli']) ?></td>
                                     <td><?= e(format_rupiah((int) $row['total_harga'])) ?></td>
                                     <td>
-                                        <?php if ($row['metode_bayar'] === 'transfer'): ?>
+                                        <?php if ($row['metode_pengambilan'] === 'ambil_sendiri'): ?>
                                         <span class="badge badge-diproses">Transfer</span>
                                         <?php else: ?>
                                         <span class="badge badge-menunggu">COD</span>
@@ -465,7 +465,7 @@ $css_extra   = '/assets/css/admin.css';
                                             data-total="<?= e((string) (int) $row['total_harga']) ?>"
                                         >
                                             <?= e($row['no_pesanan']) ?> —
-                                            <?= e($row['nama_pemesan']) ?> —
+                                            <?= e($row['nama_pembeli']) ?> —
                                             <?= e(format_rupiah((int) $row['total_harga'])) ?>
                                         </option>
                                         <?php endforeach; ?>
@@ -559,11 +559,11 @@ $css_extra   = '/assets/css/admin.css';
                             <thead>
                                 <tr>
                                     <th>No. Pesanan</th>
-                                    <th>Nama Pemesan</th>
+                                    <th>Nama Pembeli</th>
                                     <th>Total Harga</th>
                                     <th>DP Terbayar</th>
                                     <th>Sisa Bayar</th>
-                                    <th>Metode Bayar</th>
+                                    <th>Metode Pengambilan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -584,7 +584,7 @@ $css_extra   = '/assets/css/admin.css';
                                 <?php
                                     $total_h   = (int) $row['total_harga'];
                                     $dp_bayar  = (int) $row['jumlah_dp_terbayar'];
-                                    $sisa_bayar = $row['metode_bayar'] === 'cod'
+                                    $sisa_bayar = $row['metode_pengambilan'] === 'cod'
                                         ? $total_h
                                         : max(0, $total_h - $dp_bayar);
                                 ?>
@@ -594,10 +594,10 @@ $css_extra   = '/assets/css/admin.css';
                                             <?= e($row['no_pesanan']) ?>
                                         </span>
                                     </td>
-                                    <td><?= e($row['nama_pemesan']) ?></td>
+                                    <td><?= e($row['nama_pembeli']) ?></td>
                                     <td><?= e(format_rupiah($total_h)) ?></td>
                                     <td>
-                                        <?php if ($row['metode_bayar'] === 'cod'): ?>
+                                        <?php if ($row['metode_pengambilan'] === 'cod'): ?>
                                         <span style="color:#9CA3AF;font-style:italic;">—</span>
                                         <?php else: ?>
                                         <?= e(format_rupiah($dp_bayar)) ?>
@@ -607,7 +607,7 @@ $css_extra   = '/assets/css/admin.css';
                                         <?= e(format_rupiah($sisa_bayar)) ?>
                                     </td>
                                     <td>
-                                        <?php if ($row['metode_bayar'] === 'transfer'): ?>
+                                        <?php if ($row['metode_pengambilan'] === 'ambil_sendiri'): ?>
                                         <span class="badge badge-diproses">Transfer</span>
                                         <?php else: ?>
                                         <span class="badge badge-menunggu">COD</span>
@@ -659,14 +659,14 @@ $css_extra   = '/assets/css/admin.css';
                                         <option
                                             value="<?= e((string) $row['id_pesanan']) ?>"
                                             <?= isset($_POST['id_pesanan']) && (int) $_POST['id_pesanan'] === $row['id_pesanan'] ? 'selected' : '' ?>
-                                            data-metode="<?= e($row['metode_bayar']) ?>"
+                                            data-metode="<?= e($row['metode_pengambilan']) ?>"
                                             data-total="<?= e((string) (int) $row['total_harga']) ?>"
                                             data-dp="<?= e((string) (int) $row['jumlah_dp_terbayar']) ?>"
                                         >
                                             <?= e($row['no_pesanan']) ?> —
-                                            <?= e($row['nama_pemesan']) ?> —
+                                            <?= e($row['nama_pembeli']) ?> —
                                             <?= e(format_rupiah((int) $row['total_harga'])) ?>
-                                            (<?= e(strtoupper($row['metode_bayar'])) ?>)
+                                            (<?= e(strtoupper($row['metode_pengambilan'])) ?>)
                                         </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -895,7 +895,7 @@ $css_extra   = '/assets/css/admin.css';
                 }
 
                 var infoText = 'Total: <strong>' + rupiah(total) + '</strong>';
-                if (metode === 'transfer') {
+                if (metode === 'ambil_sendiri') {
                     infoText += ' | DP terbayar: <strong>' + rupiah(dp) + '</strong>';
                     infoText += ' | Sisa: <strong style="color:#D97706;">' + rupiah(sisa) + '</strong>';
                 } else {
