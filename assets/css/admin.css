@@ -1,0 +1,1242 @@
+/*
+ * assets/css/admin.css
+ *
+ * Style khusus panel admin WanFlorist — memperluas main.css.
+ * Mencakup: admin layout, stat cards, tables, status badges,
+ * sidebar nav, toggle switch, tabs, modal, responsive.
+ *
+ * TIDAK menggunakan framework CSS apapun (Pure CSS).
+ * Requirements: 16.1, 16.8
+ */
+
+
+/* ============================================================
+   1. ADMIN LAYOUT
+   ============================================================ */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 240px;
+    background: #1E1040;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 50;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbar sidebar yang lebih ramping */
+.admin-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+}
+
+.admin-main {
+    margin-left: 240px;
+    flex: 1;
+    min-height: 100vh;
+    background: #F9FAFB;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-header {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.admin-header__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    color: #1F2937;
+    font-weight: 700;
+}
+
+.admin-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-content {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+/* Logo area di sidebar */
+.sidebar-logo {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+}
+
+.sidebar-logo__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.sidebar-logo__tagline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 0.25rem;
+}
+
+/* Tombol hamburger — tersembunyi di desktop, muncul di mobile */
+.hamburger-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #6B7280;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+    background-color: #F3F4F6;
+    color: #1F2937;
+}
+
+.hamburger-btn .bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 9999px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Overlay untuk menutup sidebar di mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 45;
+}
+
+.sidebar-overlay--visible {
+    display: block;
+}
+
+
+/* ============================================================
+   2. STAT CARDS
+   ============================================================ */
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #6B21A8;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Variasi warna border kiri */
+.stat-card--success {
+    border-left-color: #16A34A;
+}
+
+.stat-card--warning {
+    border-left-color: #D97706;
+}
+
+.stat-card--danger {
+    border-left-color: #DC2626;
+}
+
+.stat-card--info {
+    border-left-color: #2563EB;
+}
+
+.stat-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.stat-card__value {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #6B21A8;
+    line-height: 1;
+}
+
+.stat-card--success .stat-card__value {
+    color: #16A34A;
+}
+
+.stat-card--warning .stat-card__value {
+    color: #D97706;
+}
+
+.stat-card--danger .stat-card__value {
+    color: #DC2626;
+}
+
+.stat-card--info .stat-card__value {
+    color: #2563EB;
+}
+
+.stat-card__label {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #6B7280;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+.stat-card__icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    opacity: 0.7;
+}
+
+.stat-card__change {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: #9CA3AF;
+    margin-top: 0.5rem;
+}
+
+.stat-card__change--up {
+    color: #16A34A;
+}
+
+.stat-card__change--down {
+    color: #DC2626;
+}
+
+
+/* ============================================================
+   3. ADMIN TABLES
+   ============================================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.admin-table th {
+    background: #F9FAFB;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6B7280;
+    border-bottom: 1px solid #E5E7EB;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #F3F4F6;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+    background: #FAFAFA;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Baris kritis (stok minimum) */
+.admin-table tr.row-kritis td {
+    background-color: #FFF5F5;
+}
+
+.admin-table tr.row-kritis:hover td {
+    background-color: #FEE2E2;
+}
+
+/* Wrapper tabel dengan scroll horizontal di mobile */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+.table-responsive .admin-table {
+    min-width: 600px;
+}
+
+/* Thumbnail di tabel */
+.table-thumbnail {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    display: block;
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   4. STATUS BADGES (admin-specific override)
+   ============================================================ */
+
+/* Base badge — dibutuhkan jika admin.css di-load tanpa main.css */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+/* Status pesanan */
+.badge-menunggu {
+    background: #DBEAFE;
+    color: #1D4ED8;
+}
+
+.badge-diproses {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-selesai {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-dibatalkan {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Stok kritis */
+.badge-kritis {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+/* Status toko */
+.badge-aktif {
+    background: #DCFCE7;
+    color: #16A34A;
+}
+
+.badge-nonaktif {
+    background: #F3F4F6;
+    color: #6B7280;
+}
+
+
+/* ============================================================
+   5. SIDEBAR NAV
+   ============================================================ */
+.sidebar-nav {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+    flex: 1;
+}
+
+.sidebar-nav__item {
+    margin: 0;
+}
+
+.sidebar-nav__item a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    border-left: 3px solid transparent;
+    white-space: nowrap;
+}
+
+.sidebar-nav__item a:hover {
+    color: white;
+    background: rgba(107, 33, 168, 0.25);
+}
+
+.sidebar-nav__item--active a {
+    color: white;
+    background: rgba(107, 33, 168, 0.4);
+    border-left-color: #9333EA;
+}
+
+.sidebar-nav__icon {
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    width: 1.25rem;
+    text-align: center;
+}
+
+.sidebar-nav__label {
+    flex: 1;
+}
+
+/* Pemisah nav */
+.sidebar-nav__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
+    margin: 0.5rem 1.25rem;
+}
+
+.sidebar-nav__section-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 1rem 1.25rem 0.25rem;
+    font-weight: 600;
+}
+
+/* Bagian bawah sidebar (logout, dll.) */
+.sidebar-footer {
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   6. TOGGLE SWITCH (status toko)
+   ============================================================ */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #D1D5DB;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 9999px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .toggle-slider {
+    background: #6B21A8;
+}
+
+input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+}
+
+/* Fokus aksesibilitas */
+input:focus-visible + .toggle-slider {
+    outline: 2px solid #9333EA;
+    outline-offset: 2px;
+}
+
+/* Wrapper untuk toggle + label */
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle-group__label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.toggle-group__status {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: #6B7280;
+}
+
+
+/* ============================================================
+   7. TABS
+   ============================================================ */
+.tab-nav {
+    display: flex;
+    border-bottom: 2px solid #E5E7EB;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.25rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #6B7280;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.tab-btn:hover {
+    color: #6B21A8;
+}
+
+.tab-btn--active {
+    color: #6B21A8;
+    font-weight: 600;
+    border-bottom-color: #6B21A8;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel--active {
+    display: block;
+}
+
+/* Tab dengan badge/counter */
+.tab-btn__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.3rem;
+    border-radius: 9999px;
+    background: #F3F4F6;
+    color: #6B7280;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    margin-left: 0.4rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab-btn--active .tab-btn__count {
+    background: #F5F0FF;
+    color: #6B21A8;
+}
+
+
+/* ============================================================
+   8. MODAL (admin-specific)
+   ============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    backdrop-filter: blur(2px);
+}
+
+.modal-overlay--open {
+    display: flex;
+}
+
+/* Alias untuk JS kompatibilitas dengan main.css .is-open */
+.modal-overlay.is-open {
+    display: flex;
+}
+
+.modal-dialog {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 480px;
+    margin: 1rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: modal-slide-in 0.2s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modal-slide-in {
+    from { opacity: 0; transform: scale(0.95) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    color: #1F2937;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #9CA3AF;
+    border-radius: 9999px;
+    padding: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background-color: #F3F4F6;
+    color: #374151;
+}
+
+.modal-body {
+    padding: 0.25rem 0 0;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Modal konfirmasi hapus */
+.modal-dialog--danger .modal-title {
+    color: #DC2626;
+}
+
+
+/* ============================================================
+   9. ADMIN CARD / PANEL SECTION
+   ============================================================ */
+.admin-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.admin-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #F3F4F6;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.admin-card__title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1F2937;
+    line-height: 1.2;
+}
+
+.admin-card__body {
+    padding: 1.5rem;
+}
+
+.admin-card__footer {
+    padding: 0.875rem 1.5rem;
+    border-top: 1px solid #F3F4F6;
+    background: #FAFAFA;
+}
+
+
+/* ============================================================
+   10. PAGE HEADER (judul halaman admin)
+   ============================================================ */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.page-header__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.625rem;
+    color: #1F2937;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.page-header__subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: #6B7280;
+    margin-top: 0.25rem;
+}
+
+.page-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   11. SEARCH BAR (admin)
+   ============================================================ */
+.admin-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #F9FAFB;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    min-width: 220px;
+}
+
+.admin-search:focus-within {
+    border-color: #9333EA;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
+}
+
+.admin-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: #1F2937;
+}
+
+.admin-search input::placeholder {
+    color: #9CA3AF;
+}
+
+.admin-search__icon {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   12. EMPTY STATE (admin)
+   ============================================================ */
+.admin-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: #9CA3AF;
+}
+
+.admin-empty__icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+}
+
+.admin-empty__title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6B7280;
+    margin-bottom: 0.375rem;
+}
+
+.admin-empty__message {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    max-width: 320px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   13. MOBILE RESPONSIVE — ADMIN
+   ============================================================ */
+
+/* Tablet (1024px ke bawah) */
+@media (max-width: 1023px) {
+    /* Sidebar tersembunyi, dipicu tombol hamburger */
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar--open {
+        transform: translateX(0);
+    }
+
+    /* Konten utama mengambil lebar penuh */
+    .admin-main {
+        margin-left: 0;
+    }
+
+    /* Tampilkan tombol hamburger */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Stat cards: 2 kolom */
+    .stat-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-card__header {
+        padding: 0.875rem 1rem;
+    }
+
+    .admin-card__body {
+        padding: 1rem;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+}
+
+/* Mobile (768px ke bawah) */
+@media (max-width: 767px) {
+    /* Stat cards: 1 kolom */
+    .stat-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-table {
+        font-size: 0.8rem;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 0.625rem 0.75rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-header__title {
+        font-size: 1.375rem;
+    }
+
+    .admin-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .modal-dialog {
+        padding: 1.25rem;
+        margin: 0.75rem;
+        max-width: calc(100vw - 1.5rem);
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tab-btn {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .admin-search {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-card__value {
+        font-size: 1.625rem;
+    }
+}
+
+/* Mobile kecil (480px ke bawah) */
+@media (max-width: 480px) {
+    .admin-content {
+        padding: 0.75rem;
+    }
+
+    .stat-cards {
+        gap: 0.75rem;
+    }
+
+    .admin-card__body {
+        padding: 0.875rem;
+    }
+}
+
+
+/* ============================================================
+   LOGIN PAGE
+   Halaman login berdiri sendiri — tanpa sidebar/navbar.
+   Requirements: 7.1, 16.1, 16.3
+   ============================================================ */
+
+/* Override body untuk halaman login */
+body.login-body {
+    background-color: var(--color-bg);
+    overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+    body.login-body {
+        overflow: auto;
+    }
+}
+
+/* Wrapper dua-kolom */
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ---- Panel kiri: branding (hanya desktop) ---- */
+.login-brand-panel {
+    display: none;
+    width: 50%;
+    background-color: var(--sidebar-bg); /* #1E1040 */
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .login-brand-panel {
+        display: flex;
+    }
+}
+
+/* Gradient overlay di atas background panel */
+.login-brand-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(30, 16, 64, 0.95) 0%,
+        rgba(30, 16, 64, 0.7) 50%,
+        rgba(107, 33, 168, 0.25) 100%
+    );
+    z-index: 1;
+}
+
+/* Konten branding: logo + judul + tagline */
+.login-brand-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-brand-logo {
+    width: 96px;
+    height: 96px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 32px rgba(107, 33, 168, 0.35);
+    backdrop-filter: blur(8px);
+}
+
+.login-brand-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-dark-text); /* #E9D5FF */
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.login-brand-divider {
+    width: 64px;
+    height: 3px;
+    background: rgba(223, 183, 255, 0.45);
+    border-radius: var(--radius-pill);
+    margin-bottom: 24px;
+}
+
+.login-brand-tagline {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-dark-muted); /* #A78BFA */
+    max-width: 340px;
+}
+
+/* ---- Panel kanan: form login ---- */
+.login-form-panel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background-color: var(--color-white);
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    .login-form-panel {
+        width: 50%;
+        padding: 64px;
+    }
+}
+
+.login-form-inner {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Logo kecil untuk mobile */
+.login-mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+@media (min-width: 1024px) {
+    .login-mobile-logo {
+        display: none;
+    }
+}
+
+/* Judul form */
+.login-heading {
+    margin-bottom: 32px;
+    margin-top: 48px; /* ruang untuk mobile logo */
+}
+
+@media (min-width: 1024px) {
+    .login-heading {
+        margin-top: 0;
+    }
+}
+
+.login-heading h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: 8px;
+}
+
+.login-heading p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+}
+
+/* Wrapper input dengan ikon di kiri (dan tombol di kanan untuk password) */
+.login-input-wrapper {
+    position: relative;
+}
+
+.login-input-icon {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    transition: color var(--transition);
+}
+
+/* Input field — dengan ikon kiri */
+.login-input-field {
+    padding-left: 44px !important;
+}
+
+/* Tambahan padding kanan untuk field password (ruang tombol toggle) */
+.login-input-field--password {
+    padding-right: 48px !important;
+}
+
+/* Warna ikon saat field di-fokus */
+.login-input-wrapper:focus-within .login-input-icon {
+    color: var(--color-primary-light);
+}
+
+/* Tombol toggle visibilitas password */
+.login-toggle-password {
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition);
+    padding: 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.login-toggle-password:hover,
+.login-toggle-password:focus-visible {
+    color: var(--color-primary);
+    outline: none;
+}
+
+/* Catatan keamanan di bawah form */
+.login-security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+/* ---- Responsive: layar kecil (≤ 1023px) — tampilkan sebagai single column ---- */
+@media (max-width: 1023px) {
+    body.login-body {
+        background-color: var(--color-white);
+    }
+
+    .login-form-panel {
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: 80px;
+    }
+}

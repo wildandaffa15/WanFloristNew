@@ -1,0 +1,393 @@
+/*
+ * assets/css/pemesanan.css
+ *
+ * Styles specific to pages/pemesanan.php (Form Pemesanan).
+ * Layered on top of assets/css/main.css.
+ *
+ * Requirements: 5.1, 16.1, 16.3, 16.8
+ */
+
+/* ============================================================
+   PAGE LAYOUT
+   ============================================================ */
+.pem-main {
+    padding: var(--sp-10) 0 var(--sp-16);
+    min-height: 60vh;
+    background-color: var(--color-surface);
+}
+
+.pem-container {
+    max-width: 1120px;
+}
+
+/* Page heading */
+.pem-header {
+    margin-bottom: var(--sp-8);
+}
+
+.pem-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    color: var(--color-text-heading);
+    margin-bottom: var(--sp-2);
+}
+
+.pem-subheading {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+}
+
+/* Two-column layout: form | sticky sidebar */
+.pem-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: var(--sp-8);
+    align-items: start;
+}
+
+.pem-form-col {
+    min-width: 0;
+}
+
+/* ============================================================
+   FORM SECTIONS
+   ============================================================ */
+.pem-section {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-6);
+    margin-bottom: var(--sp-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.pem-section-title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--sp-5);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+}
+
+.pem-section-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+/* Two-column grid within a section */
+.pem-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-5);
+}
+
+/* Required field marker */
+.pem-required {
+    color: var(--color-danger);
+    margin-left: 2px;
+}
+
+/* ============================================================
+   RADIO CARDS (Metode Pembayaran)
+   ============================================================ */
+.pem-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pem-radio-group {
+    display: flex;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+}
+
+.pem-radio-card {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color var(--transition), background-color var(--transition);
+    background-color: var(--color-white);
+}
+
+.pem-radio-card:hover {
+    border-color: var(--color-primary-border);
+    background-color: var(--color-primary-subtle);
+}
+
+.pem-radio-card--checked,
+.pem-radio-card:has(.pem-radio-input:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-subtle);
+}
+
+.pem-radio-input {
+    /* Keep visible but style it naturally */
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+.pem-radio-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pem-radio-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    line-height: 1.3;
+}
+
+.pem-radio-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+/* ============================================================
+   PRODUCT ROWS
+   ============================================================ */
+.pem-produk-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-4);
+}
+
+.produk-row {
+    /* Wrapper for delegation */
+}
+
+.pem-produk-row-inner {
+    display: grid;
+    grid-template-columns: 1fr 100px auto;
+    gap: var(--sp-3);
+    align-items: end;
+    padding: var(--sp-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+}
+
+.pem-produk-select-wrap,
+.pem-produk-qty-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.pem-produk-select-wrap .form-label,
+.pem-produk-qty-wrap .form-label {
+    margin-bottom: var(--sp-1);
+}
+
+.pem-produk-select {
+    width: 100%;
+}
+
+.pem-produk-qty {
+    width: 100%;
+    text-align: center;
+}
+
+/* Remove row button */
+.pem-btn-hapus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: var(--radius-pill);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-danger);
+    border: 1.5px solid var(--color-danger);
+    background: transparent;
+    cursor: pointer;
+    transition: background-color var(--transition), color var(--transition);
+    align-self: flex-end;
+}
+
+.pem-btn-hapus:hover {
+    background-color: var(--color-danger);
+    color: var(--color-white);
+}
+
+/* Add product button */
+.pem-btn-tambah {
+    margin-top: var(--sp-2);
+}
+
+/* ============================================================
+   GLOBAL ERROR
+   ============================================================ */
+.pem-global-error {
+    margin-bottom: var(--sp-6);
+}
+
+/* ============================================================
+   SUBMIT
+   ============================================================ */
+.pem-submit-wrap {
+    margin-top: var(--sp-2);
+}
+
+/* ============================================================
+   RIGHT SIDEBAR — Sticky Summary
+   ============================================================ */
+.pem-sidebar {
+    position: sticky;
+    top: 120px; /* below sticky navbar (~64px) + status banner (~40px) + breathing room */
+}
+
+.pem-summary-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-primary-border);
+    border-radius: var(--radius-xl);
+    padding: var(--sp-6);
+    box-shadow: var(--shadow-md);
+}
+
+.pem-summary-title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin-bottom: var(--sp-5);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pem-summary-list {
+    min-height: 48px;
+    margin-bottom: var(--sp-4);
+}
+
+.pem-summary-empty {
+    padding: var(--sp-3) 0;
+}
+
+.pem-summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.9rem;
+}
+
+.pem-summary-line:last-child {
+    border-bottom: none;
+}
+
+.pem-summary-line-name {
+    color: var(--color-text);
+    flex: 1;
+}
+
+.pem-summary-line-qty {
+    font-weight: 500;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.pem-summary-line-price {
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+}
+
+/* Total row */
+.pem-summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--sp-4);
+    border-top: 2px solid var(--color-border);
+    margin-bottom: var(--sp-5);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text-heading);
+}
+
+.pem-summary-total-value {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-primary);
+}
+
+/* DP Info box */
+.pem-dp-info {
+    font-size: 0.875rem;
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet: collapse two-col inner grids */
+@media (max-width: 1023px) {
+    .pem-layout {
+        grid-template-columns: 1fr 320px;
+        gap: var(--sp-6);
+    }
+}
+
+/* Below ~800px: single column, sidebar moves below form */
+@media (max-width: 799px) {
+    .pem-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .pem-sidebar {
+        position: static;
+    }
+
+    .pem-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .pem-produk-row-inner {
+        grid-template-columns: 1fr 80px auto;
+    }
+}
+
+/* Mobile: tighten up spacing */
+@media (max-width: 480px) {
+    .pem-section {
+        padding: var(--sp-4);
+    }
+
+    .pem-produk-row-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .pem-btn-hapus {
+        align-self: center;
+        justify-self: start;
+    }
+
+    .pem-radio-group {
+        flex-direction: column;
+    }
+
+    .pem-radio-card {
+        min-width: unset;
+    }
+}

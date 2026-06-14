@@ -108,23 +108,23 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Gunakan `Generator\vector()` untuk array pemasukan dan pengeluaran acak; verifikasi hasil selalu sama dengan `array_sum($pemasukan) - array_sum($pengeluaran)`
     - File: `tests/Property/KalkulasiKeuanganPropertyTest.php` (tambahkan method baru)
 
-- [ ] 4. Checkpoint — Pastikan semua tes utilitas dan validator lolos
+- [x] 4. Checkpoint — Pastikan semua tes utilitas dan validator lolos
   - Jalankan `./vendor/bin/phpunit --testsuite unit` dan `./vendor/bin/phpunit --testsuite property`
   - Pastikan semua tes hijau sebelum melanjutkan ke implementasi halaman
   - Tanyakan ke pengguna jika ada pertanyaan atau kendala
 
-- [ ] 5. Implementasi Komponen Bersama: `head.php`, `navbar.php`, `footer.php`, `sidebar.php`
-  - [ ] 5.1 Buat `components/head.php`
+- [x] 5. Implementasi Komponen Bersama: `head.php`, `navbar.php`, `footer.php`, `sidebar.php`
+  - [x] 5.1 Buat `components/head.php`
     - Terima variabel `$page_title`; output tag `<head>` standar: charset, viewport, judul, link Google Fonts (`Playfair Display` + `Inter`), link ke `assets/css/main.css`
     - _Requirements: 16.2, 17.1_
 
-  - [ ] 5.2 Buat `assets/css/main.css`
+  - [x] 5.2 Buat `assets/css/main.css`
     - Definisikan CSS custom properties (variabel): warna primer `#6B21A8`, sidebar bg `#1E1040`, warna status, token warna lainnya dari DESIGN.md
     - Style global: reset, tipografi dasar (font `Inter` untuk body, `Playfair Display` untuk heading)
     - Tombol pill shape: `border-radius: 9999px` untuk semua `.btn`
     - _Requirements: 16.1, 16.3, 16.4_
 
-  - [ ] 5.3 Buat `components/navbar.php`
+  - [x] 5.3 Buat `components/navbar.php`
     - Query status toko dari DB via `$pdo`; tampilkan banner status di bawah navbar (hijau + animasi pulse jika `aktif`, abu-abu jika `nonaktif`)
     - Tautan navigasi: Beranda, Produk, Cek Pesanan, Tentang Kami, Kontak
     - Responsive: hamburger menu untuk mobile
@@ -142,25 +142,25 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Verifikasi `toggle(toggle(status)) === status` untuk semua nilai status valid
     - File: `tests/Property/StatusTokoPropertyTest.php` (tambahkan method baru)
 
-  - [ ] 5.6 Buat `components/footer.php`
+  - [x] 5.6 Buat `components/footer.php`
     - Konten statis: informasi kontak WanFlorist, tautan cepat, nama toko
     - _Requirements: 2.6, 17.1_
 
-  - [ ] 5.7 Buat `components/sidebar.php`
+  - [x] 5.7 Buat `components/sidebar.php`
     - Latar belakang `#1E1040`, lebar 240px; terima `$active_page` untuk highlight item aktif
     - Menu: Dashboard, Pesanan, Produk, Stok Bahan, Pembayaran, Pengeluaran, Laporan, Keluar
     - Item aktif: bg `rgba(107,33,168,0.4)`, border kiri 3px `primary-light`
     - Mobile: tersembunyi default, tampil via tombol hamburger dengan JavaScript (`addEventListener`)
     - _Requirements: 8.8, 16.7, 16.9_
 
-  - [ ] 5.8 Buat `assets/css/public.css` dan `assets/css/admin.css`
+  - [x] 5.8 Buat `assets/css/public.css` dan `assets/css/admin.css`
     - `public.css`: style khusus halaman publik (hero section, card produk, katalog grid, stepper, form pemesanan)
     - `admin.css`: style khusus panel admin (tabel, badge status, modal, kartu statistik)
     - Implementasi responsive: desktop (≥1024px), tablet (768–1023px), mobile (<768px) via media queries
     - _Requirements: 16.1, 16.8_
 
-- [ ] 6. Implementasi Halaman Publik: Beranda (`index.php`)
-  - [ ] 6.1 Implementasi logika PHP `index.php`
+- [x] 6. Implementasi Halaman Publik: Beranda (`index.php`)
+  - [x] 6.1 Implementasi logika PHP `index.php`
     - Query maks 4 produk `is_featured = 1` dari tabel `produk`
     - Query semua kategori aktif (`is_active = 1`) dari tabel `kategori`
     - Include `config/database.php` dan `config/helpers.php`
@@ -178,14 +178,14 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Verifikasi semua kategori dalam hasil memiliki `is_active = 1` untuk dataset campuran
     - File: `tests/Property/BerandaPropertyTest.php` (tambahkan method baru)
 
-  - [ ] 6.4 Implementasi template HTML `index.php`
+  - [x] 6.4 Implementasi template HTML `index.php`
     - Susun seksi: banner status toko (dari `navbar.php`), hero dengan tombol "Belanja Sekarang" → `pages/katalog.php`, seksi kategori (tag pill → katalog dengan filter), seksi produk terlaris (4 kartu), seksi CTA, seksi testimoni statis (minimal 3 ulasan)
     - Semua output dari DB dibungkus `e()`; harga menggunakan `format_rupiah()`
     - Include `head.php`, `navbar.php`, `footer.php`
     - _Requirements: 2.1, 2.4, 2.5, 2.6, 2.7, 2.8_
 
-- [ ] 7. Implementasi Halaman Publik: Katalog (`pages/katalog.php`)
-  - [ ] 7.1 Implementasi logika filter dan paginasi katalog
+- [x] 7. Implementasi Halaman Publik: Katalog (`pages/katalog.php`)
+  - [x] 7.1 Implementasi logika filter dan paginasi katalog
     - Baca parameter `?q=`, `?kategori=`, `?urut=`, `?page=` dari `$_GET`
     - Bangun query PDO prepared statement dinamis dengan filter `nama_produk` LIKE atau `deskripsi` LIKE untuk pencarian
     - Terapkan filter `id_kategori` jika dipilih; terapkan ORDER BY berdasarkan opsi urutan (`harga_asc`, `harga_desc`, `terbaru`)
@@ -216,7 +216,7 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Verifikasi hasil query paginasi selalu ≤ 12 produk untuk dataset dan halaman berapapun
     - File: `tests/Property/KatalogPropertyTest.php` (tambahkan method baru)
 
-  - [ ] 7.6 Implementasi template HTML katalog
+  - [x] 7.6 Implementasi template HTML katalog
     - Tampilkan form pencarian dan filter (kategori dropdown, urutan select)
     - Grid produk: 4 kolom desktop, 2 kolom tablet, 1 kolom mobile (CSS grid + media queries)
     - Kartu produk: foto, nama, harga (format_rupiah), tombol "Detail" dan tombol "Pesan" → `pemesanan.php?id=`
@@ -225,8 +225,8 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `navbar.php`, `footer.php`
     - _Requirements: 3.5, 3.7, 3.8, 3.9_
 
-- [ ] 8. Implementasi Halaman Publik: Detail Produk (`pages/detail-produk.php`)
-  - [ ] 8.1 Implementasi logika dan template detail produk
+- [x] 8. Implementasi Halaman Publik: Detail Produk (`pages/detail-produk.php`)
+  - [x] 8.1 Implementasi logika dan template detail produk
     - Baca `?id=` dari `$_GET`; query produk + nama kategori via JOIN; jika tidak ditemukan tampilkan pesan dan tautan kembali ke katalog
     - Query maks 4 produk terkait (kategori sama, bukan produk ini sendiri)
     - Tampilkan: nama, foto utama, deskripsi, harga (`format_rupiah()`), kategori, status ketersediaan
@@ -234,8 +234,8 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Semua output dibungkus `e()`; include `head.php`, `navbar.php`, `footer.php`
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 9. Implementasi Halaman Publik: Form Pemesanan (`pages/pemesanan.php`) dan JavaScript Validasi
-  - [ ] 9.1 Implementasi logika PHP pemesanan (handler POST)
+- [x] 9. Implementasi Halaman Publik: Form Pemesanan (`pages/pemesanan.php`) dan JavaScript Validasi
+  - [x] 9.1 Implementasi logika PHP pemesanan (handler POST)
     - Baca `?id=` dari `$_GET` untuk pra-isi produk; generate dan simpan CSRF token ke session
     - Saat POST: validasi CSRF, panggil `validasi_form_pemesanan()`, jika gagal kembalikan dengan error
     - Jika valid: jalankan transaksi PDO — `generate_no_pesanan()`, INSERT ke `pesanan`, INSERT ke `detail_pesanan`
@@ -243,21 +243,21 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Jika total > Rp 100.000 dan Transfer: tampilkan informasi DP diperlukan di halaman konfirmasi
     - _Requirements: 5.1, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10_
 
-  - [ ] 9.2 Implementasi template HTML form pemesanan
+  - [x] 9.2 Implementasi template HTML form pemesanan
     - Field: nama pemesan, nomor WhatsApp, alamat, tanggal pengiriman, metode pembayaran (radio Transfer/COD), catatan, pilihan produk (pre-filled jika ada `?id=`)
     - Hidden input CSRF token; semua label dan placeholder dalam Bahasa Indonesia
     - Include `head.php`, `navbar.php`, `footer.php`
     - _Requirements: 5.1_
 
-  - [ ] 9.3 Implementasi `assets/js/pemesanan.js` — validasi client-side
+  - [x] 9.3 Implementasi `assets/js/pemesanan.js` — validasi client-side
     - Tambahkan `addEventListener('submit', ...)` pada form
     - Validasi: nama tidak kosong, WhatsApp 8–15 digit, alamat tidak kosong, tanggal tidak masa lalu, minimal satu produk terpilih
     - Tampilkan pesan error di bawah field yang bermasalah; batalkan submit jika ada error
     - Semua event listener via `addEventListener()`; tidak ada `onclick=""` inline
     - _Requirements: 5.2, 5.3, 17.4, 17.5_
 
-- [ ] 10. Implementasi Halaman Publik: Cek Pesanan (`pages/cek-pesanan.php`)
-  - [ ] 10.1 Implementasi logika dan template cek pesanan
+- [x] 10. Implementasi Halaman Publik: Cek Pesanan (`pages/cek-pesanan.php`)
+  - [x] 10.1 Implementasi logika dan template cek pesanan
     - Tampilkan form input `no_pesanan`; baca `?no=` dari `$_GET` setelah POST redirect
     - Query pesanan + detail_pesanan + dp + lunas berdasarkan `no_pesanan` (PDO prepared statement)
     - Jika tidak ditemukan: tampilkan pesan "Nomor pesanan tidak ditemukan. Periksa kembali nomor pesanan Anda."
@@ -268,13 +268,13 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `navbar.php`, `footer.php`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-- [ ] 11. Checkpoint — Pastikan semua halaman publik berfungsi
+- [x] 11. Checkpoint — Pastikan semua halaman publik berfungsi
   - Jalankan semua unit test dan property test: `./vendor/bin/phpunit --testdox`
   - Verifikasi bahwa `index.php`, `katalog.php`, `detail-produk.php`, `pemesanan.php`, `cek-pesanan.php` dapat dimuat tanpa error PHP
   - Tanyakan ke pengguna jika ada pertanyaan atau kendala
 
 - [ ] 12. Implementasi Autentikasi Admin (`login.php`)
-  - [ ] 12.1 Implementasi logika PHP login
+  - [x] 12.1 Implementasi logika PHP login
     - Rate limiting: cek `$_SESSION['login_attempts'][$ip]`; jika count ≥ 5 dan dalam 15 menit, tampilkan pesan blokir dan hentikan proses
     - Saat POST: validasi CSRF; query `pengguna` by username (PDO prepared statement); `password_verify()` terhadap hash; jika gagal increment counter dan tampilkan "Username atau password salah."
     - Jika berhasil: set `$_SESSION['id_pengguna']`, `$_SESSION['username']`, `$_SESSION['role']`; reset counter; redirect ke `admin/index.php`
@@ -285,12 +285,12 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Form dengan field username dan password; hidden CSRF token; semua teks Bahasa Indonesia
     - _Requirements: 7.1_
 
-  - [ ] 12.3 Implementasi logout
+  - [x] 12.3 Implementasi logout
     - Tombol "Keluar" di sidebar → POST ke handler yang memanggil `session_destroy()` lalu redirect ke `login.php`
     - _Requirements: 7.6_
 
-- [ ] 13. Implementasi Dashboard Admin (`admin/index.php`)
-  - [ ] 13.1 Implementasi logika PHP dashboard
+- [x] 13. Implementasi Dashboard Admin (`admin/index.php`)
+  - [x] 13.1 Implementasi logika PHP dashboard
     - `require_once '../config/session.php'` sebagai pengecekan auth
     - Query 4 kartu statistik: pesanan hari ini, pesanan `diproses`, total pemasukan bulan ini (dari `lunas`), jumlah stok bahan di bawah minimum
     - Query 5 pesanan terbaru (ORDER BY `created_at` DESC)
@@ -300,29 +300,29 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Generate CSRF token untuk toggle status
     - _Requirements: 8.1, 8.2, 8.4, 8.6, 8.7_
 
-  - [ ] 13.2 Implementasi grafik donat SVG distribusi pesanan
+  - [x] 13.2 Implementasi grafik donat SVG distribusi pesanan
     - Implementasi fungsi `generate_svg_donat(array $data, int $radius = 80): string` di `config/helpers.php`
     - Algoritma arc path SVG: hitung sudut per segmen, `largeArcFlag`, warna per status (biru/kuning/hijau/merah)
     - Lubang donat: lingkaran putih di tengah (`r = radius * 0.55`)
     - _Requirements: 8.5, 14.8_
 
-  - [ ] 13.3 Implementasi template HTML dashboard
+  - [x] 13.3 Implementasi template HTML dashboard
     - Tampilkan 4 kartu statistik, toggle status toko (checkbox + label), tabel 5 pesanan terbaru, grafik donat SVG inline, daftar produk terlaris, daftar pengeluaran terbaru
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'dashboard'`)
     - _Requirements: 8.1, 8.3, 8.8_
 
-  - [ ] 13.4 Implementasi endpoint AJAX `admin/ajax/toggle-status.php`
+  - [x] 13.4 Implementasi endpoint AJAX `admin/ajax/toggle-status.php`
     - POST; validasi CSRF dari JSON body; query status saat ini; toggle ke nilai berlawanan via PDO prepared statement; kembalikan JSON `{"success": true, "status_baru": "..."}`
     - _Requirements: 1.2, 1.3_
 
-  - [ ] 13.5 Implementasi `assets/js/toggle-status.js`
+  - [x] 13.5 Implementasi `assets/js/toggle-status.js`
     - `addEventListener('DOMContentLoaded', ...)` pada toggle checkbox
     - `fetch()` POST ke `admin/ajax/toggle-status.php` dengan CSRF token
     - Update label teks status tanpa reload; kembalikan toggle ke posisi sebelumnya jika gagal
     - _Requirements: 1.2, 8.3, 17.4, 17.5_
 
-- [ ] 14. Implementasi Manajemen Pesanan Admin (`admin/pesanan.php`)
-  - [ ] 14.1 Implementasi logika dan template manajemen pesanan
+- [x] 14. Implementasi Manajemen Pesanan Admin (`admin/pesanan.php`)
+  - [x] 14.1 Implementasi logika dan template manajemen pesanan
     - `require_once '../config/session.php'` sebagai pengecekan auth
     - Baca `?q=`, `?status=`, `?page=` dari `$_GET`; bangun query PDO dengan filter pencarian (`no_pesanan` atau `nama_pemesan`) dan filter status
     - Paginasi maks 20 baris per halaman
@@ -332,18 +332,18 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'pesanan'`)
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.7, 9.8_
 
-  - [ ] 14.2 Implementasi endpoint AJAX `admin/ajax/update-status-pesanan.php`
+  - [x] 14.2 Implementasi endpoint AJAX `admin/ajax/update-status-pesanan.php`
     - POST; validasi CSRF; update kolom `status` di tabel `pesanan` via PDO prepared statement; kembalikan JSON response
     - _Requirements: 9.6_
 
-  - [ ] 14.3 Implementasi `assets/js/admin-modal.js` — modal ubah status
+  - [x] 14.3 Implementasi `assets/js/admin-modal.js` — modal ubah status
     - `addEventListener` pada semua tombol "Ubah Status": baca `data-id-pesanan` dan `data-status-saat-ini`; tampilkan modal dengan `<select>` pilihan status baru
     - Klik "Konfirmasi": `fetch()` POST ke `update-status-pesanan.php`; update badge di baris tabel tanpa reload
     - Tidak ada `onclick=""` inline di HTML
     - _Requirements: 9.5, 9.6, 17.4, 17.5_
 
-- [ ] 15. Implementasi Manajemen Produk Admin (`admin/produk.php`)
-  - [ ] 15.1 Implementasi logika tambah dan edit produk
+- [x] 15. Implementasi Manajemen Produk Admin (`admin/produk.php`)
+  - [x] 15.1 Implementasi logika tambah dan edit produk
     - `require_once '../config/session.php'`
     - Handler POST tambah produk: validasi CSRF, validasi field (nama maks 200, harga positif, kategori ada, foto JPG/JPEG/PNG maks 2MB via `finfo_file()`)
     - Jika valid: generate nama file unik `uniqid('produk_', true) . '.' . $ext`; `move_uploaded_file()` ke `assets/img/produk/`; INSERT ke `produk` via PDO
@@ -351,15 +351,15 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Handler ubah status produk: UPDATE kolom `status` via PDO prepared statement
     - _Requirements: 10.2, 10.3, 10.4, 10.5, 10.6, 15.6_
 
-  - [ ] 15.2 Implementasi template HTML manajemen produk
+  - [x] 15.2 Implementasi template HTML manajemen produk
     - Tabel semua produk dengan kolom: pratinjau foto (kecil), nama, kategori, harga, status, tombol Edit dan Toggle Status
     - Form tambah produk (inline atau modal): nama, harga, kategori (dropdown dari DB), deskripsi, foto, is_featured, status
     - Form edit produk: sama seperti tambah, data di-prefill
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'produk'`)
     - _Requirements: 10.1, 10.7_
 
-- [ ] 16. Implementasi Manajemen Stok Bahan Admin (`admin/stok.php`)
-  - [ ] 16.1 Implementasi logika dan template stok bahan
+- [x] 16. Implementasi Manajemen Stok Bahan Admin (`admin/stok.php`)
+  - [x] 16.1 Implementasi logika dan template stok bahan
     - `require_once '../config/session.php'`
     - Query semua bahan dari `stok_bahan`; hitung jumlah item stok kritis (`stok_saat_ini < stok_minimum`)
     - Handler POST update stok (via AJAX modal): validasi CSRF, validasi nilai stok baru non-negatif, UPDATE via PDO; endpoint: `admin/ajax/update-stok.php`
@@ -370,8 +370,8 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'stok'`)
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6_
 
-- [ ] 17. Implementasi Pencatatan Pembayaran Admin (`admin/pembayaran.php`)
-  - [ ] 17.1 Implementasi logika pencatatan pembayaran
+- [x] 17. Implementasi Pencatatan Pembayaran Admin (`admin/pembayaran.php`)
+  - [x] 17.1 Implementasi logika pencatatan pembayaran
     - `require_once '../config/session.php'`
     - Tampilkan dua tab: DP dan Lunas
     - Kartu ringkasan: total DP bulan ini, total lunas bulan ini, jumlah pesanan menunggu pembayaran
@@ -382,8 +382,8 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'pembayaran'`)
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7, 12.8_
 
-- [ ] 18. Implementasi Pencatatan Pengeluaran Admin (`admin/pengeluaran.php`)
-  - [ ] 18.1 Implementasi logika dan template pengeluaran
+- [x] 18. Implementasi Pencatatan Pengeluaran Admin (`admin/pengeluaran.php`)
+  - [x] 18.1 Implementasi logika dan template pengeluaran
     - `require_once '../config/session.php'`
     - Query semua pengeluaran dengan filter tanggal opsional (`?dari=`, `?sampai=`)
     - Handler POST tambah pengeluaran: validasi CSRF, keterangan tidak kosong (maks 255), jumlah positif, tanggal valid; INSERT via PDO
@@ -392,8 +392,8 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'pengeluaran'`)
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6_
 
-- [ ] 19. Implementasi Laporan Otomatis Admin (`admin/laporan.php`)
-  - [ ] 19.1 Implementasi logika query laporan
+- [x] 19. Implementasi Laporan Otomatis Admin (`admin/laporan.php`)
+  - [x] 19.1 Implementasi logika query laporan
     - `require_once '../config/session.php'`
     - Baca parameter rentang tanggal dari `$_GET`; hitung ulang semua data laporan sesuai rentang
     - Query Ringkasan Keuangan: total pemasukan (SUM dari `lunas`), total pengeluaran (SUM dari `pengeluaran`), laba bersih via `hitung_laba_bersih()`
@@ -403,14 +403,14 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Handler "Cetak PDF": output script `window.print()` via echo atau link dengan CSS print
     - _Requirements: 14.1, 14.2, 14.4, 14.5, 14.6, 14.7_
 
-  - [ ] 19.2 Implementasi grafik batang SVG pemasukan vs pengeluaran
+  - [x] 19.2 Implementasi grafik batang SVG pemasukan vs pengeluaran
     - Implementasi fungsi `generate_svg_bar(array $pemasukan, array $pengeluaran): string` di `config/helpers.php`
     - Hitung nilai maksimum untuk skala Y; dua `<rect>` per bulan (lebar 20px, jarak 8px antar kelompok)
     - Tinggi bar = `(nilai / max_nilai) * tinggi_area`; label bulan di sumbu X, 4 garis grid horizontal
     - Warna pemasukan `#16A34A`, warna pengeluaran `#DC2626`; output SVG inline, tanpa library JS
     - _Requirements: 14.3, 14.8_
 
-  - [ ] 19.3 Implementasi template HTML laporan dengan 4 tab
+  - [x] 19.3 Implementasi template HTML laporan dengan 4 tab
     - Tab Ringkasan Keuangan: grafik batang SVG, total pemasukan, pengeluaran, laba bersih
     - Tab Laporan Pesanan: total pesanan, distribusi per status (tabel), produk terlaris
     - Tab Laporan Produk: data produk (dapat diperluas sesuai kebutuhan)
@@ -419,7 +419,7 @@ Teknologi: **PHP Native**, **MySQL**, **Pure CSS**, **Vanilla JavaScript** — t
     - Include `head.php`, `sidebar.php` (dengan `$active_page = 'laporan'`)
     - _Requirements: 14.1_
 
-- [ ] 20. Checkpoint Akhir — Pastikan semua tes lolos dan sistem terintegrasi
+- [x] 20. Checkpoint Akhir — Pastikan semua tes lolos dan sistem terintegrasi
   - Jalankan seluruh test suite: `./vendor/bin/phpunit --testdox`
   - Verifikasi semua halaman admin dapat dimuat tanpa error PHP
   - Pastikan autentikasi session admin bekerja (redirect ke `login.php` jika tidak ada session)
