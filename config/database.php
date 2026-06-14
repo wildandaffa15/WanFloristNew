@@ -27,7 +27,7 @@ function get_pdo(): PDO
 
     // Konfigurasi koneksi — sesuaikan dengan environment
     $host    = 'localhost';
-    $dbname  = 'wanflorist';
+    $dbname  = 'wanflorist_new_db';
     $charset = 'utf8mb4';
     $user    = 'root';
     $pass    = '';
