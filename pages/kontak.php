@@ -93,7 +93,7 @@ $css_extra   = '/assets/css/public.css';
                     </div>
 
                     <!-- WhatsApp -->
-                    <a href="https://wa.me/6281234567890?text=<?= rawurlencode('Halo WanFlorist, saya ingin bertanya tentang produk Anda.') ?>"
+                    <a href="https://wa.me/6285746606624?text=<?= rawurlencode('Halo WanFlorist, saya ingin bertanya tentang produk Anda.') ?>"
                        target="_blank"
                        rel="noopener noreferrer"
                        style="
@@ -133,7 +133,7 @@ $css_extra   = '/assets/css/public.css';
                                 font-weight:700;
                                 color:#1F2937;
                                 margin-bottom:0.2rem;
-                            ">+62 812-3456-7890</p>
+                            ">+62 857-4660-6624</p>
                             <p style="
                                 font-family:'Inter',sans-serif;
                                 font-size:0.8125rem;
@@ -145,7 +145,7 @@ $css_extra   = '/assets/css/public.css';
                     </a>
 
                     <!-- Instagram -->
-                    <a href="https://instagram.com/wanflorist"
+                    <a href="https://instagram.com/wanflorist.id"
                        target="_blank"
                        rel="noopener noreferrer"
                        style="

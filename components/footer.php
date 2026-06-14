@@ -76,7 +76,7 @@
                 </p>
                 <p class="wf-footer__address-line">
                     <span aria-hidden="true">📱</span>
-                    <a href="https://wa.me/6281234567890"
+                    <a href="https://wa.me/+6285746606624"
                        class="wf-footer__link"
                        target="_blank"
                        rel="noopener noreferrer">
@@ -85,7 +85,7 @@
                 </p>
                 <p class="wf-footer__address-line">
                     <span aria-hidden="true">📸</span>
-                    <a href="https://instagram.com/wanflorist"
+                    <a href="https://www.instagram.com/wanflorist.id/"
                        class="wf-footer__link"
                        target="_blank"
                        rel="noopener noreferrer">
