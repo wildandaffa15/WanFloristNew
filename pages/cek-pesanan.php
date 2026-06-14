@@ -19,7 +19,6 @@ require_once '../config/database.php';
 require_once '../config/helpers.php';
 $pdo = get_pdo();
 
-// ─── Ambil no_pesanan dari GET (dikirim via form atau ?no= PRG redirect) ──────
 $no_input   = trim($_GET['no'] ?? '');
 $pesanan    = null;
 $details    = [];
@@ -28,7 +27,6 @@ $lunas_row  = null;
 $not_found  = false;
 
 if ($no_input !== '') {
-    // Query pesanan utama
     $stmt = $pdo->prepare(
         "SELECT id_pesanan, no_pesanan, nama_pemesan, no_whatsapp, alamat,
                 tanggal_kirim, metode_bayar, catatan, status, total_harga, created_at
@@ -42,7 +40,6 @@ if ($no_input !== '') {
     if ($pesanan) {
         $id_pesanan = (int) $pesanan['id_pesanan'];
 
-        // Query detail produk
         $stmt_det = $pdo->prepare(
             "SELECT dp.nama_produk, dp.harga_satuan, dp.jumlah, dp.subtotal,
                     pr.foto
@@ -54,7 +51,6 @@ if ($no_input !== '') {
         $stmt_det->execute([':id' => $id_pesanan]);
         $details = $stmt_det->fetchAll(PDO::FETCH_ASSOC);
 
-        // Query DP (bisa NULL jika belum ada)
         $stmt_dp = $pdo->prepare(
             "SELECT jumlah_dp, metode, dicatat_pada
                FROM dp
@@ -64,7 +60,6 @@ if ($no_input !== '') {
         $stmt_dp->execute([':id' => $id_pesanan]);
         $dp_row = $stmt_dp->fetch(PDO::FETCH_ASSOC) ?: null;
 
-        // Query pelunasan (bisa NULL jika belum ada)
         $stmt_lunas = $pdo->prepare(
             "SELECT jumlah_lunas, metode, dicatat_pada
                FROM lunas
@@ -79,7 +74,6 @@ if ($no_input !== '') {
     }
 }
 
-// ─── Stepper helper ───────────────────────────────────────────────────────────
 // Status DB: menunggu_konfirmasi | diproses | selesai | dibatalkan
 // Stepper stages (index 0–3): Pesanan Diterima, Diproses, Siap Kirim, Selesai
 $stepper_stages = [
@@ -89,7 +83,6 @@ $stepper_stages = [
     ['label' => 'Selesai',          'icon' => '🎉', 'status_trigger' => 'selesai'],
 ];
 
-// Map DB status → active stepper index (0-based)
 $status_to_step = [
     'menunggu_konfirmasi' => 0,
     'diproses'            => 1,
@@ -102,15 +95,11 @@ if ($pesanan) {
     $current_step = $status_to_step[$pesanan['status']] ?? 0;
 }
 
-// For selesai: steps 0, 1, 2, 3 are all done
-// For diproses: steps 0 is done, step 1 is active
-// For menunggu_konfirmasi: step 0 is active, nothing done
 $step_state = static function (int $stepIdx, int $currentStep, string $status): string {
     if ($status === 'dibatalkan') {
         return 'cancelled';
     }
     if ($currentStep === 3) {
-        // selesai — all done
         return 'done';
     }
     if ($stepIdx < $currentStep) {
@@ -122,13 +111,11 @@ $step_state = static function (int $stepIdx, int $currentStep, string $status): 
     return 'pending';
 };
 
-// ─── Metode bayar label ───────────────────────────────────────────────────────
 $metode_label = [
     'transfer' => 'Transfer Bank',
     'cod'      => 'COD (Bayar di Tempat)',
 ];
 
-// ─── Status label & badge ─────────────────────────────────────────────────────
 $status_label = [
     'menunggu_konfirmasi' => 'Menunggu Konfirmasi',
     'diproses'            => 'Diproses',
@@ -142,7 +129,6 @@ $status_badge_class = [
     'dibatalkan'          => 'badge badge-danger',
 ];
 
-// ─── Page meta ────────────────────────────────────────────────────────────────
 $page_title  = 'Cek Pesanan';
 $active_page = 'cek-pesanan';
 $css_extra   = '/assets/css/public.css';
@@ -157,17 +143,11 @@ $css_extra   = '/assets/css/public.css';
 <main class="cp-main">
     <div class="container cp-container">
 
-        <!-- ═══════════════════════════════════════════════════════════
-             HERO / SEARCH HEADER
-             ═══════════════════════════════════════════════════════════ -->
         <header class="cp-header">
             <h1 class="cp-heading">Cek Status Pesanan</h1>
             <p class="cp-subheading">Masukkan nomor pesanan Anda untuk memantau perkembangan pesanan secara real-time.</p>
         </header>
 
-        <!-- ═══════════════════════════════════════════════════════════
-             SEARCH FORM
-             ═══════════════════════════════════════════════════════════ -->
         <section class="cp-search-section" aria-label="Form cek pesanan">
             <form
                 id="form-cek-pesanan"
@@ -203,12 +183,8 @@ $css_extra   = '/assets/css/public.css';
             </form>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════
-             RESULT AREA
-             ═══════════════════════════════════════════════════════════ -->
 
         <?php if ($no_input !== '' && $not_found): ?>
-        <!-- NOT FOUND ─────────────────────────────────────────────── -->
         <section class="cp-result" aria-live="polite">
             <div class="empty-state">
                 <div class="empty-state__icon" aria-hidden="true">🔍</div>
@@ -223,13 +199,10 @@ $css_extra   = '/assets/css/public.css';
         </section>
 
         <?php elseif ($pesanan): ?>
-        <!-- FOUND ─────────────────────────────────────────────────── -->
         <section class="cp-result" aria-live="polite">
 
-            <!-- Card wrapper -->
             <div class="cp-card">
 
-                <!-- ── Card Header: no_pesanan + status badge ── -->
                 <div class="cp-card-header">
                     <div class="cp-card-header__left">
                         <p class="cp-label-small">Nomor Pesanan</p>
@@ -245,7 +218,6 @@ $css_extra   = '/assets/css/public.css';
                     </div>
                 </div>
 
-                <!-- ── Progress Stepper ── -->
                 <?php if ($pesanan['status'] !== 'dibatalkan'): ?>
                 <div class="cp-stepper-section">
                     <div class="order-stepper" role="list" aria-label="Tahapan pesanan">
@@ -274,7 +246,6 @@ $css_extra   = '/assets/css/public.css';
                         </div>
 
                         <?php if ($idx < count($stepper_stages) - 1):
-                            // Connector line between steps
                             $line_done = ($step_state($idx, $current_step, $pesanan['status']) === 'done') ? 'stepper-line--done' : '';
                         ?>
                         <div class="stepper-line <?= e($line_done) ?>" aria-hidden="true"></div>
@@ -282,10 +253,9 @@ $css_extra   = '/assets/css/public.css';
 
                         <?php endforeach; ?>
 
-                    </div><!-- /.order-stepper -->
+                    </div>
 
                     <?php
-                    // Status description message
                     $status_messages = [
                         'menunggu_konfirmasi' => 'Pesanan Anda telah masuk dan sedang menunggu konfirmasi dari toko.',
                         'diproses'            => 'Pesanan Anda sedang dirangkai oleh florist kami dengan penuh kasih.',
@@ -300,7 +270,6 @@ $css_extra   = '/assets/css/public.css';
                 </div>
 
                 <?php else: ?>
-                <!-- ── Cancelled State ── -->
                 <div class="cp-cancelled-banner" role="alert">
                     <div class="cp-cancelled-banner__icon" aria-hidden="true">❌</div>
                     <div>
@@ -312,10 +281,8 @@ $css_extra   = '/assets/css/public.css';
                 </div>
                 <?php endif; ?>
 
-                <!-- ── Order Details Grid ── -->
                 <div class="cp-details-grid">
 
-                    <!-- LEFT: produk dipesan -->
                     <div class="cp-details-col">
                         <h3 class="cp-section-heading">
                             <span aria-hidden="true">🛍️</span> Detail Produk
@@ -328,20 +295,13 @@ $css_extra   = '/assets/css/public.css';
                             <?php foreach ($details as $item): ?>
                             <li class="cp-product-item">
                                 <div class="cp-product-img-wrap">
-                                    <?php
-                                    $foto = $item['foto'] ?? 'placeholder.jpg';
-                                    $foto_path = '/assets/img/produk/' . $foto;
-                                    // Fallback ke placeholder jika foto produk adalah default
-                                    if ($foto === 'placeholder.jpg' || empty($foto)) {
-                                        $foto_path = '/assets/img/placeholder.jpg';
-                                    }
-                                    ?>
+                                    <?php $foto_path = produk_foto_src($item['foto'] ?? null, '/'); ?>
                                     <img
                                         src="<?= e($foto_path) ?>"
                                         alt="<?= e($item['nama_produk']) ?>"
                                         class="cp-product-img"
                                         loading="lazy"
-                                        onerror="this.src='/assets/img/placeholder.jpg'"
+                                        onerror="this.src='<?= e(produk_foto_src(null, '/')) ?>'"
                                     >
                                 </div>
                                 <div class="cp-product-info">
@@ -360,10 +320,8 @@ $css_extra   = '/assets/css/public.css';
                         <?php endif; ?>
                     </div>
 
-                    <!-- RIGHT: info pesanan + pembayaran -->
                     <div class="cp-details-col">
 
-                        <!-- Info Pesanan -->
                         <h3 class="cp-section-heading">
                             <span aria-hidden="true">📋</span> Informasi Pesanan
                         </h3>
@@ -402,14 +360,12 @@ $css_extra   = '/assets/css/public.css';
                             </div>
                         </div>
 
-                        <!-- Info Pembayaran -->
                         <h3 class="cp-section-heading cp-section-heading--mt">
                             <span aria-hidden="true">💳</span> Informasi Pembayaran
                         </h3>
 
                         <div class="cp-info-card">
 
-                            <!-- Status DP -->
                             <div class="cp-info-row">
                                 <span class="cp-info-label">Down Payment (DP)</span>
                                 <?php if ($dp_row): ?>
@@ -426,7 +382,6 @@ $css_extra   = '/assets/css/public.css';
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Status Pelunasan -->
                             <div class="cp-info-row">
                                 <span class="cp-info-label">Pelunasan</span>
                                 <?php if ($lunas_row): ?>
@@ -443,7 +398,6 @@ $css_extra   = '/assets/css/public.css';
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Summary payment status badge -->
                             <div class="cp-info-row cp-info-row--payment-status">
                                 <span class="cp-info-label">Status Pembayaran</span>
                                 <span class="cp-info-value">
@@ -457,10 +411,9 @@ $css_extra   = '/assets/css/public.css';
                                 </span>
                             </div>
 
-                        </div><!-- /.cp-info-card (pembayaran) -->
+                        </div>
 
                         <?php if ($pesanan['metode_bayar'] === 'transfer' && !$lunas_row): ?>
-                        <!-- DP reminder for transfer orders -->
                         <div class="alert alert-info cp-dp-reminder" role="status">
                             <span aria-hidden="true">ℹ️</span>
                             <div>
@@ -472,15 +425,14 @@ $css_extra   = '/assets/css/public.css';
                         </div>
                         <?php endif; ?>
 
-                    </div><!-- /.cp-details-col (kanan) -->
+                    </div>
 
-                </div><!-- /.cp-details-grid -->
+                </div>
 
-                <!-- ── Contact CTA ── -->
                 <div class="cp-contact-cta">
                     <p class="cp-contact-text">Ada pertanyaan tentang pesanan Anda?</p>
                     <a
-                        href="https://wa.me/6281234567890?text=<?= rawurlencode('Halo, saya ingin menanyakan pesanan ' . $pesanan['no_pesanan']) ?>"
+                        href="https:
                         class="btn btn-secondary"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -489,12 +441,11 @@ $css_extra   = '/assets/css/public.css';
                     </a>
                 </div>
 
-            </div><!-- /.cp-card -->
+            </div>
 
         </section>
 
         <?php elseif ($no_input === ''): ?>
-        <!-- INITIAL STATE — no search yet ─────────────────────────── -->
         <section class="cp-initial-hint">
             <div class="empty-state">
                 <div class="empty-state__icon" aria-hidden="true">📦</div>
@@ -505,16 +456,12 @@ $css_extra   = '/assets/css/public.css';
         </section>
         <?php endif; ?>
 
-    </div><!-- /.container -->
+    </div>
 </main>
 
 <?php include '../components/footer.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     CEK PESANAN — Page-scoped styles
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <style>
-/* ── Layout ───────────────────────────────────────────────────────────────── */
 .cp-main {
     min-height: calc(100vh - 130px);
     padding: 3rem 0 5rem;
@@ -527,7 +474,6 @@ $css_extra   = '/assets/css/public.css';
     padding: 0 1.5rem;
 }
 
-/* ── Page header ──────────────────────────────────────────────────────────── */
 .cp-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -549,7 +495,6 @@ $css_extra   = '/assets/css/public.css';
     line-height: 1.6;
 }
 
-/* ── Search section ───────────────────────────────────────────────────────── */
 .cp-search-section {
     background: #ffffff;
     border: 1.5px solid #E9D5FF;
@@ -623,7 +568,6 @@ $css_extra   = '/assets/css/public.css';
     flex-shrink: 0;
 }
 
-/* ── Result card ──────────────────────────────────────────────────────────── */
 .cp-result {
     animation: cp-fade-in 0.35s ease;
 }
@@ -641,7 +585,6 @@ $css_extra   = '/assets/css/public.css';
     box-shadow: 0 4px 20px rgba(107, 33, 168, 0.08);
 }
 
-/* ── Card header ──────────────────────────────────────────────────────────── */
 .cp-card-header {
     display: flex;
     align-items: flex-start;
@@ -676,7 +619,6 @@ $css_extra   = '/assets/css/public.css';
     color: #6B7280;
 }
 
-/* ── Stepper section ──────────────────────────────────────────────────────── */
 .cp-stepper-section {
     padding: 2rem 1.75rem;
     border-bottom: 1.5px solid #F3F4F6;
@@ -692,7 +634,6 @@ $css_extra   = '/assets/css/public.css';
     font-style: italic;
 }
 
-/* ── Cancelled banner ─────────────────────────────────────────────────────── */
 .cp-cancelled-banner {
     display: flex;
     align-items: flex-start;
@@ -725,7 +666,6 @@ $css_extra   = '/assets/css/public.css';
     margin: 0;
 }
 
-/* ── Details grid ─────────────────────────────────────────────────────────── */
 .cp-details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -758,7 +698,6 @@ $css_extra   = '/assets/css/public.css';
     margin-top: 1.5rem;
 }
 
-/* ── Product list ─────────────────────────────────────────────────────────── */
 .cp-product-list {
     list-style: none;
     margin: 0;
@@ -840,7 +779,6 @@ $css_extra   = '/assets/css/public.css';
     color: #374151;
 }
 
-/* ── Info card (rows) ─────────────────────────────────────────────────────── */
 .cp-info-card {
     background: #FAFAFA;
     border: 1px solid #E5E7EB;
@@ -891,7 +829,6 @@ $css_extra   = '/assets/css/public.css';
     color: #6B21A8;
 }
 
-/* ── Payment status ───────────────────────────────────────────────────────── */
 .cp-payment-paid {
     color: #16A34A;
     font-weight: 600;
@@ -912,13 +849,11 @@ $css_extra   = '/assets/css/public.css';
     font-weight: 400;
 }
 
-/* ── DP reminder ──────────────────────────────────────────────────────────── */
 .cp-dp-reminder {
     margin-top: 0.875rem;
     font-size: 0.875rem;
 }
 
-/* ── Contact CTA ──────────────────────────────────────────────────────────── */
 .cp-contact-cta {
     display: flex;
     align-items: center;
@@ -937,7 +872,6 @@ $css_extra   = '/assets/css/public.css';
     margin: 0;
 }
 
-/* ── Initial hint / Text muted ────────────────────────────────────────────── */
 .cp-initial-hint {
     padding: 1rem 0;
 }
@@ -948,7 +882,6 @@ $css_extra   = '/assets/css/public.css';
     color: #9CA3AF;
 }
 
-/* ── Badges (fallback if main.css doesn't have these) ─────────────────────── */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -984,7 +917,6 @@ $css_extra   = '/assets/css/public.css';
     border: 1px solid #FECACA;
 }
 
-/* ── Alert ────────────────────────────────────────────────────────────────── */
 .alert {
     display: flex;
     align-items: flex-start;
@@ -1002,7 +934,6 @@ $css_extra   = '/assets/css/public.css';
     border: 1px solid #BFDBFE;
 }
 
-/* ── Container (global fallback) ──────────────────────────────────────────── */
 .container {
     width: 100%;
     max-width: 1280px;
@@ -1010,7 +941,6 @@ $css_extra   = '/assets/css/public.css';
     padding: 0 1.5rem;
 }
 
-/* ── Buttons (fallback if main.css missing) ───────────────────────────────── */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -1049,7 +979,6 @@ $css_extra   = '/assets/css/public.css';
     border-color: #6B21A8;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
     .cp-main {
         padding: 2rem 0 4rem;

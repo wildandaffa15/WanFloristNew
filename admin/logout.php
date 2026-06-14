@@ -19,10 +19,8 @@
 
 declare(strict_types=1);
 
-// Muat helper agar validate_csrf() tersedia
 require_once __DIR__ . '/../config/helpers.php';
 
-// Mulai session jika belum aktif
 if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly', '1');
     ini_set('session.use_strict_mode', '1');
@@ -30,13 +28,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Hanya proses jika metode POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /login.php', true, 302);
     exit;
 }
 
-// Validasi CSRF token
 $csrf_token = $_POST['csrf_token'] ?? '';
 if (!validate_csrf($csrf_token)) {
     // Token tidak valid — kembalikan ke halaman sebelumnya atau ke login
@@ -44,7 +40,6 @@ if (!validate_csrf($csrf_token)) {
     exit;
 }
 
-// Hancurkan semua data session
 $_SESSION = [];
 
 // Hapus cookie session dari browser jika ada
@@ -63,6 +58,5 @@ if (ini_get('session.use_cookies')) {
 
 session_destroy();
 
-// Redirect ke halaman login
 header('Location: /login.php', true, 302);
 exit;

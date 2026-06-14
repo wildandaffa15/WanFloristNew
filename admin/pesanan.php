@@ -12,12 +12,10 @@ require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/helpers.php';
 
-// ── Parameter request ─────────────────────────────────────────────────────────
 $q             = trim($_GET['q']      ?? '');
 $filter_status = trim($_GET['status'] ?? '');
 $page          = max(1, (int) ($_GET['page'] ?? 1));
 
-// Validasi nilai filter status
 $allowed_status = ['menunggu_konfirmasi', 'diproses', 'selesai', 'dibatalkan'];
 if ($filter_status !== '' && !in_array($filter_status, $allowed_status, true)) {
     $filter_status = '';
@@ -28,7 +26,6 @@ $offset   = ($page - 1) * $per_page;
 
 $pdo = get_pdo();
 
-// ── Build WHERE clause ────────────────────────────────────────────────────────
 $where  = [];
 $params = [];
 
@@ -43,7 +40,6 @@ if ($filter_status !== '') {
 
 $where_sql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
-// ── CSV Export ────────────────────────────────────────────────────────────────
 if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="pesanan-' . date('Ymd') . '.csv"');
@@ -70,26 +66,21 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     exit;
 }
 
-// ── COUNT query untuk pagination ──────────────────────────────────────────────
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM pesanan {$where_sql}");
 $stmt->execute($params);
 $total       = (int) $stmt->fetchColumn();
 $total_pages = max(1, (int) ceil($total / $per_page));
 
-// ── Main SELECT query ─────────────────────────────────────────────────────────
 $stmt = $pdo->prepare("SELECT * FROM pesanan {$where_sql} ORDER BY created_at DESC LIMIT {$per_page} OFFSET {$offset}");
 $stmt->execute($params);
 $pesanan_list = $stmt->fetchAll();
 
-// ── CSRF token untuk modal JS ─────────────────────────────────────────────────
 $csrf_token = generate_csrf();
 
-// ── Page meta ─────────────────────────────────────────────────────────────────
 $page_title  = 'Manajemen Pesanan';
 $active_page = 'pesanan';
 $css_extra   = '/assets/css/admin.css';
 
-// ── Helper: label & badge class per status ────────────────────────────────────
 function status_badge_class(string $status): string
 {
     return match ($status) {
@@ -112,7 +103,6 @@ function status_label(string $status): string
     };
 }
 
-// ── URL helper untuk pagination (mempertahankan q & status) ───────────────────
 function pagination_url(int $pg, string $q, string $status): string
 {
     $qs = http_build_query(array_filter([
@@ -129,13 +119,10 @@ function pagination_url(int $pg, string $q, string $status): string
 <body>
 <div class="admin-layout">
 
-    <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
-    <!-- ── Main ─────────────────────────────────────────────────────────────── -->
     <main class="admin-main">
 
-        <!-- Header halaman -->
         <header class="admin-header">
             <h1 class="admin-header__title">📦 Manajemen Pesanan</h1>
             <div class="admin-header__actions">
@@ -150,7 +137,6 @@ function pagination_url(int $pg, string $q, string $status): string
 
         <div class="admin-content">
 
-            <!-- ── Page Header ──────────────────────────────────────────────── -->
             <div class="page-header">
                 <div>
                     <h2 class="page-header__title">Daftar Pesanan</h2>
@@ -163,13 +149,11 @@ function pagination_url(int $pg, string $q, string $status): string
                 </div>
             </div>
 
-            <!-- ── Filter & Search Form ─────────────────────────────────────── -->
             <div class="admin-card" style="margin-bottom:1.25rem;">
                 <div class="admin-card__body" style="padding:1rem 1.5rem;">
                     <form method="GET" action="/admin/pesanan.php" class="wf-filter-form">
                         <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:flex-end;">
 
-                            <!-- Input pencarian -->
                             <div style="flex:1;min-width:200px;">
                                 <label for="wf-search" style="display:block;font-size:0.75rem;font-weight:600;color:#6B7280;margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:.05em;">
                                     Cari Pesanan
@@ -187,7 +171,6 @@ function pagination_url(int $pg, string $q, string $status): string
                                 </div>
                             </div>
 
-                            <!-- Select status -->
                             <div style="min-width:180px;">
                                 <label for="wf-status" style="display:block;font-size:0.75rem;font-weight:600;color:#6B7280;margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:.05em;">
                                     Filter Status
@@ -205,7 +188,6 @@ function pagination_url(int $pg, string $q, string $status): string
                                 </select>
                             </div>
 
-                            <!-- Tombol aksi -->
                             <div style="display:flex;gap:0.5rem;align-items:flex-end;">
                                 <button type="submit" class="btn btn--primary btn--sm">
                                     🔍 Cari
@@ -228,7 +210,6 @@ function pagination_url(int $pg, string $q, string $status): string
                 </div>
             </div>
 
-            <!-- ── Tabel Pesanan ─────────────────────────────────────────────── -->
             <div class="admin-card">
                 <div class="table-responsive">
                     <table class="admin-table">
@@ -307,7 +288,6 @@ function pagination_url(int $pg, string $q, string $status): string
                     </table>
                 </div>
 
-                <!-- ── Pagination ───────────────────────────────────────────── -->
                 <?php if ($total_pages > 1): ?>
                     <div class="admin-card__footer" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
                         <span style="font-size:0.875rem;color:#6B7280;">
@@ -355,16 +335,15 @@ function pagination_url(int $pg, string $q, string $status): string
                     </div>
                 <?php endif; ?>
 
-            </div><!-- /admin-card -->
+            </div>
 
-        </div><!-- /admin-content -->
-    </main><!-- /admin-main -->
-</div><!-- /admin-layout -->
+        </div>
+    </main>
+</div>
 
 <!-- CSRF token untuk digunakan oleh modal JS -->
 <input type="hidden" id="csrf_token_modal" value="<?= e($csrf_token) ?>">
 
-<!-- Modal ubah status — script diinject oleh admin-modal.js -->
 <script src="/assets/js/admin-modal.js"></script>
 </body>
 </html>

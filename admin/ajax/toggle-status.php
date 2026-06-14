@@ -21,16 +21,13 @@ require_once __DIR__ . '/../../config/helpers.php';
 
 header('Content-Type: application/json');
 
-// Hanya izinkan metode POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
 
-// Baca body JSON
 $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-// Validasi CSRF token
 if (!validate_csrf($body['csrf_token'] ?? '')) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'CSRF token tidak valid']);
@@ -39,7 +36,6 @@ if (!validate_csrf($body['csrf_token'] ?? '')) {
 
 $pdo = get_pdo();
 
-// Ambil status toko saat ini
 $row = $pdo->query('SELECT id, status FROM status_toko LIMIT 1')->fetch();
 
 if (!$row) {
@@ -48,10 +44,8 @@ if (!$row) {
     exit;
 }
 
-// Toggle status
 $new_status = ($row['status'] === 'aktif') ? 'nonaktif' : 'aktif';
 
-// Simpan status baru
 $stmt = $pdo->prepare('UPDATE status_toko SET status = :s WHERE id = :id');
 $stmt->execute([':s' => $new_status, ':id' => $row['id']]);
 

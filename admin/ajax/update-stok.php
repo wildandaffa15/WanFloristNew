@@ -26,17 +26,14 @@ require_once __DIR__ . '/../../config/helpers.php';
 // Selalu kembalikan JSON
 header('Content-Type: application/json');
 
-// ── Hanya terima metode POST ─────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Metode tidak diizinkan.']);
     exit;
 }
 
-// ── Baca body JSON ───────────────────────────────────────────
 $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-// ── Validasi CSRF ────────────────────────────────────────────
 $csrf_token = $body['csrf_token'] ?? '';
 if (!validate_csrf($csrf_token)) {
     http_response_code(403);
@@ -44,7 +41,6 @@ if (!validate_csrf($csrf_token)) {
     exit;
 }
 
-// ── Validasi id_bahan ────────────────────────────────────────
 $id_bahan = isset($body['id_bahan']) ? filter_var($body['id_bahan'], FILTER_VALIDATE_INT) : false;
 if ($id_bahan === false || $id_bahan <= 0) {
     http_response_code(422);
@@ -52,7 +48,6 @@ if ($id_bahan === false || $id_bahan <= 0) {
     exit;
 }
 
-// ── Validasi stok_baru ───────────────────────────────────────
 if (!isset($body['stok_baru'])) {
     http_response_code(422);
     echo json_encode(['success' => false, 'message' => 'Nilai stok baru wajib diisi.']);
@@ -65,11 +60,9 @@ if ($stok_baru === false || $stok_baru < 0) {
     exit;
 }
 
-// ── Update database ──────────────────────────────────────────
 try {
     $pdo = get_pdo();
 
-    // Periksa bahan ada
     $cek = $pdo->prepare('SELECT id_bahan, stok_minimum FROM stok_bahan WHERE id_bahan = :id');
     $cek->execute([':id' => $id_bahan]);
     $bahan = $cek->fetch();
@@ -80,7 +73,6 @@ try {
         exit;
     }
 
-    // Update stok
     $stmt = $pdo->prepare(
         'UPDATE stok_bahan SET stok_saat_ini = :stok WHERE id_bahan = :id'
     );
@@ -89,7 +81,6 @@ try {
         ':id'   => $id_bahan,
     ]);
 
-    // Tentukan apakah stok sekarang kritis
     $is_kritis = $stok_baru < (int) $bahan['stok_minimum'];
 
     echo json_encode([

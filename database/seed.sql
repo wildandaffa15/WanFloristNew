@@ -1,8 +1,3 @@
--- ============================================================
--- WanFlorist — Data Awal (Seed)
--- Jalankan SETELAH schema.sql
--- ============================================================
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -19,55 +14,55 @@ INSERT INTO kategori (nama_kategori, slug, ikon_emoji, is_active) VALUES
 ('Hadiah',      'hadiah',      '🎁', 1);
 
 -- ------------------------------------------------------------
--- Produk (minimal 8 — foto pakai placeholder)
+-- Produk (minimal 8 — foto produk asli)
 -- ------------------------------------------------------------
 INSERT INTO produk (id_kategori, nama_produk, deskripsi, harga, foto, status, is_featured) VALUES
 -- Mawar (id_kategori = 1)
 (1, 'Buket Mawar Merah Romantis',
  'Buket mawar merah segar pilihan, dikemas elegan dengan kertas kraft dan pita sutra merah. Cocok untuk ulang tahun, anniversary, maupun ungkapan perasaan.',
- 150000.00, 'placeholder.jpg', 'tersedia', 1),
+ 150000.00, 'buket_putih_merah.webp', 'tersedia', 1),
 
 (1, 'Buket Mawar Pink Cantik',
  'Rangkaian mawar pink lembut yang indah, diikat dengan pita pastel. Memberikan kesan hangat dan penuh kasih sayang.',
- 125000.00, 'placeholder.jpg', 'tersedia', 0),
+ 125000.00, 'buket_mawar_pink.webp', 'tersedia', 0),
 
 -- Sunflower (id_kategori = 2)
 (2, 'Buket Sunflower Ceria',
  'Buket bunga matahari segar yang cerah dan menyenangkan. Dikemas dengan kertas coklat alami dan twine untuk tampilan rustic yang menawan.',
- 135000.00, 'placeholder.jpg', 'tersedia', 1),
+ 135000.00, 'buket_mix_kuning_biru.webp', 'tersedia', 1),
 
 (2, 'Buket Mixed Sunflower & Baby Breath',
  'Kombinasi bunga matahari dan baby breath yang anggun. Perpaduan warna kuning dan putih menciptakan kesan segar dan elegan.',
- 145000.00, 'placeholder.jpg', 'tersedia', 0),
+ 145000.00, 'buket_cascading_pink_putih.webp', 'tersedia', 0),
 
 -- Tulip (id_kategori = 3)
 (3, 'Buket Tulip Ungu Elegan',
  'Buket tulip ungu premium yang mewah dan anggun. Pilihan sempurna untuk hadiah spesial kepada orang tersayang.',
- 175000.00, 'placeholder.jpg', 'tersedia', 1),
+ 175000.00, 'buket_lily_pink.webp', 'tersedia', 1),
 
 -- Wedding (id_kategori = 4)
 (4, 'Hand Bouquet Wedding Premium',
  'Buket tangan pernikahan premium dengan pilihan bunga mawar, lily, dan baby breath. Dikonsultasikan terlebih dahulu untuk menyesuaikan tema pernikahan.',
- 450000.00, 'placeholder.jpg', 'tersedia', 1),
+ 450000.00, 'buket_cascading_biru_putih.webp', 'tersedia', 1),
 
 -- Wisuda (id_kategori = 5)
 (5, 'Buket Wisuda Colorful Jumbo',
  'Buket wisuda besar yang meriah dan penuh warna. Terdiri dari berbagai bunga segar dengan aksen bintang dan balon. Bisa request warna sesuai toga.',
- 200000.00, 'placeholder.jpg', 'tersedia', 1),
+ 200000.00, 'buket_mawar_biru.webp', 'tersedia', 1),
 
 (5, 'Buket Wisuda Elegant White',
  'Buket wisuda elegan dominasi putih dengan sentuhan hijau daun. Memberikan kesan formal dan berkelas untuk momen kelulusan bersejarah.',
- 185000.00, 'placeholder.jpg', 'tersedia', 0),
+ 185000.00, 'buket_cascading_biru_putih.webp', 'tersedia', 0),
 
 -- Bunga Meja (id_kategori = 6)
 (6, 'Rangkaian Bunga Meja Minimalis',
  'Rangkaian bunga meja estetik bergaya minimalis modern. Cocok untuk dekorasi ruang tamu, meja kerja, atau sebagai hadiah housewarming.',
- 95000.00, 'placeholder.jpg', 'tersedia', 0),
+ 95000.00, 'buket_lily_pink.webp', 'tersedia', 0),
 
 -- Hadiah (id_kategori = 7)
 (7, 'Hampers Bunga & Coklat',
  'Paket hadiah spesial berisi buket bunga mini dan coklat premium pilihan. Pilihan hadiah yang berkesan untuk berbagai momen spesial.',
- 250000.00, 'placeholder.jpg', 'tersedia', 0);
+ 250000.00, 'buket_mawar_pink.webp', 'tersedia', 0);
 
 -- ------------------------------------------------------------
 -- Pengguna Admin

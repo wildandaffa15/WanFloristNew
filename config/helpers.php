@@ -104,6 +104,37 @@ function e(string $str): string
     return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
+/** Nama file foto produk default bila tidak ada atau masih memakai placeholder lama. */
+const PRODUK_FOTO_DEFAULT = 'buket_mawar_pink.webp';
+
+/**
+ * Periksa apakah nilai foto dari database masih placeholder / kosong.
+ */
+function produk_foto_is_legacy(?string $foto): bool
+{
+    $foto = trim((string) $foto);
+
+    return $foto === '' || in_array($foto, ['placeholder.jpg', 'placeholder.svg', 'placeholder.webp'], true);
+}
+
+/**
+ * Resolve path foto produk untuk ditampilkan di HTML.
+ *
+ * @param string|null $foto      Nama file dari kolom produk.foto
+ * @param string      $urlPrefix Prefix URL relatif, mis. '../' atau '/'
+ */
+function produk_foto_src(?string $foto, string $urlPrefix = ''): string
+{
+    $filename = produk_foto_is_legacy($foto) ? PRODUK_FOTO_DEFAULT : trim((string) $foto);
+    $absPath  = dirname(__DIR__) . '/assets/img/produk/' . $filename;
+
+    if (!is_file($absPath)) {
+        $filename = PRODUK_FOTO_DEFAULT;
+    }
+
+    return $urlPrefix . 'assets/img/produk/' . $filename;
+}
+
 /**
  * Generate CSRF token baru dan simpan ke session.
  *
@@ -160,7 +191,6 @@ function validasi_form_pemesanan(array $input): array
 {
     $errors = [];
 
-    // Validasi nama pemesan
     $nama = trim($input['nama_pemesan'] ?? '');
     if ($nama === '') {
         $errors['nama_pemesan'] = 'Nama pemesan tidak boleh kosong.';
@@ -168,7 +198,6 @@ function validasi_form_pemesanan(array $input): array
         $errors['nama_pemesan'] = 'Nama pemesan maksimal 100 karakter.';
     }
 
-    // Validasi nomor WhatsApp (8-15 digit angka)
     $wa = trim($input['no_whatsapp'] ?? '');
     if ($wa === '') {
         $errors['no_whatsapp'] = 'Nomor WhatsApp tidak boleh kosong.';
@@ -176,7 +205,6 @@ function validasi_form_pemesanan(array $input): array
         $errors['no_whatsapp'] = 'Nomor WhatsApp harus berupa 8–15 digit angka.';
     }
 
-    // Validasi alamat
     $alamat = trim($input['alamat'] ?? '');
     if ($alamat === '') {
         $errors['alamat'] = 'Alamat tidak boleh kosong.';
@@ -184,7 +212,6 @@ function validasi_form_pemesanan(array $input): array
         $errors['alamat'] = 'Alamat maksimal 500 karakter.';
     }
 
-    // Validasi tanggal kirim (tidak boleh masa lalu)
     $tgl_kirim = trim($input['tanggal_kirim'] ?? '');
     if ($tgl_kirim === '') {
         $errors['tanggal_kirim'] = 'Tanggal pengiriman tidak boleh kosong.';
@@ -198,7 +225,6 @@ function validasi_form_pemesanan(array $input): array
         }
     }
 
-    // Validasi minimal satu produk dengan jumlah >= 1
     $produk = $input['produk'] ?? [];
     if (!is_array($produk) || empty($produk)) {
         $errors['produk'] = 'Minimal satu produk harus dipilih.';
@@ -276,7 +302,6 @@ function hitung_laba_bersih(array $pemasukan, array $pengeluaran): int|float
  */
 function generate_svg_donat(array $data, int $radius = 80): string
 {
-    // --- Warna per label status ---
     $warna = [
         'Selesai'             => '#16A34A',
         'Diproses'            => '#D97706',
@@ -295,7 +320,6 @@ function generate_svg_donat(array $data, int $radius = 80): string
     $cy     = $radius + $margin;
     $size   = ($radius + $margin) * 2;
 
-    // --- Edge case: tidak ada data ---
     if ($total === 0) {
         $svg = '<svg viewBox="0 0 ' . $size . ' ' . $size . '" '
              . 'width="' . $size . '" height="' . $size . '" '
@@ -312,7 +336,6 @@ function generate_svg_donat(array $data, int $radius = 80): string
         return '<div class="donut-chart-wrap">' . $svg . '</div>';
     }
 
-    // --- Hitung segmen ---
     $segmen_count = count(array_filter($data, fn($v) => $v > 0));
     $paths        = '';
     $current_angle = -90.0; // mulai dari atas (jam 12)
@@ -327,11 +350,9 @@ function generate_svg_donat(array $data, int $radius = 80): string
 
         if ($segmen_count === 1) {
             // Satu segmen 100%: gambar sebagai dua arc agar titik awal ≠ titik akhir
-            // Arc 1: 359°, Arc 2: 1°
             $angle1 = 359.0;
             $angle2 = 1.0;
 
-            // Arc 1 (hampir penuh)
             $x1 = $cx + $radius * cos(deg2rad($current_angle));
             $y1 = $cy + $radius * sin(deg2rad($current_angle));
             $x2 = $cx + $radius * cos(deg2rad($current_angle + $angle1));
@@ -342,7 +363,6 @@ function generate_svg_donat(array $data, int $radius = 80): string
                     . round($x2, 4) . ' ' . round($y2, 4)
                     . ' Z" fill="' . $color . '"/>';
 
-            // Arc 2 (1° sisa, warna sama)
             $x3 = $cx + $radius * cos(deg2rad($current_angle + $angle1 + $angle2));
             $y3 = $cy + $radius * sin(deg2rad($current_angle + $angle1 + $angle2));
             $paths .= '<path d="M ' . $cx . ' ' . $cy
@@ -351,7 +371,6 @@ function generate_svg_donat(array $data, int $radius = 80): string
                     . round($x3, 4) . ' ' . round($y3, 4)
                     . ' Z" fill="' . $color . '"/>';
         } else {
-            // Beberapa segmen
             $angle = ($nilai / $total) * 360.0;
 
             $x1 = $cx + $radius * cos(deg2rad($current_angle));
@@ -371,18 +390,15 @@ function generate_svg_donat(array $data, int $radius = 80): string
         }
     }
 
-    // --- Lubang donat (lingkaran putih di tengah) ---
     $hole_r  = round($radius * 0.55);
     $paths  .= '<circle cx="' . $cx . '" cy="' . $cy . '" r="' . $hole_r . '" fill="#ffffff"/>';
 
-    // --- SVG utama ---
     $svg = '<svg viewBox="0 0 ' . $size . ' ' . $size . '" '
          . 'width="' . $size . '" height="' . $size . '" '
          . 'xmlns="http://www.w3.org/2000/svg">'
          . $paths
          . '</svg>';
 
-    // --- Legend ---
     $legend      = '<div class="donut-legend">';
     $fallback_idx = 0;
 
@@ -448,7 +464,6 @@ function generate_svg_bar(array $pemasukan, array $pengeluaran): string
     $labels = '';
     $grids  = '';
 
-    // 4 garis grid horizontal
     for ($i = 1; $i <= 4; $i++) {
         $y_grid   = $pad_top + $chart_h - round(($i / 4) * $chart_h);
         $val_grid = (int)(($i / 4) * $max_val);

@@ -23,9 +23,6 @@ $css_extra   = '/assets/css/public.css';
 
 <main>
 
-    <!-- ═══════════════════════════════════════════
-         HERO — Kontak
-         ═══════════════════════════════════════════ -->
     <section class="hero" style="min-height:40vh;padding:3rem 1.5rem;">
         <div class="hero__inner">
             <p style="
@@ -47,9 +44,6 @@ $css_extra   = '/assets/css/public.css';
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         INFO KONTAK UTAMA
-         ═══════════════════════════════════════════ -->
     <section class="section">
         <div class="container">
 
@@ -60,7 +54,6 @@ $css_extra   = '/assets/css/public.css';
                 align-items:start;
             " class="kontak-grid">
 
-                <!-- Kolom kiri: kartu-kartu kontak -->
                 <div style="display:flex;flex-direction:column;gap:1.25rem;">
 
                     <div>
@@ -92,7 +85,6 @@ $css_extra   = '/assets/css/public.css';
                         </p>
                     </div>
 
-                    <!-- WhatsApp -->
                     <a href="https://wa.me/6285746606624?text=<?= rawurlencode('Halo WanFlorist, saya ingin bertanya tentang produk Anda.') ?>"
                        target="_blank"
                        rel="noopener noreferrer"
@@ -144,7 +136,6 @@ $css_extra   = '/assets/css/public.css';
                         <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true">→</span>
                     </a>
 
-                    <!-- Instagram -->
                     <a href="https://instagram.com/wanflorist.id"
                        target="_blank"
                        rel="noopener noreferrer"
@@ -196,7 +187,6 @@ $css_extra   = '/assets/css/public.css';
                         <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true">→</span>
                     </a>
 
-                    <!-- Alamat -->
                     <div style="
                         display:flex;
                         align-items:flex-start;
@@ -243,10 +233,8 @@ $css_extra   = '/assets/css/public.css';
 
                 </div>
 
-                <!-- Kolom kanan: jam operasional + catatan -->
                 <div style="display:flex;flex-direction:column;gap:1.5rem;">
 
-                    <!-- Jam operasional -->
                     <div style="
                         background:#F5F0FF;
                         border:1.5px solid #E9D5FF;
@@ -309,7 +297,6 @@ $css_extra   = '/assets/css/public.css';
                         </p>
                     </div>
 
-                    <!-- Tips menghubungi -->
                     <div style="
                         background:#fff;
                         border:1.5px solid #E5E7EB;
@@ -361,14 +348,11 @@ $css_extra   = '/assets/css/public.css';
 
                 </div>
 
-            </div><!-- /.kontak-grid -->
+            </div>
 
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         CTA — Pesan Sekarang
-         ═══════════════════════════════════════════ -->
     <section class="section section--primary">
         <div class="container" style="text-align:center;">
             <h2 class="section__title" style="color:#fff;margin-bottom:0.75rem;">
@@ -393,7 +377,6 @@ $css_extra   = '/assets/css/public.css';
 <?php include '../components/footer.php'; ?>
 
 <style>
-/* Responsive untuk kontak-grid */
 @media (max-width: 767px) {
     .kontak-grid {
         grid-template-columns: 1fr !important;
@@ -406,7 +389,6 @@ $css_extra   = '/assets/css/public.css';
         gap: 2rem !important;
     }
 }
-/* Hover effect untuk kontak cards */
 .kontak-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(107,33,168,0.12) !important;

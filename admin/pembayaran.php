@@ -19,17 +19,12 @@ $csrf_token  = generate_csrf();
 $errors      = [];
 $success_msg = '';
 
-// Tab aktif: 'dp' atau 'lunas'
 $active_tab = in_array($_GET['tab'] ?? '', ['dp', 'lunas'], true)
     ? $_GET['tab']
     : 'dp';
 
-/* ============================================================
-   POST HANDLER — catat_dp
-   ============================================================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat_dp') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors['csrf'] = 'Token CSRF tidak valid. Silakan muat ulang halaman.';
     } else {
@@ -38,11 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
         $metode      = trim($_POST['metode'] ?? '');
         $metode_valid = ['transfer_bca', 'transfer_mandiri', 'transfer_bni', 'lainnya'];
 
-        // 2. Validasi input
         if ($id_pesanan <= 0) {
             $errors['id_pesanan'] = 'Pilih pesanan yang valid.';
         } else {
-            // Cek pesanan ada dan berstatus menunggu_konfirmasi
             $stmt = $pdo->prepare(
                 "SELECT id_pesanan FROM pesanan
                   WHERE id_pesanan = :id AND status = 'menunggu_konfirmasi'
@@ -62,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
             $errors['metode'] = 'Pilih metode pembayaran yang valid.';
         }
 
-        // 3. Simpan ke DB dalam transaksi jika tidak ada error
         if (empty($errors)) {
             try {
                 $pdo->beginTransaction();
@@ -85,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
                 $pdo->commit();
 
                 $success_msg = 'DP berhasil dicatat. Status pesanan diperbarui menjadi Diproses.';
-                // Refresh CSRF setelah sukses
                 $csrf_token = generate_csrf();
                 $active_tab = 'dp';
 
@@ -98,12 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
     }
 }
 
-/* ============================================================
-   POST HANDLER — catat_lunas
-   ============================================================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat_lunas') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors['csrf'] = 'Token CSRF tidak valid. Silakan muat ulang halaman.';
     } else {
@@ -112,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
         $jumlah_lunas = (int) ($_POST['jumlah_lunas'] ?? 0);
         $metode_valid = ['transfer_bca', 'transfer_mandiri', 'transfer_bni', 'cod', 'lainnya'];
 
-        // 2. Validasi dasar
         if ($id_pesanan <= 0) {
             $errors['id_pesanan'] = 'Pilih pesanan yang valid.';
         }
@@ -123,7 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
             $errors['metode_lunas'] = 'Pilih metode pembayaran yang valid.';
         }
 
-        // 3. Ambil data pesanan
         $pesanan_row = null;
         if (empty($errors)) {
             $stmt = $pdo->prepare(
@@ -140,13 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
             }
         }
 
-        // 4. Validasi berdasarkan metode_bayar pesanan
         if (empty($errors) && $pesanan_row) {
             $total_harga  = (int) $pesanan_row['total_harga'];
             $metode_bayar = $pesanan_row['metode_bayar'];
 
             if ($metode_bayar === 'transfer') {
-                // Cek DP sudah ada
                 $stmt = $pdo->prepare(
                     "SELECT jumlah_dp FROM dp WHERE id_pesanan = :id LIMIT 1"
                 );
@@ -168,7 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
             // COD: tidak ada pemeriksaan DP
         }
 
-        // 5. Simpan ke DB jika tidak ada error
         if (empty($errors)) {
             try {
                 $pdo->beginTransaction();
@@ -203,9 +185,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
     }
 }
 
-/* ============================================================
-   QUERY RINGKASAN (summary cards)
-   ============================================================ */
 $total_dp_bulan = (int) $pdo->query(
     "SELECT COALESCE(SUM(jumlah_dp), 0)
        FROM dp
@@ -226,10 +205,6 @@ $menunggu_bayar = (int) $pdo->query(
       WHERE status = 'menunggu_konfirmasi'"
 )->fetchColumn();
 
-/* ============================================================
-   QUERY DATA TAB DP
-   Pesanan berstatus menunggu_konfirmasi yang belum punya DP
-   ============================================================ */
 $stmt_dp_pending = $pdo->query(
     "SELECT p.id_pesanan, p.no_pesanan, p.nama_pemesan,
             p.total_harga, p.metode_bayar, p.created_at
@@ -242,10 +217,6 @@ $stmt_dp_pending = $pdo->query(
 );
 $orders_dp = $stmt_dp_pending->fetchAll();
 
-/* ============================================================
-   QUERY DATA TAB LUNAS
-   Pesanan berstatus diproses yang belum punya record lunas
-   ============================================================ */
 $stmt_lunas_pending = $pdo->query(
     "SELECT p.id_pesanan, p.no_pesanan, p.nama_pemesan,
             p.total_harga, p.metode_bayar,
@@ -260,9 +231,6 @@ $stmt_lunas_pending = $pdo->query(
 );
 $orders_lunas = $stmt_lunas_pending->fetchAll();
 
-/* ============================================================
-   HTML TEMPLATE
-   ============================================================ */
 $page_title  = 'Pencatatan Pembayaran';
 $active_page = 'pembayaran';
 $css_extra   = '/assets/css/admin.css';
@@ -287,7 +255,6 @@ $css_extra   = '/assets/css/admin.css';
 
         <div class="admin-content">
 
-            <!-- Page header -->
             <div class="page-header">
                 <div>
                     <h2 class="page-header__title">Pencatatan Pembayaran</h2>
@@ -297,7 +264,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- Notifikasi sukses / error -->
             <?php if ($success_msg !== ''): ?>
             <div class="alert alert-success" role="alert" style="
                     background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;
@@ -316,9 +282,6 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- ====================================================
-                 SUMMARY CARDS
-                 ==================================================== -->
             <div class="stat-cards" style="grid-template-columns:repeat(3,1fr);">
 
                 <div class="stat-card stat-card--success">
@@ -360,11 +323,8 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Pesanan belum dikonfirmasi</div>
                 </div>
 
-            </div><!-- /.stat-cards -->
+            </div>
 
-            <!-- ====================================================
-                 TABS
-                 ==================================================== -->
             <nav class="tab-nav" role="tablist" aria-label="Tab pencatatan pembayaran">
                 <button
                     type="button"
@@ -392,16 +352,12 @@ $css_extra   = '/assets/css/admin.css';
                 </button>
             </nav>
 
-            <!-- ====================================================
-                 TAB PANEL: DP
-                 ==================================================== -->
             <div
                 id="tab-panel-dp"
                 role="tabpanel"
                 aria-labelledby="tab-btn-dp"
                 class="tab-panel<?= $active_tab === 'dp' ? ' tab-panel--active' : '' ?>"
             >
-                <!-- Tabel pesanan menunggu DP -->
                 <div class="admin-card" style="margin-bottom:1.5rem;">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pesanan Menunggu DP</span>
@@ -468,7 +424,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Form catat DP -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">💵 Catat Down Payment (DP)</span>
@@ -492,7 +447,6 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div style="display:grid;gap:1.25rem;">
 
-                                <!-- Pilih pesanan -->
                                 <div class="form-group">
                                     <label for="dp_id_pesanan" class="form-label">
                                         Pilih Pesanan <span style="color:#DC2626;">*</span>
@@ -521,7 +475,6 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Jumlah DP -->
                                 <div class="form-group">
                                     <label for="dp_jumlah" class="form-label">
                                         Jumlah DP (Rp) <span style="color:#DC2626;">*</span>
@@ -542,7 +495,6 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Metode pembayaran DP -->
                                 <div class="form-group">
                                     <label for="dp_metode" class="form-label">
                                         Metode Pembayaran <span style="color:#DC2626;">*</span>
@@ -576,7 +528,6 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Tombol submit -->
                                 <div>
                                     <button type="submit" class="btn btn-primary">
                                         💾 Catat DP
@@ -588,18 +539,14 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-            </div><!-- /#tab-panel-dp -->
+            </div>
 
-            <!-- ====================================================
-                 TAB PANEL: LUNAS
-                 ==================================================== -->
             <div
                 id="tab-panel-lunas"
                 role="tabpanel"
                 aria-labelledby="tab-btn-lunas"
                 class="tab-panel<?= $active_tab === 'lunas' ? ' tab-panel--active' : '' ?>"
             >
-                <!-- Tabel pesanan menunggu pelunasan -->
                 <div class="admin-card" style="margin-bottom:1.5rem;">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pesanan Menunggu Pelunasan</span>
@@ -674,7 +621,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Form catat lunas -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">✅ Catat Pembayaran Lunas</span>
@@ -698,7 +644,6 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div style="display:grid;gap:1.25rem;">
 
-                                <!-- Pilih pesanan -->
                                 <div class="form-group">
                                     <label for="lunas_id_pesanan" class="form-label">
                                         Pilih Pesanan <span style="color:#DC2626;">*</span>
@@ -735,7 +680,6 @@ $css_extra   = '/assets/css/admin.css';
                                     </div>
                                 </div>
 
-                                <!-- Jumlah lunas -->
                                 <div class="form-group">
                                     <label for="lunas_jumlah" class="form-label">
                                         Jumlah Pelunasan (Rp) <span style="color:#DC2626;">*</span>
@@ -756,7 +700,6 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Metode pembayaran lunas -->
                                 <div class="form-group">
                                     <label for="lunas_metode" class="form-label">
                                         Metode Pembayaran <span style="color:#DC2626;">*</span>
@@ -794,7 +737,6 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Tombol submit -->
                                 <div>
                                     <button type="submit" class="btn btn-primary">
                                         ✅ Catat Pelunasan
@@ -806,16 +748,13 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-            </div><!-- /#tab-panel-lunas -->
+            </div>
 
-        </div><!-- /.admin-content -->
-    </main><!-- /.admin-main -->
-</div><!-- /.admin-layout -->
+        </div>
+    </main>
+</div>
 
 <style>
-/* ---------------------------------------------------------------
-   Form styles (complement admin.css)
-   --------------------------------------------------------------- */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -906,7 +845,6 @@ $css_extra   = '/assets/css/admin.css';
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        /* ---- Tab switching ---- */
         var tabBtns   = document.querySelectorAll('.tab-btn[data-tab]');
         var tabPanels = {
             dp:    document.getElementById('tab-panel-dp'),
@@ -917,7 +855,6 @@ $css_extra   = '/assets/css/admin.css';
             btn.addEventListener('click', function () {
                 var target = btn.getAttribute('data-tab');
 
-                // Update buttons
                 tabBtns.forEach(function (b) {
                     b.classList.remove('tab-btn--active');
                     b.setAttribute('aria-selected', 'false');
@@ -925,7 +862,6 @@ $css_extra   = '/assets/css/admin.css';
                 btn.classList.add('tab-btn--active');
                 btn.setAttribute('aria-selected', 'true');
 
-                // Update panels
                 Object.keys(tabPanels).forEach(function (key) {
                     if (tabPanels[key]) {
                         tabPanels[key].classList.remove('tab-panel--active');
@@ -937,7 +873,6 @@ $css_extra   = '/assets/css/admin.css';
             });
         });
 
-        /* ---- Lunas: tampilkan info sisa bayar saat pesanan dipilih ---- */
         var lunasSelect = document.getElementById('lunas_id_pesanan');
         var lunasInfo   = document.getElementById('lunas-info');
         var lunasJumlah = document.getElementById('lunas_jumlah');
@@ -955,7 +890,6 @@ $css_extra   = '/assets/css/admin.css';
                 var metode = opt.getAttribute('data-metode') || '';
                 var sisa   = metode === 'cod' ? total : Math.max(0, total - dp);
 
-                // Format Rupiah sederhana
                 function rupiah(n) {
                     return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                 }

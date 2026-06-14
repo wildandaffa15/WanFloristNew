@@ -1,18 +1,5 @@
-/*
- * assets/css/admin.css
- *
- * Style khusus panel admin WanFlorist — memperluas main.css.
- * Mencakup: admin layout, stat cards, tables, status badges,
- * sidebar nav, toggle switch, tabs, modal, responsive.
- *
- * TIDAK menggunakan framework CSS apapun (Pure CSS).
- * Requirements: 16.1, 16.8
- */
 
 
-/* ============================================================
-   1. ADMIN LAYOUT
-   ============================================================ */
 .admin-layout {
     display: flex;
     min-height: 100vh;
@@ -32,7 +19,6 @@
     flex-direction: column;
 }
 
-/* Scrollbar sidebar yang lebih ramping */
 .admin-sidebar::-webkit-scrollbar {
     width: 4px;
 }
@@ -86,7 +72,6 @@
     flex: 1;
 }
 
-/* Logo area di sidebar */
 .sidebar-logo {
     padding: 1.5rem 1.25rem 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
@@ -108,7 +93,6 @@
     margin-top: 0.25rem;
 }
 
-/* Tombol hamburger — tersembunyi di desktop, muncul di mobile */
 .hamburger-btn {
     display: none;
     align-items: center;
@@ -144,7 +128,6 @@
     gap: 4px;
 }
 
-/* Overlay untuk menutup sidebar di mobile */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -158,9 +141,6 @@
 }
 
 
-/* ============================================================
-   2. STAT CARDS
-   ============================================================ */
 .stat-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -184,7 +164,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Variasi warna border kiri */
 .stat-card--success {
     border-left-color: #16A34A;
 }
@@ -261,9 +240,6 @@
 }
 
 
-/* ============================================================
-   3. ADMIN TABLES
-   ============================================================ */
 .admin-table {
     width: 100%;
     border-collapse: collapse;
@@ -304,7 +280,6 @@
     border-bottom: none;
 }
 
-/* Baris kritis (stok minimum) */
 .admin-table tr.row-kritis td {
     background-color: #FFF5F5;
 }
@@ -313,7 +288,6 @@
     background-color: #FEE2E2;
 }
 
-/* Wrapper tabel dengan scroll horizontal di mobile */
 .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -324,7 +298,6 @@
     min-width: 600px;
 }
 
-/* Thumbnail di tabel */
 .table-thumbnail {
     width: 44px;
     height: 44px;
@@ -335,10 +308,6 @@
     flex-shrink: 0;
 }
 
-
-/* ============================================================
-   4. STATUS BADGES (admin-specific override)
-   ============================================================ */
 
 /* Base badge — dibutuhkan jika admin.css di-load tanpa main.css */
 .badge {
@@ -353,7 +322,6 @@
     line-height: 1.4;
 }
 
-/* Status pesanan */
 .badge-menunggu {
     background: #DBEAFE;
     color: #1D4ED8;
@@ -374,13 +342,11 @@
     color: #991B1B;
 }
 
-/* Stok kritis */
 .badge-kritis {
     background: #FEE2E2;
     color: #DC2626;
 }
 
-/* Status toko */
 .badge-aktif {
     background: #DCFCE7;
     color: #16A34A;
@@ -392,9 +358,6 @@
 }
 
 
-/* ============================================================
-   5. SIDEBAR NAV
-   ============================================================ */
 .sidebar-nav {
     list-style: none;
     padding: 1rem 0;
@@ -442,7 +405,6 @@
     flex: 1;
 }
 
-/* Pemisah nav */
 .sidebar-nav__divider {
     height: 1px;
     background: rgba(255, 255, 255, 0.07);
@@ -459,7 +421,6 @@
     font-weight: 600;
 }
 
-/* Bagian bawah sidebar (logout, dll.) */
 .sidebar-footer {
     padding: 1rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
@@ -467,9 +428,6 @@
 }
 
 
-/* ============================================================
-   6. TOGGLE SWITCH (status toko)
-   ============================================================ */
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -524,7 +482,6 @@ input:focus-visible + .toggle-slider {
     outline-offset: 2px;
 }
 
-/* Wrapper untuk toggle + label */
 .toggle-group {
     display: flex;
     align-items: center;
@@ -545,9 +502,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   7. TABS
-   ============================================================ */
 .tab-nav {
     display: flex;
     border-bottom: 2px solid #E5E7EB;
@@ -589,7 +543,6 @@ input:focus-visible + .toggle-slider {
     display: block;
 }
 
-/* Tab dengan badge/counter */
 .tab-btn__count {
     display: inline-flex;
     align-items: center;
@@ -612,9 +565,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   8. MODAL (admin-specific)
-   ============================================================ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -704,15 +654,11 @@ input:focus-visible + .toggle-slider {
     flex-wrap: wrap;
 }
 
-/* Modal konfirmasi hapus */
 .modal-dialog--danger .modal-title {
     color: #DC2626;
 }
 
 
-/* ============================================================
-   9. ADMIN CARD / PANEL SECTION
-   ============================================================ */
 .admin-card {
     background: white;
     border-radius: 12px;
@@ -750,9 +696,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   10. PAGE HEADER (judul halaman admin)
-   ============================================================ */
 .page-header {
     display: flex;
     align-items: center;
@@ -785,9 +728,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   11. SEARCH BAR (admin)
-   ============================================================ */
 .admin-search {
     display: flex;
     align-items: center;
@@ -827,9 +767,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   12. EMPTY STATE (admin)
-   ============================================================ */
 .admin-empty {
     display: flex;
     flex-direction: column;
@@ -863,13 +800,7 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   13. MOBILE RESPONSIVE — ADMIN
-   ============================================================ */
-
-/* Tablet (1024px ke bawah) */
 @media (max-width: 1023px) {
-    /* Sidebar tersembunyi, dipicu tombol hamburger */
     .admin-sidebar {
         transform: translateX(-100%);
     }
@@ -878,17 +809,14 @@ input:focus-visible + .toggle-slider {
         transform: translateX(0);
     }
 
-    /* Konten utama mengambil lebar penuh */
     .admin-main {
         margin-left: 0;
     }
 
-    /* Tampilkan tombol hamburger */
     .hamburger-btn {
         display: flex;
     }
 
-    /* Stat cards: 2 kolom */
     .stat-cards {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -906,9 +834,7 @@ input:focus-visible + .toggle-slider {
     }
 }
 
-/* Mobile (768px ke bawah) */
 @media (max-width: 767px) {
-    /* Stat cards: 1 kolom */
     .stat-cards {
         grid-template-columns: 1fr;
     }
@@ -969,7 +895,6 @@ input:focus-visible + .toggle-slider {
     }
 }
 
-/* Mobile kecil (480px ke bawah) */
 @media (max-width: 480px) {
     .admin-content {
         padding: 0.75rem;
@@ -985,13 +910,6 @@ input:focus-visible + .toggle-slider {
 }
 
 
-/* ============================================================
-   LOGIN PAGE
-   Halaman login berdiri sendiri — tanpa sidebar/navbar.
-   Requirements: 7.1, 16.1, 16.3
-   ============================================================ */
-
-/* Override body untuk halaman login */
 body.login-body {
     background-color: var(--color-bg);
     overflow: hidden;
@@ -1003,18 +921,16 @@ body.login-body {
     }
 }
 
-/* Wrapper dua-kolom */
 .login-wrapper {
     display: flex;
     min-height: 100vh;
     width: 100%;
 }
 
-/* ---- Panel kiri: branding (hanya desktop) ---- */
 .login-brand-panel {
     display: none;
     width: 50%;
-    background-color: var(--sidebar-bg); /* #1E1040 */
+    background-color: var(--sidebar-bg);
     position: relative;
     align-items: center;
     justify-content: center;
@@ -1027,7 +943,6 @@ body.login-body {
     }
 }
 
-/* Gradient overlay di atas background panel */
 .login-brand-overlay {
     position: absolute;
     inset: 0;
@@ -1040,7 +955,6 @@ body.login-body {
     z-index: 1;
 }
 
-/* Konten branding: logo + judul + tagline */
 .login-brand-content {
     position: relative;
     z-index: 2;
@@ -1069,7 +983,7 @@ body.login-body {
     font-family: var(--font-heading);
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 700;
-    color: var(--color-dark-text); /* #E9D5FF */
+    color: var(--color-dark-text);
     margin-bottom: 20px;
     letter-spacing: -0.5px;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
@@ -1087,11 +1001,10 @@ body.login-body {
     font-family: var(--font-body);
     font-size: 1.0625rem;
     line-height: 1.75;
-    color: var(--color-dark-muted); /* #A78BFA */
+    color: var(--color-dark-muted);
     max-width: 340px;
 }
 
-/* ---- Panel kanan: form login ---- */
 .login-form-panel {
     width: 100%;
     display: flex;
@@ -1114,7 +1027,6 @@ body.login-body {
     max-width: 420px;
 }
 
-/* Logo kecil untuk mobile */
 .login-mobile-logo {
     display: flex;
     align-items: center;
@@ -1134,7 +1046,6 @@ body.login-body {
     }
 }
 
-/* Judul form */
 .login-heading {
     margin-bottom: 32px;
     margin-top: 48px; /* ruang untuk mobile logo */
@@ -1160,7 +1071,6 @@ body.login-body {
     margin-bottom: 0;
 }
 
-/* Wrapper input dengan ikon di kiri (dan tombol di kanan untuk password) */
 .login-input-wrapper {
     position: relative;
 }
@@ -1178,7 +1088,6 @@ body.login-body {
     transition: color var(--transition);
 }
 
-/* Input field — dengan ikon kiri */
 .login-input-field {
     padding-left: 44px !important;
 }
@@ -1188,12 +1097,10 @@ body.login-body {
     padding-right: 48px !important;
 }
 
-/* Warna ikon saat field di-fokus */
 .login-input-wrapper:focus-within .login-input-icon {
     color: var(--color-primary-light);
 }
 
-/* Tombol toggle visibilitas password */
 .login-toggle-password {
     position: absolute;
     inset-block: 0;
@@ -1217,7 +1124,6 @@ body.login-body {
     outline: none;
 }
 
-/* Catatan keamanan di bawah form */
 .login-security-note {
     display: flex;
     align-items: center;
@@ -1228,7 +1134,6 @@ body.login-body {
     color: var(--color-text-muted);
 }
 
-/* ---- Responsive: layar kecil (≤ 1023px) — tampilkan sebagai single column ---- */
 @media (max-width: 1023px) {
     body.login-body {
         background-color: var(--color-white);

@@ -1,18 +1,5 @@
-/*
- * assets/css/main.css
- *
- * CSS utama WanFlorist — variabel global, reset, typografi dasar,
- * komponen umum (tombol, badge, kartu, modal, form, tabel, alert, grid).
- *
- * TIDAK menggunakan framework CSS apapun (Pure CSS).
- * Requirements: 16.1, 16.3, 16.4
- */
 
-/* ============================================================
-   1. CSS CUSTOM PROPERTIES (DESIGN TOKENS)
-   ============================================================ */
 :root {
-    /* Warna primer */
     --color-primary:        #6B21A8;
     --color-primary-light:  #9333EA;
     --color-primary-dark:   #581C87;
@@ -20,41 +7,33 @@
     --color-primary-border: #E9D5FF;
     --color-primary-hover:  #5B1A90;
 
-    /* Sidebar admin */
     --sidebar-bg:           #1E1040;
     --sidebar-width:        240px;
 
-    /* Status / semantic */
     --color-success:        #16A34A;
     --color-danger:         #DC2626;
     --color-warning:        #D97706;
     --color-info:           #2563EB;
 
-    /* Teks */
     --color-text:           #1F2937;
     --color-text-muted:     #6B7280;
     --color-text-heading:   #1A1A2E;
 
-    /* Latar belakang */
     --color-bg:             #FAFAFA;
     --color-surface:        #FFF7FE;
     --color-surface-alt:    #FAFAFA;
 
-    /* Garis & border */
     --color-border:         #E5E7EB;
     --color-border-light:   #F3F4F6;
 
-    /* Lainnya */
     --color-white:          #FFFFFF;
     --color-star:           #F59E0B;
     --color-dark-text:      #E9D5FF;
     --color-dark-muted:     #A78BFA;
 
-    /* Tipografi */
     --font-heading:         'Playfair Display', Georgia, serif;
     --font-body:            'Inter', system-ui, -apple-system, sans-serif;
 
-    /* Border radius */
     --radius-sm:    4px;
     --radius-md:    8px;
     --radius-lg:    12px;
@@ -62,15 +41,12 @@
     --radius-2xl:   24px;
     --radius-pill:  9999px;
 
-    /* Bayangan */
     --shadow-sm:    0 1px 2px 0 rgba(0,0,0,.05);
     --shadow-md:    0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
     --shadow-lg:    0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
 
-    /* Transisi */
     --transition:   150ms ease-in-out;
 
-    /* Spacing scale */
     --sp-1:  4px;
     --sp-2:  8px;
     --sp-3:  12px;
@@ -84,9 +60,6 @@
 }
 
 
-/* ============================================================
-   2. CSS RESET / NORMALIZE
-   ============================================================ */
 *,
 *::before,
 *::after {
@@ -159,9 +132,6 @@ hr {
     margin: var(--sp-6) 0;
 }
 
-/* ============================================================
-   3. TIPOGRAFI DASAR
-   ============================================================ */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     color: var(--color-text-heading);
@@ -194,10 +164,6 @@ strong {
     font-weight: 600;
 }
 
-/* ============================================================
-   4. TOMBOL — Semua btn menggunakan pill shape (border-radius: 9999px)
-   Requirements: 16.3
-   ============================================================ */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -231,7 +197,6 @@ strong {
     pointer-events: none;
 }
 
-/* Primer (ungu) */
 .btn-primary {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -245,7 +210,6 @@ strong {
     color: var(--color-white);
 }
 
-/* Sekunder (outline) */
 .btn-secondary {
     background-color: transparent;
     color: var(--color-primary);
@@ -257,7 +221,6 @@ strong {
     color: var(--color-primary);
 }
 
-/* Danger (merah) */
 .btn-danger {
     background-color: var(--color-danger);
     color: var(--color-white);
@@ -270,7 +233,6 @@ strong {
     color: var(--color-white);
 }
 
-/* Success (hijau) */
 .btn-success {
     background-color: var(--color-success);
     color: var(--color-white);
@@ -283,7 +245,6 @@ strong {
     color: var(--color-white);
 }
 
-/* Ghost (transparan dengan border tipis) */
 .btn-ghost {
     background-color: transparent;
     color: var(--color-text);
@@ -295,27 +256,21 @@ strong {
     color: var(--color-text);
 }
 
-/* Ukuran kecil */
 .btn-sm {
     padding: 6px 16px;
     font-size: 0.8125rem;
 }
 
-/* Ukuran besar */
 .btn-lg {
     padding: 14px 32px;
     font-size: 1rem;
 }
 
-/* Full width */
 .btn-block {
     width: 100%;
 }
 
 
-/* ============================================================
-   5. FORM — Input, Select, Textarea, Label
-   ============================================================ */
 .form-group {
     margin-bottom: var(--sp-5);
 }
@@ -392,7 +347,6 @@ textarea {
     min-height: 100px;
 }
 
-/* Pesan error pada field */
 .form-error {
     display: block;
     font-size: 0.8125rem;
@@ -400,7 +354,6 @@ textarea {
     margin-top: var(--sp-1);
 }
 
-/* Pesan bantuan pada field */
 .form-hint {
     display: block;
     font-size: 0.8125rem;
@@ -408,7 +361,6 @@ textarea {
     margin-top: var(--sp-1);
 }
 
-/* Input dalam keadaan error */
 .input-error {
     border-color: var(--color-danger) !important;
 }
@@ -418,9 +370,6 @@ textarea {
 }
 
 
-/* ============================================================
-   6. BADGE / STATUS
-   ============================================================ */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -432,50 +381,41 @@ textarea {
     white-space: nowrap;
 }
 
-/* biru — menunggu_konfirmasi */
 .badge-biru,
 .badge-info {
     background-color: #DBEAFE;
     color: #1D4ED8;
 }
 
-/* kuning/amber — diproses */
 .badge-kuning,
 .badge-warning {
     background-color: #FEF3C7;
     color: #92400E;
 }
 
-/* hijau — selesai */
 .badge-hijau,
 .badge-success {
     background-color: #D1FAE5;
     color: #065F46;
 }
 
-/* merah — dibatalkan */
 .badge-merah,
 .badge-danger {
     background-color: #FEE2E2;
     color: #991B1B;
 }
 
-/* ungu — opsional */
 .badge-primary {
     background-color: var(--color-primary-subtle);
     color: var(--color-primary);
 }
 
-/* abu-abu — nonaktif */
 .badge-secondary {
     background-color: #F3F4F6;
     color: #374151;
 }
 
 
-/* ============================================================
-   7. INDIKATOR STATUS (PULSE)
-   ============================================================ */
 .status-dot {
     display: inline-block;
     width: 8px;
@@ -492,7 +432,6 @@ textarea {
     background-color: var(--color-text-muted);
 }
 
-/* Animasi pulse untuk status aktif */
 @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50%       { opacity: .5; transform: scale(1.35); }
@@ -503,9 +442,6 @@ textarea {
 }
 
 
-/* ============================================================
-   8. KARTU
-   ============================================================ */
 .card {
     background-color: var(--color-white);
     border: 1px solid var(--color-border);
@@ -539,9 +475,6 @@ textarea {
 }
 
 
-/* ============================================================
-   9. TABEL
-   ============================================================ */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -595,15 +528,11 @@ textarea {
     border-top: 2px solid var(--color-border);
 }
 
-/* Baris kritis (stok minimum) */
 .table tbody tr.row-danger td {
     background-color: #FFF5F5;
 }
 
 
-/* ============================================================
-   10. MODAL
-   ============================================================ */
 .modal-overlay {
     display: none;               /* ditampilkan via JS: display:flex */
     position: fixed;
@@ -686,9 +615,6 @@ textarea {
 }
 
 
-/* ============================================================
-   11. ALERT
-   ============================================================ */
 .alert {
     display: flex;
     align-items: flex-start;
@@ -725,9 +651,6 @@ textarea {
 }
 
 
-/* ============================================================
-   12. GRID UTILITIES
-   ============================================================ */
 .grid {
     display: grid;
     gap: var(--sp-6);
@@ -745,7 +668,6 @@ textarea {
     grid-template-columns: repeat(4, 1fr);
 }
 
-/* Responsif grid */
 @media (max-width: 1023px) {
     .grid-4 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(2, 1fr); }
@@ -758,11 +680,6 @@ textarea {
 }
 
 
-/* ============================================================
-   13. UTILITY CLASSES
-   ============================================================ */
-
-/* Teks */
 .text-center   { text-align: center; }
 .text-left     { text-align: left; }
 .text-right    { text-align: right; }
@@ -777,24 +694,20 @@ textarea {
 .font-semibold { font-weight: 600; }
 .font-bold     { font-weight: 700; }
 
-/* Margin top */
 .mt-1 { margin-top: var(--sp-1); }
 .mt-2 { margin-top: var(--sp-2); }
 .mt-3 { margin-top: var(--sp-4); }
 .mt-4 { margin-top: var(--sp-6); }
 
-/* Margin bottom */
 .mb-1 { margin-bottom: var(--sp-1); }
 .mb-2 { margin-bottom: var(--sp-2); }
 .mb-3 { margin-bottom: var(--sp-4); }
 .mb-4 { margin-bottom: var(--sp-6); }
 
-/* Padding */
 .p-4  { padding: var(--sp-4); }
 .px-4 { padding-left: var(--sp-4); padding-right: var(--sp-4); }
 .py-4 { padding-top: var(--sp-4); padding-bottom: var(--sp-4); }
 
-/* Display */
 .hidden { display: none !important; }
 .block  { display: block; }
 .flex   { display: flex; }
@@ -819,7 +732,6 @@ textarea {
     border: 0;
 }
 
-/* Gambar kecil di tabel */
 .table-thumbnail {
     width: 48px;
     height: 48px;
@@ -828,7 +740,6 @@ textarea {
     border: 1px solid var(--color-border);
 }
 
-/* Wrapper halaman (max-width container) */
 .container {
     width: 100%;
     max-width: 1280px;
@@ -846,9 +757,6 @@ textarea {
 }
 
 
-/* ============================================================
-   14. PAGINASI
-   ============================================================ */
 .pagination {
     display: flex;
     align-items: center;
@@ -892,9 +800,6 @@ textarea {
 }
 
 
-/* ============================================================
-   15. BANNER STATUS TOKO
-   ============================================================ */
 .banner-status {
     display: flex;
     align-items: center;
@@ -917,9 +822,6 @@ textarea {
 }
 
 
-/* ============================================================
-   16. PRINT STYLES (untuk fitur cetak laporan)
-   ============================================================ */
 @media print {
     .btn,
     .sidebar,

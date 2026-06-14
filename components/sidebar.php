@@ -36,9 +36,6 @@ $menu_items = [
 ];
 ?>
 
-<!-- ============================================================
-     Tombol Hamburger — tampil hanya di mobile, di luar sidebar
-     ============================================================ -->
 <button
     id="wf-sidebar-toggle"
     class="wf-hamburger"
@@ -52,15 +49,10 @@ $menu_items = [
     <span class="wf-hamburger__bar"></span>
 </button>
 
-<!-- Overlay semi-transparan untuk mobile -->
 <div id="wf-sidebar-overlay" class="wf-sidebar-overlay" aria-hidden="true"></div>
 
-<!-- ============================================================
-     Sidebar
-     ============================================================ -->
 <aside id="wf-sidebar" class="wf-sidebar" role="navigation" aria-label="Navigasi admin">
 
-    <!-- Header: nama & role admin -->
     <div class="wf-sidebar__header">
         <div class="wf-sidebar__brand">
             <span class="wf-sidebar__brand-icon" aria-hidden="true">🌸</span>
@@ -77,7 +69,6 @@ $menu_items = [
         </div>
     </div>
 
-    <!-- Menu Navigasi -->
     <nav class="wf-sidebar__nav" aria-label="Menu admin">
         <ul class="wf-sidebar__menu" role="list">
             <?php foreach ($menu_items as [$key, $label, $icon, $href, $is_logout]): ?>
@@ -96,10 +87,8 @@ $menu_items = [
         </ul>
     </nav>
 
-    <!-- Spacer -->
     <div class="wf-sidebar__spacer" aria-hidden="true"></div>
 
-    <!-- Tombol Keluar (form POST untuk keamanan) -->
     <div class="wf-sidebar__footer">
         <div class="wf-sidebar__divider" aria-hidden="true"></div>
         <form method="POST" action="/admin/logout.php" class="wf-sidebar__logout-form">
@@ -114,25 +103,18 @@ $menu_items = [
 </aside>
 
 <style>
-/* ============================================================
-   Sidebar Component — WanFlorist Admin
-   Pure CSS, no framework. Responsive via media queries.
-   ============================================================ */
-
-/* --- Variables (mirrored from main.css tokens) -------------- */
 :root {
     --sidebar-bg:         #1E1040;
     --sidebar-width:      240px;
-    --sidebar-text:       #E9D5FF;    /* dark-text  */
-    --sidebar-muted:      #A78BFA;    /* dark-muted */
+    --sidebar-text:       #E9D5FF;
+    --sidebar-muted:      #A78BFA;
     --sidebar-active-bg:  rgba(107, 33, 168, 0.4);
-    --sidebar-active-border: #9333EA; /* primary-light */
+    --sidebar-active-border: #9333EA;
     --sidebar-hover-bg:   rgba(255, 255, 255, 0.07);
     --sidebar-divider:    rgba(255, 255, 255, 0.08);
     --sidebar-transition: 0.25s ease;
 }
 
-/* --- Sidebar base ------------------------------------------- */
 .wf-sidebar {
     position: fixed;
     top: 0;
@@ -150,7 +132,6 @@ $menu_items = [
     font-family: 'Inter', sans-serif;
 }
 
-/* --- Header: brand + user ----------------------------------- */
 .wf-sidebar__header {
     padding: 24px 16px 16px 16px;
     flex-shrink: 0;
@@ -222,7 +203,6 @@ $menu_items = [
     line-height: 1.3;
 }
 
-/* --- Navigation menu --------------------------------------- */
 .wf-sidebar__nav {
     padding: 8px 8px 0 8px;
     flex-shrink: 0;
@@ -278,7 +258,6 @@ $menu_items = [
     outline-offset: -2px;
 }
 
-/* Item aktif */
 .wf-sidebar__link--active {
     background-color: var(--sidebar-active-bg);
     color: #ffffff;
@@ -292,7 +271,6 @@ $menu_items = [
     color: #ffffff;
 }
 
-/* --- Ikon & label ------------------------------------------ */
 .wf-sidebar__icon {
     font-size: 18px;
     line-height: 1;
@@ -307,13 +285,11 @@ $menu_items = [
     text-overflow: ellipsis;
 }
 
-/* --- Spacer ------------------------------------------------- */
 .wf-sidebar__spacer {
     flex: 1;
     min-height: 16px;
 }
 
-/* --- Footer: logout ---------------------------------------- */
 .wf-sidebar__footer {
     padding: 0 8px 24px 8px;
     flex-shrink: 0;
@@ -341,11 +317,8 @@ $menu_items = [
     color: #FCA5A5;
 }
 
-/* ============================================================
-   Hamburger button — visible hanya di mobile
-   ============================================================ */
 .wf-hamburger {
-    display: none; /* hidden di desktop */
+    display: none;
     position: fixed;
     top: 14px;
     left: 14px;
@@ -383,7 +356,6 @@ $menu_items = [
         opacity var(--sidebar-transition);
 }
 
-/* Hamburger → X saat terbuka */
 .wf-hamburger[aria-expanded="true"] .wf-hamburger__bar:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
@@ -394,9 +366,6 @@ $menu_items = [
     transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ============================================================
-   Overlay mobile
-   ============================================================ */
 .wf-sidebar-overlay {
     display: none;
     position: fixed;
@@ -412,26 +381,22 @@ $menu_items = [
     opacity: 1;
 }
 
-/* ============================================================
-   Responsive — mobile (<1024px): sidebar tersembunyi secara default
-   ============================================================ */
 @media (max-width: 1023px) {
     .wf-hamburger {
-        display: flex; /* tampilkan tombol hamburger */
+        display: flex;
     }
 
     .wf-sidebar {
-        transform: translateX(calc(-1 * var(--sidebar-width))); /* sembunyikan */
+        transform: translateX(calc(-1 * var(--sidebar-width)));
         box-shadow: none;
     }
 
     .wf-sidebar--open {
-        transform: translateX(0); /* tampilkan */
+        transform: translateX(0);
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
     }
 }
 
-/* Desktop: pastikan sidebar selalu tampil */
 @media (min-width: 1024px) {
     .wf-hamburger {
         display: none;
@@ -489,7 +454,6 @@ $menu_items = [
             toggle.focus();
         }
 
-        // Tombol hamburger
         toggle.addEventListener('click', function () {
             var isOpen = sidebar.classList.contains('wf-sidebar--open');
             if (isOpen) {
@@ -499,12 +463,10 @@ $menu_items = [
             }
         });
 
-        // Klik overlay → tutup sidebar
         overlay.addEventListener('click', function () {
             closeSidebar();
         });
 
-        // Tekan Escape → tutup sidebar
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape' && sidebar.classList.contains('wf-sidebar--open')) {
                 closeSidebar();

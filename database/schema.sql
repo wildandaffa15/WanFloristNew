@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS produk (
     nama_produk VARCHAR(200)    NOT NULL,
     deskripsi   TEXT            DEFAULT NULL,
     harga       DECIMAL(12,2)   NOT NULL CHECK (harga > 0),
-    foto        VARCHAR(255)    DEFAULT 'placeholder.jpg',
+    foto        VARCHAR(255)    DEFAULT 'buket_mawar_pink.webp',
     status      ENUM('tersedia', 'nonaktif') NOT NULL DEFAULT 'tersedia',
     is_featured TINYINT(1)      NOT NULL DEFAULT 0,
     created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,

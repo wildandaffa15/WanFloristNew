@@ -15,10 +15,8 @@ require_once '../config/helpers.php';
 
 $pdo = get_pdo();
 
-// ─── Baca ?id= dari GET ──────────────────────────────────────────────────────
 $id = (int) ($_GET['id'] ?? 0);
 
-// ─── Query produk + nama kategori via JOIN (Req 4.1) ─────────────────────────
 $stmt = $pdo->prepare(
     "SELECT p.*, k.nama_kategori
      FROM   produk p
@@ -28,7 +26,6 @@ $stmt = $pdo->prepare(
 $stmt->execute([':id' => $id]);
 $produk = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// ─── Produk terkait: kategori sama, bukan produk ini, max 4 (Req 4.3) ────────
 $related_products = [];
 if ($produk) {
     $stmt_related = $pdo->prepare(
@@ -48,7 +45,6 @@ if ($produk) {
     $related_products = $stmt_related->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// ─── Variabel halaman ─────────────────────────────────────────────────────────
 $page_title  = $produk ? $produk['nama_produk'] : 'Produk Tidak Ditemukan';
 $css_extra   = '/assets/css/public.css';
 $active_page = 'produk';
@@ -60,14 +56,10 @@ $active_page = 'produk';
 
 <?php include '../components/navbar.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     DETAIL PRODUK — Konten Utama
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <main class="detail-page" id="main-content">
     <div class="container">
 
         <?php if (!$produk): ?>
-        <!-- ── Produk tidak ditemukan (Req 4.2) ─────────────────────────────── -->
         <div class="detail-not-found" role="alert">
             <div class="detail-not-found__icon" aria-hidden="true">🌸</div>
             <h1 class="detail-not-found__title">Produk Tidak Ditemukan</h1>
@@ -80,17 +72,8 @@ $active_page = 'produk';
         </div>
 
         <?php else: ?>
-        <?php
-            // Tentukan path foto utama
-            $foto = $produk['foto'] ?? '';
-            if ($foto === '' || $foto === null || $foto === 'placeholder.jpg') {
-                $foto_src = '../assets/img/placeholder.jpg';
-            } else {
-                $foto_src = '../assets/img/produk/' . $foto;
-            }
-        ?>
+        <?php $foto_src = produk_foto_src($produk['foto'] ?? null, '../'); ?>
 
-        <!-- ── Breadcrumb ─────────────────────────────────────────────────── -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="/index.php" class="breadcrumb__link">Beranda</a>
             <span class="breadcrumb__sep" aria-hidden="true">›</span>
@@ -101,41 +84,33 @@ $active_page = 'produk';
             </span>
         </nav>
 
-        <!-- ── Layout 2 kolom: foto (kiri) + info (kanan) ────────────────── -->
         <div class="detail-layout">
 
-            <!-- Kolom kiri: foto produk -->
             <div class="detail-layout__image-col">
                 <div class="detail-image-wrap">
                     <img
                         src="<?= e($foto_src) ?>"
                         alt="<?= e($produk['nama_produk']) ?>"
                         class="detail-image"
-                        onerror="this.src='../assets/img/placeholder.jpg'"
+                        onerror="this.src='<?= e(produk_foto_src(null, '../')) ?>'"
                     >
                 </div>
             </div>
-            <!-- /.detail-layout__image-col -->
 
-            <!-- Kolom kanan: info produk -->
             <div class="detail-layout__info-col">
 
-                <!-- Badge kategori -->
                 <span class="detail-badge-category">
                     <?= e($produk['nama_kategori']) ?>
                 </span>
 
-                <!-- Nama produk (Req 4.1) -->
                 <h1 class="detail-product-name">
                     <?= e($produk['nama_produk']) ?>
                 </h1>
 
-                <!-- Harga (Req 4.5) -->
                 <p class="detail-price">
                     <?= e(format_rupiah((int) $produk['harga'])) ?>
                 </p>
 
-                <!-- Badge status -->
                 <?php if (($produk['status'] ?? '') === 'tersedia'): ?>
                 <span class="badge badge-hijau detail-status-badge">
                     ● Tersedia
@@ -146,16 +121,13 @@ $active_page = 'produk';
                 </span>
                 <?php endif; ?>
 
-                <!-- Deskripsi -->
                 <?php if (!empty($produk['deskripsi'])): ?>
                 <div class="detail-description">
                     <p><?= e($produk['deskripsi']) ?></p>
                 </div>
                 <?php endif; ?>
 
-                <!-- Tombol aksi -->
                 <div class="detail-actions">
-                    <!-- Pesan Sekarang (Req 4.4) -->
                     <a
                         href="/pages/pemesanan.php?id=<?= e((string) $produk['id_produk']) ?>"
                         class="btn btn-primary btn-lg detail-btn-order"
@@ -163,20 +135,15 @@ $active_page = 'produk';
                         Pesan Sekarang
                     </a>
 
-                    <!-- Kembali ke Katalog -->
                     <a href="/pages/katalog.php" class="btn btn-secondary btn-lg detail-btn-back">
                         Kembali ke Katalog
                     </a>
                 </div>
-                <!-- /.detail-actions -->
 
             </div>
-            <!-- /.detail-layout__info-col -->
 
         </div>
-        <!-- /.detail-layout -->
 
-        <!-- ── Produk Terkait (Req 4.3) ──────────────────────────────────── -->
         <?php if (!empty($related_products)): ?>
         <section class="related-section" aria-labelledby="related-heading">
             <h2 class="related-section__title" id="related-heading">
@@ -185,17 +152,9 @@ $active_page = 'produk';
 
             <div class="catalog-grid related-grid">
                 <?php foreach ($related_products as $rel): ?>
-                <?php
-                    $rel_foto = $rel['foto'] ?? '';
-                    if ($rel_foto === '' || $rel_foto === null || $rel_foto === 'placeholder.jpg') {
-                        $rel_foto_src = '../assets/img/placeholder.jpg';
-                    } else {
-                        $rel_foto_src = '../assets/img/produk/' . $rel_foto;
-                    }
-                ?>
+                <?php $rel_foto_src = produk_foto_src($rel['foto'] ?? null, '../'); ?>
                 <article class="product-card" aria-label="<?= e($rel['nama_produk']) ?>">
 
-                    <!-- Foto produk -->
                     <a href="/pages/detail-produk.php?id=<?= e((string) $rel['id_produk']) ?>"
                        class="product-card__image-link"
                        tabindex="-1"
@@ -206,20 +165,17 @@ $active_page = 'produk';
                                 alt="<?= e($rel['nama_produk']) ?>"
                                 class="product-card__image"
                                 loading="lazy"
-                                onerror="this.src='../assets/img/placeholder.jpg'"
+                                onerror="this.src='<?= e(produk_foto_src(null, '../')) ?>'"
                             >
                         </div>
                     </a>
 
-                    <!-- Konten kartu -->
                     <div class="product-card__body">
 
-                        <!-- Badge kategori -->
                         <span class="product-card__category">
                             <?= e($rel['nama_kategori']) ?>
                         </span>
 
-                        <!-- Nama produk -->
                         <h3 class="product-card__name">
                             <a href="/pages/detail-produk.php?id=<?= e((string) $rel['id_produk']) ?>"
                                class="product-card__name-link">
@@ -227,12 +183,10 @@ $active_page = 'produk';
                             </a>
                         </h3>
 
-                        <!-- Harga -->
                         <p class="product-card__price">
                             <?= e(format_rupiah((int) $rel['harga'])) ?>
                         </p>
 
-                        <!-- Tombol aksi -->
                         <div class="product-card__actions">
                             <a href="/pages/detail-produk.php?id=<?= e((string) $rel['id_produk']) ?>"
                                class="btn btn-secondary btn-sm product-card__btn-detail">
@@ -245,39 +199,27 @@ $active_page = 'produk';
                         </div>
 
                     </div>
-                    <!-- /.product-card__body -->
 
                 </article>
                 <?php endforeach; ?>
             </div>
-            <!-- /.catalog-grid -->
         </section>
         <?php endif; ?>
-        <!-- /.related-section -->
 
         <?php endif; ?>
-        <!-- /if produk -->
 
     </div>
-    <!-- /.container -->
 </main>
-<!-- /.detail-page -->
 
 <?php include '../components/footer.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     DETAIL PRODUK PAGE STYLES
-     Pure CSS, no framework. Reuses product-card classes from katalog.php.
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <style>
-/* ── Halaman ────────────────────────────────────────────────────────────────── */
 .detail-page {
     padding-top: var(--sp-10);
     padding-bottom: var(--sp-16);
     min-height: 60vh;
 }
 
-/* ── Breadcrumb ─────────────────────────────────────────────────────────────── */
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -308,7 +250,6 @@ $active_page = 'produk';
     font-weight: 500;
 }
 
-/* ── Layout 2 kolom ─────────────────────────────────────────────────────────── */
 .detail-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -324,7 +265,6 @@ $active_page = 'produk';
     }
 }
 
-/* ── Kolom foto ─────────────────────────────────────────────────────────────── */
 .detail-image-wrap {
     width: 100%;
     aspect-ratio: 4 / 5;
@@ -342,14 +282,12 @@ $active_page = 'produk';
     display: block;
 }
 
-/* ── Kolom info ─────────────────────────────────────────────────────────────── */
 .detail-layout__info-col {
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
 }
 
-/* Badge kategori */
 .detail-badge-category {
     display: inline-block;
     font-size: 0.8125rem;
@@ -361,7 +299,6 @@ $active_page = 'produk';
     align-self: flex-start;
 }
 
-/* Nama produk — Playfair Display (Req 4.1) */
 .detail-product-name {
     font-family: var(--font-heading);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
@@ -371,7 +308,6 @@ $active_page = 'produk';
     margin: 0;
 }
 
-/* Harga — besar, ungu (Req 4.5) */
 .detail-price {
     font-family: var(--font-heading);
     font-size: clamp(1.5rem, 3vw, 2rem);
@@ -380,14 +316,12 @@ $active_page = 'produk';
     margin: 0;
 }
 
-/* Badge status */
 .detail-status-badge {
     align-self: flex-start;
     font-size: 0.875rem;
     padding: 5px 14px;
 }
 
-/* Deskripsi */
 .detail-description {
     font-size: 1rem;
     line-height: 1.75;
@@ -401,7 +335,6 @@ $active_page = 'produk';
     color: var(--color-text-muted);
 }
 
-/* Tombol aksi */
 .detail-actions {
     display: flex;
     gap: var(--sp-3);
@@ -428,7 +361,6 @@ $active_page = 'produk';
     }
 }
 
-/* ── Produk tidak ditemukan (Req 4.2) ───────────────────────────────────────── */
 .detail-not-found {
     display: flex;
     flex-direction: column;
@@ -459,7 +391,6 @@ $active_page = 'produk';
     margin: 0;
 }
 
-/* ── Seksi produk terkait (Req 4.3) ─────────────────────────────────────────── */
 .related-section {
     border-top: 1px solid var(--color-border);
     padding-top: var(--sp-12);
@@ -474,7 +405,6 @@ $active_page = 'produk';
     margin-bottom: var(--sp-8);
 }
 
-/* Grid produk terkait: 4 kolom desktop, 2 tablet, 1 mobile */
 .related-grid {
     grid-template-columns: repeat(4, 1fr);
 }
@@ -495,7 +425,6 @@ $active_page = 'produk';
     }
 }
 
-/* ── Kartu produk (dibagi dengan katalog.php) ───────────────────────────────── */
 .catalog-grid {
     display: grid;
     gap: var(--sp-6);

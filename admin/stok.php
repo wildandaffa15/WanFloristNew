@@ -19,17 +19,12 @@ $csrf_token  = generate_csrf();
 $errors      = [];
 $success_msg = '';
 
-// ============================================================
-// POST handler: tambah_bahan
-// ============================================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tambah_bahan') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Token keamanan tidak valid. Silakan coba lagi.';
     } else {
 
-        // 2. Validasi input
         $nama_bahan  = trim($_POST['nama_bahan'] ?? '');
         $satuan      = trim($_POST['satuan'] ?? '');
         $stok_awal   = $_POST['stok_awal'] ?? '';
@@ -55,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             $errors[] = 'Stok minimum harus berupa bilangan bulat >= 0.';
         }
 
-        // 3. INSERT jika tidak ada error
         if (empty($errors)) {
             $stmt = $pdo->prepare(
                 'INSERT INTO stok_bahan (nama_bahan, satuan, stok_saat_ini, stok_minimum)
@@ -70,27 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
 
             $success_msg = 'Bahan berhasil ditambahkan.';
 
-            // Regenerate CSRF token setelah POST sukses
             $csrf_token = generate_csrf();
         }
     }
 }
 
-// ============================================================
-// Query: semua bahan
-// ============================================================
 $stmt_bahan = $pdo->query('SELECT * FROM stok_bahan ORDER BY nama_bahan ASC');
 $list_bahan = $stmt_bahan->fetchAll();
 
-// ============================================================
-// Query: jumlah item stok kritis
-// ============================================================
 $stmt_kritis  = $pdo->query('SELECT COUNT(*) FROM stok_bahan WHERE stok_saat_ini < stok_minimum');
 $jumlah_kritis = (int) $stmt_kritis->fetchColumn();
 
-// ============================================================
-// Setup variabel template
-// ============================================================
 $page_title  = 'Stok Bahan';
 $active_page = 'stok';
 $css_extra   = '/assets/css/admin.css';
@@ -104,19 +88,14 @@ $css_extra   = '/assets/css/admin.css';
 
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
-    <!-- ============================================================
-         Konten utama
-         ============================================================ -->
     <main class="admin-main" id="admin-main-content">
 
-        <!-- Header halaman -->
         <div class="admin-header">
             <h1 class="admin-header__title">🌿 Stok Bahan</h1>
         </div>
 
         <div class="admin-content">
 
-            <!-- ── Summary card: stok kritis ─────────────────────── -->
             <div class="stat-cards" style="grid-template-columns: repeat(1, minmax(0, 320px));">
                 <div class="stat-card <?= $jumlah_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                     <div class="stat-card__header">
@@ -131,7 +110,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Pesan sukses / error ───────────────────────────── -->
             <?php if ($success_msg !== ''): ?>
                 <div class="alert alert-success" role="alert" style="
                     background:#D1FAE5; color:#065F46; border:1px solid #6EE7B7;
@@ -157,7 +135,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             <?php endif; ?>
 
-            <!-- ── Form tambah bahan ──────────────────────────────── -->
             <div class="admin-card" style="margin-bottom:1.5rem;">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title">➕ Tambah Bahan Baru</h2>
@@ -169,7 +146,6 @@ $css_extra   = '/assets/css/admin.css';
 
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
 
-                            <!-- Nama Bahan -->
                             <div>
                                 <label for="nama_bahan" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
                                     Nama Bahan <span style="color:#DC2626;" aria-hidden="true">*</span>
@@ -187,7 +163,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Satuan -->
                             <div>
                                 <label for="satuan" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
                                     Satuan <span style="color:#DC2626;" aria-hidden="true">*</span>
@@ -205,7 +180,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Stok Awal -->
                             <div>
                                 <label for="stok_awal" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
                                     Stok Awal <span style="color:#DC2626;" aria-hidden="true">*</span>
@@ -224,7 +198,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Stok Minimum -->
                             <div>
                                 <label for="stok_minimum" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
                                     Stok Minimum <span style="color:#DC2626;" aria-hidden="true">*</span>
@@ -259,7 +232,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Tabel daftar bahan ─────────────────────────────── -->
             <div class="admin-card">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title">📋 Daftar Bahan</h2>
@@ -341,13 +313,10 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-        </div><!-- /.admin-content -->
+        </div>
     </main>
-</div><!-- /.admin-layout -->
+</div>
 
-<!-- ============================================================
-     Modal: Update Stok
-     ============================================================ -->
 <div
     id="modal-update-stok"
     class="modal-overlay"
@@ -422,14 +391,10 @@ $css_extra   = '/assets/css/admin.css';
     </div>
 </div>
 
-<!-- ============================================================
-     Inline JavaScript — addEventListener only (no onclick="")
-     ============================================================ -->
 <script>
 (function () {
     'use strict';
 
-    // ── Referensi elemen ────────────────────────────────────────
     var modal        = document.getElementById('modal-update-stok');
     var modalNama    = document.getElementById('modal-bahan-nama');
     var inputStok    = document.getElementById('input-stok-baru');
@@ -438,11 +403,9 @@ $css_extra   = '/assets/css/admin.css';
     var confirmBtn   = document.getElementById('modal-confirm-btn');
     var errorMsg     = document.getElementById('modal-error-msg');
 
-    // ── State modal ─────────────────────────────────────────────
     var currentId    = null;
     var csrfToken    = <?= json_encode($csrf_token) ?>;
 
-    // ── Fungsi buka modal ───────────────────────────────────────
     function openModal(id, nama, stok) {
         currentId = id;
         modalNama.textContent = 'Bahan: ' + nama;
@@ -454,7 +417,6 @@ $css_extra   = '/assets/css/admin.css';
         inputStok.focus();
     }
 
-    // ── Fungsi tutup modal ──────────────────────────────────────
     function closeModal() {
         modal.classList.remove('modal-overlay--open');
         modal.setAttribute('aria-hidden', 'true');
@@ -464,7 +426,6 @@ $css_extra   = '/assets/css/admin.css';
         errorMsg.textContent = '';
     }
 
-    // ── Buka modal saat tombol "Update Stok" diklik ─────────────
     document.addEventListener('click', function (e) {
         var btn = e.target.closest('.btn-update-stok');
         if (!btn) return;
@@ -475,29 +436,24 @@ $css_extra   = '/assets/css/admin.css';
         );
     });
 
-    // ── Tutup via tombol × dan Batal ───────────────────────────
     closeBtn.addEventListener('click', closeModal);
     cancelBtn.addEventListener('click', closeModal);
 
-    // ── Tutup via klik overlay (di luar dialog) ─────────────────
     modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // ── Tutup via Escape ────────────────────────────────────────
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && modal.classList.contains('modal-overlay--open')) {
             closeModal();
         }
     });
 
-    // ── Submit via fetch() (AJAX) ───────────────────────────────
     confirmBtn.addEventListener('click', function () {
         var stokBaru = inputStok.value.trim();
 
-        // Validasi sisi klien
         if (stokBaru === '' || isNaN(parseInt(stokBaru, 10)) || parseInt(stokBaru, 10) < 0) {
             errorMsg.textContent = 'Stok baru harus berupa bilangan bulat >= 0.';
             errorMsg.style.display = 'block';
@@ -505,7 +461,6 @@ $css_extra   = '/assets/css/admin.css';
             return;
         }
 
-        // Nonaktifkan tombol sementara
         confirmBtn.disabled = true;
         confirmBtn.textContent = 'Menyimpan…';
 
@@ -521,7 +476,6 @@ $css_extra   = '/assets/css/admin.css';
         .then(function (res) { return res.json(); })
         .then(function (data) {
             if (data.success) {
-                // ── Update nilai di DOM ──────────────────────
                 var nilaiEl = document.getElementById('stok-nilai-' + currentId);
                 var row     = document.getElementById('bahan-row-' + currentId);
                 var badge   = row ? row.querySelector('.badge') : null;
@@ -530,13 +484,11 @@ $css_extra   = '/assets/css/admin.css';
                     nilaiEl.textContent = data.stok_baru;
                 }
 
-                // Perbarui data-stok pada tombol
                 var updateBtn = row ? row.querySelector('.btn-update-stok') : null;
                 if (updateBtn) {
                     updateBtn.setAttribute('data-stok', data.stok_baru);
                 }
 
-                // Tandai/hapus kritis berdasarkan nilai baru
                 if (data.is_kritis !== undefined && row) {
                     if (data.is_kritis) {
                         row.classList.add('row-kritis');

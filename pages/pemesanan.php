@@ -24,7 +24,6 @@ $form_data = [];
 $prefill_produk = null;
 $success_no_pesanan = null;
 
-// Pre-fill product from ?id=
 $prefill_id = (int) ($_GET['id'] ?? 0);
 if ($prefill_id > 0) {
     $stmt = $pdo->prepare("SELECT * FROM produk WHERE id_produk = :id AND status = 'tersedia'");
@@ -32,23 +31,18 @@ if ($prefill_id > 0) {
     $prefill_produk = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Fetch all available products for the product selector
 $stmt_all = $pdo->prepare("SELECT id_produk, nama_produk, harga FROM produk WHERE status = 'tersedia' ORDER BY nama_produk");
 $stmt_all->execute();
 $all_produk = $stmt_all->fetchAll(PDO::FETCH_ASSOC);
 
-// Generate CSRF token
 $csrf_token = generate_csrf();
 
-// Handle POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         http_response_code(403);
         die('Permintaan tidak valid.');
     }
 
-    // Collect items
     $items = [];
     $produk_ids = $_POST['produk_id'] ?? [];
     $jumlah_list = $_POST['jumlah'] ?? [];
@@ -68,11 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'produk'        => $items,
     ];
 
-    // Server-side validation
     $errors = validasi_form_pemesanan($input);
 
     if (empty($errors)) {
-        // Begin transaction
         try {
             $pdo->beginTransaction();
 
@@ -100,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // INSERT pesanan
             $stmt_ins = $pdo->prepare(
                 "INSERT INTO pesanan (no_pesanan, nama_pemesan, no_whatsapp, alamat, tanggal_kirim, metode_bayar, catatan, total_harga)
                  VALUES (:no, :nama, :wa, :alamat, :tgl, :metode, :catatan, :total)"
@@ -117,7 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             $id_pesanan = (int) $pdo->lastInsertId();
 
-            // INSERT detail_pesanan
             $stmt_det = $pdo->prepare(
                 "INSERT INTO detail_pesanan (id_pesanan, id_produk, nama_produk, harga_satuan, jumlah, subtotal)
                  VALUES (:id_pesanan, :id_produk, :nama_produk, :harga_satuan, :jumlah, :subtotal)"
@@ -145,17 +135,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Re-generate CSRF token after failed validation
     $csrf_token = generate_csrf();
-    // Preserve form data for refill
     $form_data = $input;
 }
 
-// Determine active metode & tanggal for refill
 $saved_metode  = $form_data['metode_bayar'] ?? $_POST['metode_bayar'] ?? 'transfer';
 $saved_catatan = trim($form_data['catatan'] ?? $_POST['catatan'] ?? '');
 
-// Page meta
 $page_title = 'Form Pemesanan';
 $active_page = 'produk';
 $css_extra   = '/assets/css/pemesanan.css';
@@ -170,7 +156,6 @@ $css_extra   = '/assets/css/pemesanan.css';
 <main class="pem-main">
     <div class="container pem-container">
 
-        <!-- Page heading -->
         <header class="pem-header">
             <h1 class="pem-heading">Form Pemesanan</h1>
             <p class="pem-subheading">Lengkapi data di bawah ini untuk menyelesaikan pesanan Anda.</p>
@@ -178,9 +163,6 @@ $css_extra   = '/assets/css/pemesanan.css';
 
         <div class="pem-layout">
 
-            <!-- ═══════════════════════════════════════
-                 LEFT: Order Form
-                 ═══════════════════════════════════════ -->
             <section class="pem-form-col">
 
                 <?php if (!empty($errors['_global'])): ?>
@@ -196,12 +178,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                     action="/pages/pemesanan.php<?= $prefill_id > 0 ? '?id=' . $prefill_id : '' ?>"
                     novalidate
                 >
-                    <!-- Hidden CSRF -->
                     <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                    <!-- ─────────────────────────────────
-                         SECTION 1: Data Pemesan
-                         ───────────────────────────────── -->
                     <div class="pem-section">
                         <h2 class="pem-section-title">
                             <span class="pem-section-icon" aria-hidden="true">👤</span>
@@ -210,7 +188,6 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                         <div class="pem-grid-2">
 
-                            <!-- Nama Pemesan -->
                             <div class="form-group">
                                 <label for="nama_pemesan" class="form-label">
                                     Nama Pemesan <span class="pem-required" aria-hidden="true">*</span>
@@ -231,7 +208,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Nomor WhatsApp -->
                             <div class="form-group">
                                 <label for="no_whatsapp" class="form-label">
                                     Nomor WhatsApp <span class="pem-required" aria-hidden="true">*</span>
@@ -253,9 +229,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                                 <?php endif; ?>
                             </div>
 
-                        </div><!-- /.pem-grid-2 -->
+                        </div>
 
-                        <!-- Alamat Pengiriman -->
                         <div class="form-group">
                             <label for="alamat" class="form-label">
                                 Alamat Pengiriman <span class="pem-required" aria-hidden="true">*</span>
@@ -274,11 +249,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                             <?php endif; ?>
                         </div>
 
-                    </div><!-- /.pem-section (Data Pemesan) -->
+                    </div>
 
-                    <!-- ─────────────────────────────────
-                         SECTION 2: Jadwal & Pembayaran
-                         ───────────────────────────────── -->
                     <div class="pem-section">
                         <h2 class="pem-section-title">
                             <span class="pem-section-icon" aria-hidden="true">📅</span>
@@ -287,7 +259,6 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                         <div class="pem-grid-2">
 
-                            <!-- Tanggal Pengiriman -->
                             <div class="form-group">
                                 <label for="tanggal_kirim" class="form-label">
                                     Tanggal Pengiriman <span class="pem-required" aria-hidden="true">*</span>
@@ -306,7 +277,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Metode Pembayaran -->
                             <div class="form-group">
                                 <fieldset class="pem-fieldset">
                                     <legend class="form-label">
@@ -343,13 +313,10 @@ $css_extra   = '/assets/css/pemesanan.css';
                                 </fieldset>
                             </div>
 
-                        </div><!-- /.pem-grid-2 -->
+                        </div>
 
-                    </div><!-- /.pem-section (Jadwal & Pembayaran) -->
+                    </div>
 
-                    <!-- ─────────────────────────────────
-                         SECTION 3: Pilihan Produk
-                         ───────────────────────────────── -->
                     <div class="pem-section">
                         <h2 class="pem-section-title">
                             <span class="pem-section-icon" aria-hidden="true">🌸</span>
@@ -364,12 +331,9 @@ $css_extra   = '/assets/css/pemesanan.css';
                         <div id="produk-section"></div>
                         <?php endif; ?>
 
-                        <!-- Product rows container -->
                         <div id="produk-rows" class="pem-produk-rows">
 
                             <?php
-                            // Determine initial rows to show
-                            // Use submitted data if available, otherwise use prefill
                             $initial_rows = [];
                             if (!empty($form_data['produk'])) {
                                 foreach ($form_data['produk'] as $item) {
@@ -391,7 +355,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                             <?php foreach ($initial_rows as $row_idx => $row): ?>
                             <div class="produk-row">
                                 <div class="pem-produk-row-inner">
-                                    <!-- Product select -->
                                     <div class="pem-produk-select-wrap">
                                         <label class="form-label" for="produk_id_<?= $row_idx ?>">
                                             Produk
@@ -414,7 +377,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                                         </select>
                                     </div>
 
-                                    <!-- Quantity input -->
                                     <div class="pem-produk-qty-wrap">
                                         <label class="form-label" for="jumlah_<?= $row_idx ?>">
                                             Jumlah
@@ -429,7 +391,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                                         >
                                     </div>
 
-                                    <!-- Remove row button -->
                                     <button
                                         type="button"
                                         class="btn-hapus-produk pem-btn-hapus"
@@ -440,9 +401,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                             </div>
                             <?php endforeach; ?>
 
-                        </div><!-- /#produk-rows -->
+                        </div>
 
-                        <!-- Add product row -->
                         <button
                             type="button"
                             id="btn-tambah-produk"
@@ -451,7 +411,6 @@ $css_extra   = '/assets/css/pemesanan.css';
                             + Tambah Produk
                         </button>
 
-                        <!-- Template for new product rows (hidden) -->
                         <template id="produk-row-template">
                             <div class="produk-row">
                                 <div class="pem-produk-row-inner">
@@ -489,11 +448,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                             </div>
                         </template>
 
-                    </div><!-- /.pem-section (Pilihan Produk) -->
+                    </div>
 
-                    <!-- ─────────────────────────────────
-                         SECTION 4: Catatan (optional)
-                         ───────────────────────────────── -->
                     <div class="pem-section">
                         <h2 class="pem-section-title">
                             <span class="pem-section-icon" aria-hidden="true">📝</span>
@@ -510,9 +466,8 @@ $css_extra   = '/assets/css/pemesanan.css';
                                 placeholder="Tuliskan pesan kartu ucapan, instruksi khusus, atau catatan lainnya..."
                             ><?= e($saved_catatan) ?></textarea>
                         </div>
-                    </div><!-- /.pem-section (Catatan) -->
+                    </div>
 
-                    <!-- Submit -->
                     <div class="pem-submit-wrap">
                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                             🌸 Buat Pesanan
@@ -521,16 +476,12 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                 </form>
 
-            </section><!-- /.pem-form-col -->
+            </section>
 
-            <!-- ═══════════════════════════════════════
-                 RIGHT: Sticky summary sidebar
-                 ═══════════════════════════════════════ -->
             <aside class="pem-sidebar" aria-label="Ringkasan pesanan">
                 <div class="pem-summary-card">
                     <h3 class="pem-summary-title">Ringkasan Pesanan</h3>
 
-                    <!-- Dynamic order summary (updated by JS) -->
                     <div id="pem-summary-list" class="pem-summary-list">
                         <p class="pem-summary-empty text-muted text-sm">
                             Pilih produk untuk melihat ringkasan.
@@ -552,11 +503,11 @@ $css_extra   = '/assets/css/pemesanan.css';
                     </div>
 
                 </div>
-            </aside><!-- /.pem-sidebar -->
+            </aside>
 
-        </div><!-- /.pem-layout -->
+        </div>
 
-    </div><!-- /.container -->
+    </div>
 </main>
 
 <?php include '../components/footer.php'; ?>

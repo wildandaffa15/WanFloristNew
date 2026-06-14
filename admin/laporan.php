@@ -7,11 +7,9 @@ require_once __DIR__ . '/../config/helpers.php';
 $pdo        = get_pdo();
 $csrf_token = generate_csrf();
 
-// ─── Active tab ───────────────────────────────────────────────────────────────
 $active_tab = in_array($_GET['tab'] ?? '', ['ringkasan', 'pesanan', 'produk', 'stok'], true)
     ? $_GET['tab'] : 'ringkasan';
 
-// ─── Date range (defaults to current month) ──────────────────────────────────
 $dari   = trim($_GET['dari']   ?? date('Y-m-01'));
 $sampai = trim($_GET['sampai'] ?? date('Y-m-d'));
 
@@ -19,7 +17,6 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dari))   $dari   = date('Y-m-01');
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $sampai)) $sampai = date('Y-m-d');
 if ($dari > $sampai) [$dari, $sampai] = [$sampai, $dari];
 
-// ─── Financial summary ────────────────────────────────────────────────────────
 $stmt = $pdo->prepare(
     "SELECT COALESCE(SUM(jumlah_lunas),0) FROM lunas
      WHERE DATE(dicatat_pada) BETWEEN :dari AND :sampai"
@@ -36,7 +33,6 @@ $total_pengeluaran = (int) $stmt->fetchColumn();
 
 $laba_bersih = hitung_laba_bersih([$total_pemasukan], [$total_pengeluaran]);
 
-// ─── 6-month bar chart data ───────────────────────────────────────────────────
 $bar_pemasukan   = [];
 $bar_pengeluaran = [];
 for ($i = 5; $i >= 0; $i--) {
@@ -60,7 +56,6 @@ for ($i = 5; $i >= 0; $i--) {
     $bar_pengeluaran[$label] = (int) $stmt->fetchColumn();
 }
 
-// ─── Order report ─────────────────────────────────────────────────────────────
 $stmt = $pdo->prepare(
     "SELECT COUNT(*) FROM pesanan
      WHERE DATE(created_at) BETWEEN :dari AND :sampai"
@@ -89,7 +84,6 @@ $stmt = $pdo->prepare(
 $stmt->execute([':dari' => $dari, ':sampai' => $sampai]);
 $produk_terlaris = $stmt->fetchAll();
 
-// ─── Product report ───────────────────────────────────────────────────────────
 $stmt = $pdo->query(
     "SELECT p.*, k.nama_kategori, COALESCE(SUM(dp.jumlah), 0) AS total_terjual
      FROM produk p
@@ -103,7 +97,6 @@ $produk_list = $stmt->fetchAll();
 $total_produk_aktif   = count(array_filter($produk_list, fn($r) => ($r['status'] ?? '') === 'tersedia'));
 $total_produk_nonaktif = count(array_filter($produk_list, fn($r) => ($r['status'] ?? '') !== 'tersedia'));
 
-// ─── Stock report ─────────────────────────────────────────────────────────────
 $stmt      = $pdo->query("SELECT * FROM stok_bahan ORDER BY nama_bahan ASC");
 $stok_list = $stmt->fetchAll();
 
@@ -112,7 +105,6 @@ $total_stok_kritis = count(array_filter(
     fn($r) => (int)($r['stok_saat_ini'] ?? 0) < (int)($r['stok_minimum'] ?? 0)
 ));
 
-// ─── CSV export ───────────────────────────────────────────────────────────────
 if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="laporan-' . $active_tab . '-' . date('Ymd') . '.csv"');
@@ -173,7 +165,6 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     exit;
 }
 
-// ─── Page meta ────────────────────────────────────────────────────────────────
 $page_title  = 'Laporan';
 $active_page = 'laporan';
 $css_extra   = '/assets/css/admin.css';
@@ -189,7 +180,6 @@ $css_extra   = '/assets/css/admin.css';
     <main class="admin-main">
         <div class="admin-content">
 
-            <!-- ── Page header ──────────────────────────────────────────── -->
             <div class="page-header">
                 <div>
                     <h1 class="page-header__title">📈 Laporan</h1>
@@ -206,7 +196,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Date filter form ─────────────────────────────────────── -->
             <div class="admin-card" style="margin-bottom:1.5rem;">
                 <div class="admin-card__body" style="padding:1rem 1.5rem;">
                     <form method="GET" action="" style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
@@ -233,7 +222,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Tab navigation ──────────────────────────────────────── -->
             <div class="tab-nav" role="tablist" aria-label="Tab laporan">
                 <button type="button" class="tab-btn<?= $active_tab === 'ringkasan' ? ' tab-btn--active' : '' ?>"
                         data-tab="ringkasan" role="tab"
@@ -261,14 +249,10 @@ $css_extra   = '/assets/css/admin.css';
                 </button>
             </div>
 
-            <!-- ═══════════════════════════════════════════════════════════
-                 TAB 1 — RINGKASAN KEUANGAN
-                 ═══════════════════════════════════════════════════════════ -->
             <div id="panel-ringkasan"
                  class="tab-panel<?= $active_tab === 'ringkasan' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel" aria-labelledby="">
 
-                <!-- Bar chart 6 bulan -->
                 <div class="admin-card" style="margin-bottom:1.5rem;">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pemasukan vs Pengeluaran — 6 Bulan Terakhir</span>
@@ -278,9 +262,7 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- 3 summary cards -->
                 <div class="stat-cards" style="grid-template-columns:repeat(3,1fr);">
-                    <!-- Pemasukan -->
                     <div class="stat-card stat-card--success">
                         <div class="stat-card__header">
                             <span class="stat-card__icon">💵</span>
@@ -292,7 +274,6 @@ $css_extra   = '/assets/css/admin.css';
                         <div class="stat-card__change"><?= e($dari) ?> s/d <?= e($sampai) ?></div>
                     </div>
 
-                    <!-- Pengeluaran -->
                     <div class="stat-card stat-card--danger">
                         <div class="stat-card__header">
                             <span class="stat-card__icon">💸</span>
@@ -304,7 +285,6 @@ $css_extra   = '/assets/css/admin.css';
                         <div class="stat-card__change"><?= e($dari) ?> s/d <?= e($sampai) ?></div>
                     </div>
 
-                    <!-- Laba bersih -->
                     <div class="stat-card <?= $laba_bersih >= 0 ? 'stat-card--success' : 'stat-card--danger' ?>">
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><?= $laba_bersih >= 0 ? '📈' : '📉' ?></span>
@@ -321,14 +301,10 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ═══════════════════════════════════════════════════════════
-                 TAB 2 — LAPORAN PESANAN
-                 ═══════════════════════════════════════════════════════════ -->
             <div id="panel-pesanan"
                  class="tab-panel<?= $active_tab === 'pesanan' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <!-- Stat: total pesanan -->
                 <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card stat-card--info">
                         <div class="stat-card__header">
@@ -340,7 +316,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Distribusi status -->
                 <div class="admin-card" style="margin-bottom:1.5rem;">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Distribusi Pesanan per Status</span>
@@ -400,7 +375,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Top 5 produk terlaris -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Top 5 Produk Terlaris</span>
@@ -442,14 +416,10 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ═══════════════════════════════════════════════════════════
-                 TAB 3 — LAPORAN PRODUK
-                 ═══════════════════════════════════════════════════════════ -->
             <div id="panel-produk"
                  class="tab-panel<?= $active_tab === 'produk' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <!-- Summary counts -->
                 <div class="stat-cards" style="grid-template-columns:repeat(2,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card stat-card--success">
                         <div class="stat-card__header"><span class="stat-card__icon">✅</span></div>
@@ -463,7 +433,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Products table -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Daftar Produk</span>
@@ -511,14 +480,10 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ═══════════════════════════════════════════════════════════
-                 TAB 4 — LAPORAN STOK
-                 ═══════════════════════════════════════════════════════════ -->
             <div id="panel-stok"
                  class="tab-panel<?= $active_tab === 'stok' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <!-- Summary: critical stock count -->
                 <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card <?= $total_stok_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                         <div class="stat-card__header">
@@ -529,7 +494,6 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Stock table -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Daftar Stok Bahan</span>
@@ -578,11 +542,10 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-        </div><!-- /.admin-content -->
-    </main><!-- /.admin-main -->
-</div><!-- /.admin-layout -->
+        </div>
+    </main>
+</div>
 
-<!-- ── Print CSS ──────────────────────────────────────────────────────────── -->
 <style>
 @media print {
     .wf-sidebar        { display: none; }
@@ -594,14 +557,12 @@ $css_extra   = '/assets/css/admin.css';
 }
 </style>
 
-<!-- ── Vanilla JS: tab switching + print button ──────────────────────────── -->
 <script>
 (function () {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        // ── Print button ──────────────────────────────────────────────────
         var btnCetak = document.getElementById('btn-cetak');
         if (btnCetak) {
             btnCetak.addEventListener('click', function () {
@@ -609,7 +570,6 @@ $css_extra   = '/assets/css/admin.css';
             });
         }
 
-        // ── Tab switching ─────────────────────────────────────────────────
         var tabBtns   = document.querySelectorAll('.tab-btn[data-tab]');
         var tabPanels = document.querySelectorAll('.tab-panel');
 
@@ -617,7 +577,6 @@ $css_extra   = '/assets/css/admin.css';
             btn.addEventListener('click', function () {
                 var target = btn.getAttribute('data-tab');
 
-                // Update buttons
                 tabBtns.forEach(function (b) {
                     b.classList.remove('tab-btn--active');
                     b.setAttribute('aria-selected', 'false');
@@ -625,7 +584,6 @@ $css_extra   = '/assets/css/admin.css';
                 btn.classList.add('tab-btn--active');
                 btn.setAttribute('aria-selected', 'true');
 
-                // Update panels
                 tabPanels.forEach(function (panel) {
                     panel.classList.remove('tab-panel--active');
                 });

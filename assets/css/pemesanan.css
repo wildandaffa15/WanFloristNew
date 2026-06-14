@@ -1,15 +1,4 @@
-/*
- * assets/css/pemesanan.css
- *
- * Styles specific to pages/pemesanan.php (Form Pemesanan).
- * Layered on top of assets/css/main.css.
- *
- * Requirements: 5.1, 16.1, 16.3, 16.8
- */
 
-/* ============================================================
-   PAGE LAYOUT
-   ============================================================ */
 .pem-main {
     padding: var(--sp-10) 0 var(--sp-16);
     min-height: 60vh;
@@ -20,7 +9,6 @@
     max-width: 1120px;
 }
 
-/* Page heading */
 .pem-header {
     margin-bottom: var(--sp-8);
 }
@@ -38,7 +26,6 @@
     margin-bottom: 0;
 }
 
-/* Two-column layout: form | sticky sidebar */
 .pem-layout {
     display: grid;
     grid-template-columns: 1fr 360px;
@@ -50,9 +37,6 @@
     min-width: 0;
 }
 
-/* ============================================================
-   FORM SECTIONS
-   ============================================================ */
 .pem-section {
     background-color: var(--color-white);
     border: 1px solid var(--color-border);
@@ -78,22 +62,17 @@
     line-height: 1;
 }
 
-/* Two-column grid within a section */
 .pem-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--sp-5);
 }
 
-/* Required field marker */
 .pem-required {
     color: var(--color-danger);
     margin-left: 2px;
 }
 
-/* ============================================================
-   RADIO CARDS (Metode Pembayaran)
-   ============================================================ */
 .pem-fieldset {
     border: none;
     padding: 0;
@@ -158,9 +137,6 @@
     color: var(--color-text-muted);
 }
 
-/* ============================================================
-   PRODUCT ROWS
-   ============================================================ */
 .pem-produk-rows {
     display: flex;
     flex-direction: column;
@@ -169,7 +145,6 @@
 }
 
 .produk-row {
-    /* Wrapper for delegation */
 }
 
 .pem-produk-row-inner {
@@ -203,7 +178,6 @@
     text-align: center;
 }
 
-/* Remove row button */
 .pem-btn-hapus {
     display: inline-flex;
     align-items: center;
@@ -227,28 +201,18 @@
     color: var(--color-white);
 }
 
-/* Add product button */
 .pem-btn-tambah {
     margin-top: var(--sp-2);
 }
 
-/* ============================================================
-   GLOBAL ERROR
-   ============================================================ */
 .pem-global-error {
     margin-bottom: var(--sp-6);
 }
 
-/* ============================================================
-   SUBMIT
-   ============================================================ */
 .pem-submit-wrap {
     margin-top: var(--sp-2);
 }
 
-/* ============================================================
-   RIGHT SIDEBAR — Sticky Summary
-   ============================================================ */
 .pem-sidebar {
     position: sticky;
     top: 120px; /* below sticky navbar (~64px) + status banner (~40px) + breathing room */
@@ -312,7 +276,6 @@
     white-space: nowrap;
 }
 
-/* Total row */
 .pem-summary-total-row {
     display: flex;
     justify-content: space-between;
@@ -331,17 +294,12 @@
     color: var(--color-primary);
 }
 
-/* DP Info box */
 .pem-dp-info {
     font-size: 0.875rem;
     margin-bottom: 0;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
 
-/* Tablet: collapse two-col inner grids */
 @media (max-width: 1023px) {
     .pem-layout {
         grid-template-columns: 1fr 320px;
@@ -349,7 +307,6 @@
     }
 }
 
-/* Below ~800px: single column, sidebar moves below form */
 @media (max-width: 799px) {
     .pem-layout {
         grid-template-columns: 1fr;
@@ -368,7 +325,6 @@
     }
 }
 
-/* Mobile: tighten up spacing */
 @media (max-width: 480px) {
     .pem-section {
         padding: var(--sp-4);

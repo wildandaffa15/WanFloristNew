@@ -13,12 +13,10 @@
  * Requirements: 1.4, 1.5, 1.6, 2.5, 16.7
  */
 
-// Pastikan helpers tersedia (e(), dll.)
 if (!function_exists('e')) {
     require_once __DIR__ . '/../config/helpers.php';
 }
 
-// ─── Query status toko ────────────────────────────────────────────────────────
 $status_toko = 'nonaktif'; // fallback default
 try {
     $stmt_status = $pdo->query("SELECT status FROM status_toko LIMIT 1");
@@ -32,11 +30,8 @@ try {
     error_log('navbar.php: gagal membaca status_toko — ' . $e->getMessage());
 }
 
-// Aktif page default
 $active_page = $active_page ?? '';
 
-// Helper: apakah link ini aktif?
-// Mengembalikan class CSS yang sesuai.
 $nav_link_class = function (string $page) use ($active_page): string {
     if ($active_page === $page) {
         return 'nav-link nav-link--active';
@@ -44,21 +39,16 @@ $nav_link_class = function (string $page) use ($active_page): string {
     return 'nav-link';
 };
 ?>
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     NAVBAR — WanFlorist Public Navigation
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <header class="wf-navbar-wrapper">
     <nav class="wf-navbar" role="navigation" aria-label="Navigasi utama">
         <div class="wf-navbar__container">
 
-            <!-- Logo -->
             <a href="<?= e(dirname($_SERVER['SCRIPT_NAME']) === '/' ? '/' : rtrim(str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']), '/') . '/') ?>index.php"
                class="wf-navbar__logo"
                aria-label="WanFlorist — Halaman Beranda">
                 🌸 WanFlorist
             </a>
 
-            <!-- Desktop nav links -->
             <ul class="wf-navbar__links" role="list">
                 <li>
                     <a href="/index.php"
@@ -97,7 +87,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
                 </li>
             </ul>
 
-            <!-- Hamburger button (mobile only) -->
             <button
                 id="wf-hamburger"
                 class="wf-navbar__hamburger"
@@ -110,9 +99,8 @@ $nav_link_class = function (string $page) use ($active_page): string {
                 <span class="wf-hamburger__bar"></span>
             </button>
 
-        </div><!-- /.wf-navbar__container -->
+        </div>
 
-        <!-- Mobile menu (hidden by default, toggled by JS) -->
         <div id="wf-mobile-menu" class="wf-mobile-menu" aria-hidden="true" role="menu">
             <ul role="list">
                 <li>
@@ -156,11 +144,10 @@ $nav_link_class = function (string $page) use ($active_page): string {
                     </a>
                 </li>
             </ul>
-        </div><!-- /#wf-mobile-menu -->
+        </div>
 
-    </nav><!-- /.wf-navbar -->
+    </nav>
 
-    <!-- ── Status Toko Banner (Req 1.4 & 1.5) ─────────────────────────────── -->
     <?php if ($status_toko === 'aktif'): ?>
     <div class="wf-status-banner wf-status-banner--aktif" role="status" aria-live="polite">
         <span class="wf-status-banner__dot wf-status-banner__dot--pulse" aria-hidden="true"></span>
@@ -177,13 +164,9 @@ $nav_link_class = function (string $page) use ($active_page): string {
     </div>
     <?php endif; ?>
 
-</header><!-- /.wf-navbar-wrapper -->
+</header>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     NAVBAR STYLES (scoped, injected inline for component self-containment)
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <style>
-/* ── Variables (mirrors DESIGN.md tokens) ──────────────────────────────────── */
 :root {
     --wf-primary:        #6B21A8;
     --wf-primary-hover:  #5B1A90;
@@ -197,7 +180,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     --wf-navbar-h:       64px;
 }
 
-/* ── Wrapper: makes the entire header sticky ────────────────────────────────── */
 .wf-navbar-wrapper {
     position: sticky;
     top: 0;
@@ -209,7 +191,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     box-shadow: 0 1px 8px rgba(107, 33, 168, 0.06);
 }
 
-/* ── Main nav bar ───────────────────────────────────────────────────────────── */
 .wf-navbar {
     width: 100%;
     background: var(--wf-surface);
@@ -226,10 +207,9 @@ $nav_link_class = function (string $page) use ($active_page): string {
     gap: 1.5rem;
 }
 
-/* ── Logo ───────────────────────────────────────────────────────────────────── */
 .wf-navbar__logo {
     font-family: 'Playfair Display', serif;
-    font-size: 1.375rem;        /* ~22px */
+    font-size: 1.375rem;
     font-weight: 700;
     color: var(--wf-primary);
     text-decoration: none;
@@ -247,7 +227,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     border-radius: 4px;
 }
 
-/* ── Desktop nav links ──────────────────────────────────────────────────────── */
 .wf-navbar__links {
     display: flex;
     align-items: center;
@@ -261,7 +240,7 @@ $nav_link_class = function (string $page) use ($active_page): string {
 
 .nav-link {
     font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;       /* 15px */
+    font-size: 0.9375rem;
     font-weight: 500;
     color: var(--wf-muted);
     text-decoration: none;
@@ -283,7 +262,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     outline-offset: 2px;
 }
 
-/* Active state */
 .nav-link--active,
 .nav-link--active:hover {
     color: var(--wf-primary);
@@ -292,9 +270,8 @@ $nav_link_class = function (string $page) use ($active_page): string {
     position: relative;
 }
 
-/* ── Hamburger button ───────────────────────────────────────────────────────── */
 .wf-navbar__hamburger {
-    display: none;          /* hidden on desktop */
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -331,7 +308,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     transform-origin: center;
 }
 
-/* Animate hamburger → X when menu is open */
 .wf-navbar__hamburger[aria-expanded="true"] .wf-hamburger__bar:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
@@ -343,9 +319,8 @@ $nav_link_class = function (string $page) use ($active_page): string {
     transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── Mobile menu ────────────────────────────────────────────────────────────── */
 .wf-mobile-menu {
-    display: none;          /* hidden by default */
+    display: none;
     overflow: hidden;
     background: var(--wf-surface);
     border-top: 1px solid var(--wf-primary-border);
@@ -404,7 +379,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     border-radius: 0;
 }
 
-/* ── Status banner ──────────────────────────────────────────────────────────── */
 .wf-status-banner {
     display: flex;
     align-items: center;
@@ -413,7 +387,7 @@ $nav_link_class = function (string $page) use ($active_page): string {
     width: 100%;
     padding: 0.5rem 1rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.8125rem;   /* 13px */
+    font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.4;
 }
@@ -430,7 +404,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     color: var(--wf-muted);
 }
 
-/* Status indicator dot */
 .wf-status-banner__dot {
     display: inline-block;
     width: 8px;
@@ -447,7 +420,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
     background: var(--wf-gray);
 }
 
-/* Pulse animation for active status dot (Req 1.4) */
 .wf-status-banner__dot--pulse {
     animation: wf-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -457,24 +429,20 @@ $nav_link_class = function (string $page) use ($active_page): string {
     50%       { opacity: 0.5; transform: scale(1.3); }
 }
 
-/* ── Responsive: mobile (<768px) ────────────────────────────────────────────── */
 @media (max-width: 767px) {
     .wf-navbar__container {
         padding: 0 1rem;
     }
 
-    /* Hide desktop nav links */
     .wf-navbar__links {
         display: none;
     }
 
-    /* Show hamburger button */
     .wf-navbar__hamburger {
         display: flex;
     }
 }
 
-/* ── Responsive: tablet (768px–1023px) ─────────────────────────────────────── */
 @media (min-width: 768px) and (max-width: 1023px) {
     .wf-navbar__container {
         padding: 0 1.5rem;
@@ -491,9 +459,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
 }
 </style>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     NAVBAR JAVASCRIPT — pure vanilla, addEventListener only (Req 17.5)
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <script>
 (function () {
     'use strict';
@@ -507,10 +472,9 @@ $nav_link_class = function (string $page) use ($active_page): string {
         var mobileMenu = document.getElementById('wf-mobile-menu');
 
         if (!hamburger || !mobileMenu) {
-            return; // component not present on this page
+            return;
         }
 
-        // Toggle mobile menu open/closed
         hamburger.addEventListener('click', function () {
             var isOpen = hamburger.getAttribute('aria-expanded') === 'true';
 
@@ -521,7 +485,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
             }
         });
 
-        // Close menu when a nav link inside it is clicked (page navigation)
         var menuLinks = mobileMenu.querySelectorAll('.nav-link');
         menuLinks.forEach(function (link) {
             link.addEventListener('click', function () {
@@ -529,7 +492,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
             });
         });
 
-        // Close menu when user clicks or taps outside the navbar wrapper
         document.addEventListener('click', function (event) {
             var wrapper = document.querySelector('.wf-navbar-wrapper');
             if (wrapper && !wrapper.contains(event.target)) {
@@ -545,7 +507,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
             }
         });
 
-        // Close menu when viewport is resized to desktop width
         window.addEventListener('resize', function () {
             if (window.innerWidth >= 768) {
                 closeMenu();
@@ -565,7 +526,6 @@ $nav_link_class = function (string $page) use ($active_page): string {
         }
     }
 
-    // Run after DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initNavbar);
     } else {

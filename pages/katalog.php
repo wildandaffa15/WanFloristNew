@@ -15,25 +15,21 @@ require_once '../config/helpers.php';
 
 $pdo = get_pdo();
 
-// ─── Baca parameter GET ────────────────────────────────────────────────────────
 $q        = trim($_GET['q']        ?? '');
 $kategori = trim($_GET['kategori'] ?? '');
 $urut     = $_GET['urut']          ?? 'terbaru';
 $page     = max(1, (int) ($_GET['page'] ?? 1));
 $per_page = 12;
 
-// ─── Bangun klausa WHERE secara dinamis ───────────────────────────────────────
 // Hanya produk dengan status 'tersedia' yang ditampilkan (Req 3.1)
 $where_clauses = ["p.status = 'tersedia'"];
 $params        = [];
 
-// Filter pencarian: nama_produk ATAU deskripsi (Req 3.2)
 if ($q !== '') {
     $where_clauses[] = "(p.nama_produk LIKE :q OR p.deskripsi LIKE :q)";
     $params[':q']    = '%' . $q . '%';
 }
 
-// Filter kategori berdasarkan slug (Req 3.3)
 if ($kategori !== '') {
     $where_clauses[] = "k.slug = :kategori";
     $params[':kategori'] = $kategori;
@@ -41,14 +37,12 @@ if ($kategori !== '') {
 
 $where_sql = implode(' AND ', $where_clauses);
 
-// ─── ORDER BY (Req 3.4) ───────────────────────────────────────────────────────
 $order_sql = match ($urut) {
     'harga_asc'  => 'p.harga ASC',
     'harga_desc' => 'p.harga DESC',
-    default      => 'p.created_at DESC',   // 'terbaru'
+    default      => 'p.created_at DESC',
 };
 
-// ─── Hitung total produk untuk paginasi (Req 3.6) ────────────────────────────
 $count_sql = "
     SELECT COUNT(*)
     FROM   produk p
@@ -62,7 +56,6 @@ $total_pages  = max(1, (int) ceil($total_produk / $per_page));
 $page         = min($page, $total_pages);
 $offset       = ($page - 1) * $per_page;
 
-// ─── Ambil produk halaman saat ini ───────────────────────────────────────────
 $sql = "
     SELECT p.*,
            k.nama_kategori,
@@ -82,14 +75,12 @@ $stmt->bindValue(':offset', $offset,   PDO::PARAM_INT);
 $stmt->execute();
 $produk_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ─── Ambil semua kategori aktif untuk dropdown & pill filter ─────────────────
 $stmt_kat = $pdo->prepare(
     "SELECT * FROM kategori WHERE is_active = 1 ORDER BY nama_kategori ASC"
 );
 $stmt_kat->execute();
 $all_kategori = $stmt_kat->fetchAll(PDO::FETCH_ASSOC);
 
-// ─── Helper: bangun URL paginasi/filter dengan parameter aktif saat ini ───────
 function build_url(array $params): string
 {
     return '?' . http_build_query(
@@ -97,7 +88,6 @@ function build_url(array $params): string
     );
 }
 
-// ─── Variabel untuk komponen head.php dan navbar.php ─────────────────────────
 $page_title  = 'Katalog Produk';
 $css_extra   = '/assets/css/public.css';
 $active_page = 'produk';
@@ -109,15 +99,10 @@ $active_page = 'produk';
 
 <?php include '../components/navbar.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     KATALOG — Konten Utama
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <main class="katalog-page" id="main-content">
     <div class="container">
 
-        <!-- ── Header halaman ───────────────────────────────────────────────── -->
         <div class="katalog-header">
-            <!-- Breadcrumb -->
             <nav class="breadcrumb" aria-label="Breadcrumb">
                 <a href="/index.php" class="breadcrumb__link">Beranda</a>
                 <span class="breadcrumb__sep" aria-hidden="true">›</span>
@@ -137,13 +122,10 @@ $active_page = 'produk';
                 </p>
             </div>
         </div>
-        <!-- /.katalog-header -->
 
-        <!-- ── Filter bar (Req 3.2, 3.3, 3.4) ──────────────────────────────── -->
         <div class="filter-bar">
             <form method="GET" action="" class="filter-bar__form" role="search">
 
-                <!-- Pencarian teks -->
                 <div class="filter-bar__search-wrap">
                     <label for="filter-q" class="sr-only">Cari produk</label>
                     <input
@@ -157,7 +139,6 @@ $active_page = 'produk';
                     >
                 </div>
 
-                <!-- Filter kategori -->
                 <div class="filter-bar__select-wrap">
                     <label for="filter-kategori" class="sr-only">Filter kategori</label>
                     <select id="filter-kategori" name="kategori" class="filter-bar__select">
@@ -176,7 +157,6 @@ $active_page = 'produk';
                     </select>
                 </div>
 
-                <!-- Urutan -->
                 <div class="filter-bar__select-wrap">
                     <label for="filter-urut" class="sr-only">Urutkan berdasarkan</label>
                     <select id="filter-urut" name="urut" class="filter-bar__select">
@@ -186,12 +166,10 @@ $active_page = 'produk';
                     </select>
                 </div>
 
-                <!-- Tombol cari -->
                 <button type="submit" class="btn btn-primary filter-bar__btn">
                     Cari
                 </button>
 
-                <!-- Tombol reset filter (tampil hanya jika ada filter aktif) -->
                 <?php if ($q !== '' || $kategori !== '' || $urut !== 'terbaru'): ?>
                 <a href="/pages/katalog.php" class="btn btn-ghost filter-bar__btn">
                     Reset
@@ -200,12 +178,9 @@ $active_page = 'produk';
 
             </form>
         </div>
-        <!-- /.filter-bar -->
 
-        <!-- ── Pill kategori (Req 3.3) ──────────────────────────────────────── -->
         <div class="category-pills" role="navigation" aria-label="Filter kategori cepat">
             <div class="category-pills__scroll">
-                <!-- Pill "Semua" -->
                 <a
                     href="<?= e(build_url(['q' => $q, 'urut' => $urut])) ?>"
                     class="category-pill <?= ($kategori === '') ? 'category-pill--active' : '' ?>"
@@ -228,11 +203,8 @@ $active_page = 'produk';
                 <?php endforeach; ?>
             </div>
         </div>
-        <!-- /.category-pills -->
 
-        <!-- ── Grid produk (Req 3.5, 3.7, 3.8, 3.9) ────────────────────────── -->
         <?php if (empty($produk_list)): ?>
-        <!-- Keadaan kosong (Req 3.7) -->
         <div class="empty-state" role="status">
             <div class="empty-state__icon" aria-hidden="true">🌸</div>
             <h2 class="empty-state__title">Produk tidak ditemukan.</h2>
@@ -245,22 +217,12 @@ $active_page = 'produk';
         </div>
 
         <?php else: ?>
-        <!-- Grid produk (Req 3.5) -->
         <div class="catalog-grid" aria-label="Daftar produk">
 
             <?php foreach ($produk_list as $produk): ?>
-            <?php
-                // Tentukan path foto (Req: placeholder fallback)
-                $foto = $produk['foto'] ?? 'placeholder.jpg';
-                if ($foto === 'placeholder.jpg' || $foto === '' || $foto === null) {
-                    $foto_src = '../assets/img/placeholder.jpg';
-                } else {
-                    $foto_src = '../assets/img/produk/' . $foto;
-                }
-            ?>
+            <?php $foto_src = produk_foto_src($produk['foto'] ?? null, '../'); ?>
             <article class="product-card" aria-label="<?= e($produk['nama_produk']) ?>">
 
-                <!-- Foto produk (Req 3.8 → klik ke detail) -->
                 <a href="/pages/detail-produk.php?id=<?= e((string) $produk['id_produk']) ?>"
                    class="product-card__image-link"
                    tabindex="-1"
@@ -271,20 +233,17 @@ $active_page = 'produk';
                             alt="<?= e($produk['nama_produk']) ?>"
                             class="product-card__image"
                             loading="lazy"
-                            onerror="this.src='../assets/img/placeholder.jpg'"
+                            onerror="this.src='<?= e(produk_foto_src(null, '../')) ?>'"
                         >
                     </div>
                 </a>
 
-                <!-- Konten kartu -->
                 <div class="product-card__body">
 
-                    <!-- Badge kategori -->
                     <span class="product-card__category">
                         <?= e($produk['nama_kategori']) ?>
                     </span>
 
-                    <!-- Nama produk (juga link ke detail) -->
                     <h2 class="product-card__name">
                         <a href="/pages/detail-produk.php?id=<?= e((string) $produk['id_produk']) ?>"
                            class="product-card__name-link">
@@ -292,20 +251,16 @@ $active_page = 'produk';
                         </a>
                     </h2>
 
-                    <!-- Harga -->
                     <p class="product-card__price">
                         <?= e(format_rupiah((int) $produk['harga'])) ?>
                     </p>
 
-                    <!-- Tombol aksi -->
                     <div class="product-card__actions">
-                        <!-- Detail (Req 3.8) -->
                         <a href="/pages/detail-produk.php?id=<?= e((string) $produk['id_produk']) ?>"
                            class="btn btn-secondary btn-sm product-card__btn-detail">
                             Detail
                         </a>
 
-                        <!-- Pesan (Req 3.9) -->
                         <a href="/pages/pemesanan.php?id=<?= e((string) $produk['id_produk']) ?>"
                            class="btn btn-primary btn-sm product-card__btn-order">
                             Pesan
@@ -313,20 +268,16 @@ $active_page = 'produk';
                     </div>
 
                 </div>
-                <!-- /.product-card__body -->
 
             </article>
             <?php endforeach; ?>
 
         </div>
-        <!-- /.catalog-grid -->
 
-        <!-- ── Paginasi (Req 3.6) ────────────────────────────────────────────── -->
         <?php if ($total_pages > 1): ?>
         <nav class="pagination-wrapper" aria-label="Navigasi halaman">
             <ul class="pagination">
 
-                <!-- Tombol Sebelumnya -->
                 <?php if ($page > 1): ?>
                 <li>
                     <a href="<?= e(build_url(['q' => $q, 'kategori' => $kategori, 'urut' => $urut, 'page' => $page - 1])) ?>"
@@ -342,12 +293,10 @@ $active_page = 'produk';
                 <?php endif; ?>
 
                 <?php
-                // Tampilkan maks 5 nomor halaman dengan ellipsis
-                $window = 2;  // halaman kiri & kanan halaman aktif
+                $window = 2;
                 $start  = max(1, $page - $window);
                 $end    = min($total_pages, $page + $window);
 
-                // Selalu tampilkan halaman pertama
                 if ($start > 1): ?>
                 <li>
                     <a href="<?= e(build_url(['q' => $q, 'kategori' => $kategori, 'urut' => $urut, 'page' => 1])) ?>"
@@ -375,7 +324,6 @@ $active_page = 'produk';
                 </li>
                 <?php endfor; ?>
 
-                <!-- Selalu tampilkan halaman terakhir -->
                 <?php if ($end < $total_pages): ?>
                 <?php if ($end < $total_pages - 1): ?>
                 <li><span class="pagination__ellipsis" aria-hidden="true">…</span></li>
@@ -388,7 +336,6 @@ $active_page = 'produk';
                 </li>
                 <?php endif; ?>
 
-                <!-- Tombol Berikutnya -->
                 <?php if ($page < $total_pages): ?>
                 <li>
                     <a href="<?= e(build_url(['q' => $q, 'kategori' => $kategori, 'urut' => $urut, 'page' => $page + 1])) ?>"
@@ -406,31 +353,21 @@ $active_page = 'produk';
             </ul>
         </nav>
         <?php endif; ?>
-        <!-- /.pagination-wrapper -->
 
         <?php endif; ?>
-        <!-- /if empty -->
 
     </div>
-    <!-- /.container -->
 </main>
-<!-- /.katalog-page -->
 
 <?php include '../components/footer.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     KATALOG PAGE STYLES
-     Pure CSS, no framework. Extends main.css + public.css.
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <style>
-/* ── Halaman ────────────────────────────────────────────────────────────────── */
 .katalog-page {
     padding-top: var(--sp-10);
     padding-bottom: var(--sp-16);
     min-height: 60vh;
 }
 
-/* ── Breadcrumb ─────────────────────────────────────────────────────────────── */
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -460,7 +397,6 @@ $active_page = 'produk';
     font-weight: 500;
 }
 
-/* ── Header katalog ─────────────────────────────────────────────────────────── */
 .katalog-header {
     margin-bottom: var(--sp-8);
 }
@@ -497,7 +433,6 @@ $active_page = 'produk';
     flex-shrink: 0;
 }
 
-/* ── Filter bar ─────────────────────────────────────────────────────────────── */
 .filter-bar {
     background: var(--color-surface-alt, #FAFAFA);
     border: 1px solid var(--color-primary-border);
@@ -559,7 +494,7 @@ $active_page = 'produk';
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%236B21A8' d='M8 10.5L2 4.5h12L8 10.5z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http:
     background-repeat: no-repeat;
     background-position: right 14px center;
     background-size: 14px;
@@ -578,7 +513,6 @@ $active_page = 'produk';
     font-size: 0.9375rem;
 }
 
-/* ── Pill kategori ──────────────────────────────────────────────────────────── */
 .category-pills {
     margin-bottom: var(--sp-8);
 }
@@ -630,7 +564,6 @@ $active_page = 'produk';
     border-color: var(--color-primary-hover);
 }
 
-/* ── Grid produk (Req 3.5) — 4 kolom desktop, 2 tablet, 1 mobile ────────────── */
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -651,7 +584,6 @@ $active_page = 'produk';
     }
 }
 
-/* ── Kartu produk ───────────────────────────────────────────────────────────── */
 .product-card {
     background: var(--color-white);
     border: 1px solid var(--color-primary-border);
@@ -668,7 +600,6 @@ $active_page = 'produk';
     transform: translateY(-2px);
 }
 
-/* Foto */
 .product-card__image-link {
     display: block;
     text-decoration: none;
@@ -693,7 +624,6 @@ $active_page = 'produk';
     transform: scale(1.05);
 }
 
-/* Body */
 .product-card__body {
     padding: var(--sp-4);
     display: flex;
@@ -702,7 +632,6 @@ $active_page = 'produk';
     gap: var(--sp-2);
 }
 
-/* Badge kategori */
 .product-card__category {
     display: inline-block;
     font-size: 0.75rem;
@@ -714,7 +643,6 @@ $active_page = 'produk';
     align-self: flex-start;
 }
 
-/* Nama */
 .product-card__name {
     font-family: var(--font-heading);
     font-size: 1rem;
@@ -734,7 +662,6 @@ $active_page = 'produk';
     color: var(--color-primary);
 }
 
-/* Harga */
 .product-card__price {
     font-size: 1rem;
     font-weight: 700;
@@ -742,7 +669,6 @@ $active_page = 'produk';
     margin: 0;
 }
 
-/* Tombol aksi */
 .product-card__actions {
     display: flex;
     gap: var(--sp-2);
@@ -758,7 +684,6 @@ $active_page = 'produk';
     padding: 7px 12px;
 }
 
-/* ── Keadaan kosong ──────────────────────────────────────────────────────────── */
 .empty-state {
     display: flex;
     flex-direction: column;
@@ -788,7 +713,6 @@ $active_page = 'produk';
     margin: 0;
 }
 
-/* ── Paginasi ───────────────────────────────────────────────────────────────── */
 .pagination-wrapper {
     display: flex;
     justify-content: center;
@@ -855,7 +779,6 @@ $active_page = 'produk';
     user-select: none;
 }
 
-/* ── Responsive — filter bar ────────────────────────────────────────────────── */
 @media (max-width: 767px) {
     .filter-bar {
         padding: var(--sp-4);

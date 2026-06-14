@@ -23,9 +23,6 @@ $css_extra   = '/assets/css/public.css';
 
 <main>
 
-    <!-- ═══════════════════════════════════════════
-         HERO — Tentang Kami
-         ═══════════════════════════════════════════ -->
     <section class="hero" style="min-height:45vh;padding:3.5rem 1.5rem;">
         <div class="hero__inner">
             <p style="
@@ -47,9 +44,6 @@ $css_extra   = '/assets/css/public.css';
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         KISAH PEMILIK
-         ═══════════════════════════════════════════ -->
     <section class="section">
         <div class="container">
             <div style="
@@ -59,7 +53,6 @@ $css_extra   = '/assets/css/public.css';
                 align-items:center;
             " class="about-grid">
 
-                <!-- Ilustrasi / Gambar -->
                 <div style="text-align:center;">
                     <div style="
                         width:100%;
@@ -77,7 +70,6 @@ $css_extra   = '/assets/css/public.css';
                         overflow:hidden;
                     " aria-hidden="true">
                         🌸
-                        <!-- Dekoratif -->
                         <span style="
                             position:absolute;
                             bottom:24px;
@@ -95,7 +87,6 @@ $css_extra   = '/assets/css/public.css';
                     </div>
                 </div>
 
-                <!-- Teks kisah -->
                 <div>
                     <p style="
                         font-family:'Inter',sans-serif;
@@ -165,9 +156,6 @@ $css_extra   = '/assets/css/public.css';
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         MISI & NILAI
-         ═══════════════════════════════════════════ -->
     <section class="section section--alt">
         <div class="container">
 
@@ -189,14 +177,12 @@ $css_extra   = '/assets/css/public.css';
                 </p>
             </div>
 
-            <!-- 3 kartu nilai -->
             <div style="
                 display:grid;
                 grid-template-columns:repeat(3,1fr);
                 gap:1.5rem;
             " class="values-grid">
 
-                <!-- Kualitas -->
                 <div style="
                     background:#fff;
                     border:1.5px solid #E9D5FF;
@@ -232,7 +218,6 @@ $css_extra   = '/assets/css/public.css';
                     </p>
                 </div>
 
-                <!-- Personal -->
                 <div style="
                     background:#fff;
                     border:1.5px solid #E9D5FF;
@@ -268,7 +253,6 @@ $css_extra   = '/assets/css/public.css';
                     </p>
                 </div>
 
-                <!-- Lokal -->
                 <div style="
                     background:#fff;
                     border:1.5px solid #E9D5FF;
@@ -308,9 +292,6 @@ $css_extra   = '/assets/css/public.css';
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         CTA — Hubungi / Pesan
-         ═══════════════════════════════════════════ -->
     <section class="section section--primary">
         <div class="container" style="text-align:center;">
             <h2 class="section__title" style="color:#fff;margin-bottom:0.75rem;">
@@ -335,7 +316,6 @@ $css_extra   = '/assets/css/public.css';
 <?php include '../components/footer.php'; ?>
 
 <style>
-/* Responsive grid untuk about-grid dan values-grid */
 @media (max-width: 767px) {
     .about-grid {
         grid-template-columns: 1fr !important;
@@ -354,7 +334,6 @@ $css_extra   = '/assets/css/public.css';
         grid-template-columns: repeat(2, 1fr) !important;
     }
 }
-/* Hover effect untuk value cards */
 .value-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 28px rgba(107,33,168,0.14) !important;

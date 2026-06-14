@@ -25,7 +25,6 @@ function get_pdo(): PDO
         return $pdo;
     }
 
-    // Konfigurasi koneksi — sesuaikan dengan environment
     $host    = 'localhost';
     $dbname  = 'wanflorist_new_db';
     $charset = 'utf8mb4';
@@ -43,7 +42,7 @@ function get_pdo(): PDO
     try {
         $pdo = new PDO($dsn, $user, $pass, $options);
     } catch (PDOException $e) {
-        // Jangan bocorkan detail koneksi ke browser
+        // Jangan membocorkan detail koneksi ke browser
         error_log('Database connection failed: ' . $e->getMessage());
         http_response_code(503);
         die('Koneksi database gagal. Silakan coba beberapa saat lagi.');

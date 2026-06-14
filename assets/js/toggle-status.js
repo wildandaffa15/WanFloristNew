@@ -1,13 +1,3 @@
-/**
- * assets/js/toggle-status.js
- * Toggle status toko (aktif / nonaktif) via AJAX
- *
- * Mengirim POST request ke /admin/ajax/toggle-status.php
- * dengan CSRF token dari hidden input #csrf_token_ajax.
- * Memperbarui teks #ownerStatusText sesuai respons server.
- *
- * Requirements: 8.6, 15.3, 17.5
- */
 document.addEventListener('DOMContentLoaded', function () {
     var toggle = document.getElementById('ownerToggle');
     if (!toggle) return;

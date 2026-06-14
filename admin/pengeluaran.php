@@ -22,37 +22,30 @@ $csrf_token   = generate_csrf();
 $errors       = [];
 $success_msg  = '';
 
-// ── Filter tanggal dari GET ──────────────────────────────────────────────────
 $dari   = trim($_GET['dari']   ?? '');
 $sampai = trim($_GET['sampai'] ?? '');
 
-// ── POST handler: tambah_pengeluaran ────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tambah_pengeluaran') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Token keamanan tidak valid. Silakan coba lagi.';
     } else {
-        // 2. Ambil dan validasi input
         $keterangan = trim($_POST['keterangan'] ?? '');
         $jumlah_raw = trim($_POST['jumlah']     ?? '');
         $tanggal    = trim($_POST['tanggal']    ?? '');
 
-        // Validasi keterangan
         if ($keterangan === '') {
             $errors[] = 'Keterangan tidak boleh kosong.';
         } elseif (mb_strlen($keterangan) > 255) {
             $errors[] = 'Keterangan maksimal 255 karakter.';
         }
 
-        // Validasi jumlah
         if ($jumlah_raw === '') {
             $errors[] = 'Jumlah tidak boleh kosong.';
         } elseif (!ctype_digit($jumlah_raw) || (int)$jumlah_raw <= 0) {
             $errors[] = 'Jumlah harus berupa bilangan bulat positif.';
         }
 
-        // Validasi tanggal
         if ($tanggal === '') {
             $errors[] = 'Tanggal tidak boleh kosong.';
         } else {
@@ -62,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             }
         }
 
-        // 3. Simpan ke database jika tidak ada error
         if (empty($errors)) {
             $jumlah = (int) $jumlah_raw;
             $stmt = $pdo->prepare(
@@ -74,14 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
                 ':tanggal'    => $tanggal,
             ]);
 
-            // 4. Pesan sukses & regenerate CSRF
             $success_msg = 'Pengeluaran berhasil dicatat.';
             $csrf_token  = generate_csrf();
         }
     }
 }
 
-// ── Query daftar pengeluaran (dengan filter opsional) ───────────────────────
 $where  = [];
 $params = [];
 
@@ -102,21 +92,18 @@ $stmt = $pdo->prepare(
 $stmt->execute($params);
 $list = $stmt->fetchAll();
 
-// Total untuk rentang yang ditampilkan
 $stmt2 = $pdo->prepare(
     "SELECT COALESCE(SUM(jumlah), 0) FROM pengeluaran $where_sql"
 );
 $stmt2->execute($params);
 $total_range = (int) $stmt2->fetchColumn();
 
-// ── Total pengeluaran bulan ini (summary card) ───────────────────────────────
 $stmt3 = $pdo->query(
     'SELECT COALESCE(SUM(jumlah), 0) FROM pengeluaran
      WHERE MONTH(tanggal) = MONTH(CURDATE()) AND YEAR(tanggal) = YEAR(CURDATE())'
 );
 $total_bulan_ini = (int) $stmt3->fetchColumn();
 
-// ── Variabel template ────────────────────────────────────────────────────────
 $page_title  = 'Pengeluaran';
 $active_page = 'pengeluaran';
 $css_extra   = '/assets/css/admin.css';
@@ -131,7 +118,6 @@ $css_extra   = '/assets/css/admin.css';
 
     <main class="admin-main">
 
-        <!-- ── Header ─────────────────────────────────────────────────── -->
         <div class="admin-header">
             <h1 class="admin-header__title">Pengeluaran</h1>
             <div class="admin-header__actions">
@@ -143,7 +129,6 @@ $css_extra   = '/assets/css/admin.css';
 
         <div class="admin-content">
 
-            <!-- ── Page Header ────────────────────────────────────────── -->
             <div class="page-header">
                 <div>
                     <h2 class="page-header__title">Pencatatan Pengeluaran</h2>
@@ -151,7 +136,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Summary Card: Total Bulan Ini ─────────────────────── -->
             <div class="stat-cards" style="grid-template-columns:repeat(1,minmax(0,320px));">
                 <div class="stat-card stat-card--danger">
                     <div class="stat-card__header">
@@ -166,7 +150,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- ── Pesan Sukses ───────────────────────────────────────── -->
             <?php if ($success_msg !== ''): ?>
             <div
                 role="alert"
@@ -179,7 +162,6 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- ── Pesan Error ────────────────────────────────────────── -->
             <?php if (!empty($errors)): ?>
             <div
                 role="alert"
@@ -196,10 +178,8 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- ── Layout dua kolom (form kiri, filter+tabel kanan) ───── -->
             <div style="display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start;">
 
-                <!-- ── Form Tambah Pengeluaran ─────────────────────────── -->
                 <div class="admin-card" style="position:sticky;top:80px;">
                     <div class="admin-card__header">
                         <h3 class="admin-card__title">➕ Tambah Pengeluaran</h3>
@@ -209,7 +189,6 @@ $css_extra   = '/assets/css/admin.css';
                             <input type="hidden" name="action"     value="tambah_pengeluaran">
                             <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                            <!-- Keterangan -->
                             <div style="margin-bottom:1rem;">
                                 <label
                                     for="keterangan"
@@ -235,7 +214,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Jumlah -->
                             <div style="margin-bottom:1rem;">
                                 <label
                                     for="jumlah"
@@ -262,7 +240,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Tanggal -->
                             <div style="margin-bottom:1.5rem;">
                                 <label
                                     for="tanggal"
@@ -300,10 +277,8 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- ── Kolom Kanan: Filter + Tabel ────────────────────── -->
                 <div>
 
-                    <!-- ── Form Filter Tanggal ──────────────────────────── -->
                     <div class="admin-card" style="margin-bottom:1.25rem;">
                         <div class="admin-card__header">
                             <h3 class="admin-card__title">🔍 Filter Tanggal</h3>
@@ -381,7 +356,6 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
                     </div>
 
-                    <!-- ── Tabel Pengeluaran ────────────────────────────── -->
                     <div class="admin-card">
                         <div class="admin-card__header">
                             <h3 class="admin-card__title">
@@ -400,7 +374,6 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
 
                         <?php if (empty($list)): ?>
-                        <!-- Empty state -->
                         <div class="admin-empty">
                             <div class="admin-empty__icon" aria-hidden="true">💸</div>
                             <div class="admin-empty__title">Belum ada data pengeluaran</div>
@@ -474,15 +447,15 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
                         <?php endif; ?>
 
-                    </div><!-- /.admin-card -->
+                    </div>
 
-                </div><!-- /.kolom-kanan -->
+                </div>
 
-            </div><!-- /.grid -->
+            </div>
 
-        </div><!-- /.admin-content -->
-    </main><!-- /.admin-main -->
+        </div>
+    </main>
 
-</div><!-- /.admin-layout -->
+</div>
 </body>
 </html>

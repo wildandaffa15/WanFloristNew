@@ -15,10 +15,6 @@
 
 declare(strict_types=1);
 
-/* ------------------------------------------------------------------ */
-/* 0. Bootstrap — session, helpers                                      */
-/* ------------------------------------------------------------------ */
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -32,17 +28,9 @@ if (isset($_SESSION['id_pengguna'])) {
     exit;
 }
 
-/* ------------------------------------------------------------------ */
-/* 1. Inisialisasi variabel tampilan                                     */
-/* ------------------------------------------------------------------ */
-
-$error_message  = '';   // Pesan error yang ditampilkan di form
-$blocked        = false; // Flag: apakah IP sedang diblokir?
-$username_value = '';   // Nilai field username untuk repopulate form
-
-/* ------------------------------------------------------------------ */
-/* 2. Rate limiting — cek status blokir untuk IP saat ini              */
-/* ------------------------------------------------------------------ */
+$error_message  = '';
+$blocked        = false;
+$username_value = '';
 
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
@@ -62,29 +50,22 @@ if (
                    . 'Coba lagi dalam ±' . $sisa_menit . ' menit.';
 }
 
-/* ------------------------------------------------------------------ */
-/* 3. Handler POST — hanya diproses jika tidak diblokir                */
-/* ------------------------------------------------------------------ */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$blocked) {
 
-    /* 3.1 Validasi CSRF */
     $csrf_input = $_POST['csrf_token'] ?? '';
     if (!validate_csrf($csrf_input)) {
         http_response_code(403);
         $error_message = 'Permintaan tidak valid. Silakan muat ulang halaman dan coba lagi.';
     } else {
 
-        /* 3.2 Ambil dan sanitasi input */
         $username_input  = trim($_POST['username'] ?? '');
         $password_input  = $_POST['password'] ?? '';
-        $username_value  = $username_input; // repopulate field
+        $username_value  = $username_input;
 
         if ($username_input === '' || $password_input === '') {
             $error_message = 'Username dan password tidak boleh kosong.';
         } else {
 
-            /* 3.3 Query pengguna dari database (PDO prepared statement) */
             $pdo  = get_pdo();
             $stmt = $pdo->prepare(
                 "SELECT id_pengguna, username, password, role, is_active
@@ -95,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$blocked) {
             $stmt->execute([':username' => $username_input]);
             $pengguna = $stmt->fetch();
 
-            /* 3.4 Verifikasi password */
             $login_ok = false;
             if (
                 $pengguna !== false
@@ -106,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$blocked) {
             }
 
             if (!$login_ok) {
-                /* -------- LOGIN GAGAL: increment counter -------- */
                 if (!isset($_SESSION['login_attempts'][$ip])) {
                     $_SESSION['login_attempts'][$ip] = [
                         'count'     => 0,
@@ -124,17 +103,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$blocked) {
                     $error_message = 'Terlalu banyak percobaan login. Akses dari IP Anda diblokir sementara selama 15 menit.';
                 }
             } else {
-                /* -------- LOGIN BERHASIL -------- */
 
                 // Cegah session fixation
                 session_regenerate_id(true);
 
-                // Set session pengguna
                 $_SESSION['id_pengguna'] = $pengguna['id_pengguna'];
                 $_SESSION['username']    = $pengguna['username'];
                 $_SESSION['role']        = $pengguna['role'];
 
-                // Reset counter login attempts untuk IP ini
                 unset($_SESSION['login_attempts'][$ip]);
 
                 // Redirect ke dashboard admin (PRG pattern)
@@ -145,15 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$blocked) {
     }
 }
 
-/* ------------------------------------------------------------------ */
-/* 4. Generate CSRF token untuk form (GET atau setelah POST gagal)      */
-/* ------------------------------------------------------------------ */
-
 $csrf_token = generate_csrf();
-
-/* ------------------------------------------------------------------ */
-/* 5. Persiapan variabel template                                        */
-/* ------------------------------------------------------------------ */
 
 $page_title = 'Login Admin';
 $css_extra  = '/assets/css/admin.css';
@@ -166,9 +134,6 @@ $css_extra  = '/assets/css/admin.css';
 
 <div class="login-wrapper">
 
-    <!-- ============================================================
-         Panel Kiri — Branding (hanya tampil di desktop)
-         ============================================================ -->
     <div class="login-brand-panel" aria-hidden="true">
         <div class="login-brand-overlay"></div>
         <div class="login-brand-content">
@@ -189,12 +154,8 @@ $css_extra  = '/assets/css/admin.css';
         </div>
     </div>
 
-    <!-- ============================================================
-         Panel Kanan — Form Login
-         ============================================================ -->
     <div class="login-form-panel">
 
-        <!-- Logo mobile (hanya tampil di layar kecil) -->
         <div class="login-mobile-logo">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28" height="28" fill="none" aria-hidden="true">
                 <path d="M24 4C18 4 13 9 13 15c0 4.5 2.5 8.4 6.2 10.5C16.5 27.5 14 31.4 14 36c0 4.4 3.6 8 8 8h4c4.4 0 8-3.6 8-8 0-4.6-2.5-8.5-6.2-10.5C31.5 23.4 34 19.5 34 15c0-6-5-11-10-11z" fill="#6B21A8"/>
@@ -204,13 +165,11 @@ $css_extra  = '/assets/css/admin.css';
 
         <div class="login-form-inner">
 
-            <!-- Heading -->
             <div class="login-heading">
                 <h2>Masuk ke Panel Admin</h2>
                 <p>Silakan masukkan kredensial Anda untuk melanjutkan.</p>
             </div>
 
-            <!-- Alert error / blokir -->
             <?php if ($error_message !== ''): ?>
             <div class="alert <?= $blocked ? 'alert-warning' : 'alert-danger' ?>" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true" style="flex-shrink:0;margin-top:1px">
@@ -224,11 +183,9 @@ $css_extra  = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- Form login -->
             <form method="POST" action="/login.php" novalidate>
                 <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                <!-- Field Username -->
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>
                     <div class="login-input-wrapper">
@@ -251,7 +208,6 @@ $css_extra  = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Field Password -->
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div class="login-input-wrapper">
@@ -277,12 +233,10 @@ $css_extra  = '/assets/css/admin.css';
                             aria-label="Tampilkan atau sembunyikan password"
                             title="Tampilkan / sembunyikan password"
                         >
-                            <!-- Ikon "mata tertutup" — ditampilkan saat password tersembunyi -->
                             <svg id="iconPasswordHide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
                                 <path d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z"/>
                                 <path d="M10.748 13.93l2.523 2.524a9.987 9.987 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/>
                             </svg>
-                            <!-- Ikon "mata terbuka" — ditampilkan saat password terlihat -->
                             <svg id="iconPasswordShow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" style="display:none">
                                 <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/>
                                 <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
@@ -291,7 +245,6 @@ $css_extra  = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <!-- Tombol submit -->
                 <div class="form-group" style="margin-top: 28px; margin-bottom: 0;">
                     <button
                         type="submit"
@@ -303,7 +256,6 @@ $css_extra  = '/assets/css/admin.css';
                 </div>
             </form>
 
-            <!-- Catatan keamanan -->
             <div class="login-security-note">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
                     <path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.947 11.947 0 007.078 2.749.5.5 0 01.479.425c.069.52.104 1.05.104 1.589 0 5.162-3.26 9.563-7.834 11.256a.48.48 0 01-.332 0C5.26 16.563 2 12.162 2 7c0-.538.035-1.069.104-1.589a.5.5 0 01.48-.425 11.947 11.947 0 007.077-2.749z" clip-rule="evenodd"/>
@@ -311,10 +263,10 @@ $css_extra  = '/assets/css/admin.css';
                 Akses sistem diamankan dengan enkripsi
             </div>
 
-        </div><!-- /.login-form-inner -->
-    </div><!-- /.login-form-panel -->
+        </div>
+    </div>
 
-</div><!-- /.login-wrapper -->
+</div>
 
 <script>
 /**

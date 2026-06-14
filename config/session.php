@@ -12,9 +12,7 @@
 
 declare(strict_types=1);
 
-// Mulai session jika belum aktif
 if (session_status() === PHP_SESSION_NONE) {
-    // Konfigurasi keamanan session
     ini_set('session.cookie_httponly', '1');
     ini_set('session.use_strict_mode', '1');
     ini_set('session.cookie_samesite', 'Lax');
@@ -22,7 +20,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Cek keberadaan session admin yang valid
 if (empty($_SESSION['id_pengguna'])) {
     // Simpan URL yang dituju untuk redirect kembali setelah login (opsional)
     $_SESSION['intended_url'] = $_SERVER['REQUEST_URI'] ?? '';

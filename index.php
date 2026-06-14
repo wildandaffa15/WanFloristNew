@@ -8,14 +8,11 @@
  * Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8
  */
 
-// ─── Konfigurasi & Koneksi ────────────────────────────────────────────────────
 require_once 'config/database.php';
 require_once 'config/helpers.php';
 
 $pdo = get_pdo();
 
-// ─── Query: Produk Featured (maks 4) ─────────────────────────────────────────
-// Requirements: 2.2
 $stmt_produk = $pdo->prepare(
     "SELECT p.*, k.nama_kategori
      FROM produk p
@@ -28,8 +25,6 @@ $stmt_produk = $pdo->prepare(
 $stmt_produk->execute();
 $featured_products = $stmt_produk->fetchAll(PDO::FETCH_ASSOC);
 
-// ─── Query: Semua Kategori Aktif ──────────────────────────────────────────────
-// Requirements: 2.3
 $stmt_kategori = $pdo->prepare(
     "SELECT * FROM kategori
      WHERE is_active = 1
@@ -38,7 +33,6 @@ $stmt_kategori = $pdo->prepare(
 $stmt_kategori->execute();
 $categories = $stmt_kategori->fetchAll(PDO::FETCH_ASSOC);
 
-// ─── Variabel Halaman ─────────────────────────────────────────────────────────
 $page_title  = 'Beranda';
 $active_page = 'beranda';
 $css_extra   = '/assets/css/public.css';
@@ -48,10 +42,12 @@ $css_extra   = '/assets/css/public.css';
 
 <?php include 'components/navbar.php'; ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     HERO SECTION — Requirements: 2.1, 2.7
-     ═══════════════════════════════════════════════════════════════════════════ -->
-<section class="hero" aria-label="Selamat datang di WanFlorist">
+<section class="hero hero--home" aria-label="Selamat datang di WanFlorist">
+    <div class="hero__slides" aria-hidden="true">
+        <img src="assets/img/hero/hero_1.webp" alt="" class="hero__slide" loading="eager" decoding="async">
+        <img src="assets/img/hero/hero_2.webp" alt="" class="hero__slide" loading="lazy" decoding="async">
+    </div>
+    <div class="hero__overlay" aria-hidden="true"></div>
     <div class="hero__inner">
         <h1 class="hero__title">
             Buket Bunga Artisanal<br>dari Singojuruh, Banyuwangi
@@ -66,9 +62,6 @@ $css_extra   = '/assets/css/public.css';
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     KOLEKSI KATEGORI — Requirements: 2.3, 2.8
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="section" aria-label="Koleksi kategori produk">
     <div class="container">
         <div class="section__header">
@@ -96,9 +89,6 @@ $css_extra   = '/assets/css/public.css';
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PRODUK TERLARIS — Requirements: 2.2, 2.4
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="section section--alt" aria-label="Produk terlaris">
     <div class="container">
         <div class="section__header">
@@ -109,15 +99,7 @@ $css_extra   = '/assets/css/public.css';
         <?php if (!empty($featured_products)): ?>
         <div class="catalog-grid">
             <?php foreach ($featured_products as $p): ?>
-            <?php
-                // Tentukan path foto: gunakan placeholder jika foto tidak ada
-                $foto_file = !empty($p['foto']) ? $p['foto'] : 'placeholder.jpg';
-                $foto_path = 'assets/img/produk/' . $foto_file;
-                // Fallback ke placeholder jika file produk tidak ditemukan
-                if ($foto_file === 'placeholder.jpg' || !file_exists($foto_path)) {
-                    $foto_path = 'assets/img/placeholder.jpg';
-                }
-            ?>
+            <?php $foto_path = produk_foto_src($p['foto'] ?? null); ?>
             <article class="product-card" aria-label="Produk: <?= e($p['nama_produk']) ?>">
                 <div class="product-card__img-wrapper">
                     <img
@@ -125,7 +107,7 @@ $css_extra   = '/assets/css/public.css';
                         alt="Foto <?= e($p['nama_produk']) ?>"
                         class="product-card__img"
                         loading="lazy"
-                        onerror="this.src='assets/img/placeholder.jpg'"
+                        onerror="this.src='<?= e(produk_foto_src(null)) ?>'"
                     >
                     <span class="product-card__badge" aria-hidden="true">Terlaris</span>
                 </div>
@@ -160,9 +142,6 @@ $css_extra   = '/assets/css/public.css';
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     CTA SECTION — Requirements: 2.1
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="section section--primary" aria-label="Hubungi kami">
     <div class="container" style="text-align: center;">
         <h2 class="section__title">Siap Memesan Buket Impian Anda?</h2>
@@ -186,9 +165,6 @@ $css_extra   = '/assets/css/public.css';
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     TESTIMONI SECTION — Requirements: 2.4 (min 3 ulasan statis)
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="section" aria-label="Testimoni pelanggan">
     <div class="container">
         <div class="section__header">
@@ -199,7 +175,6 @@ $css_extra   = '/assets/css/public.css';
 
         <div class="catalog-grid">
 
-            <!-- Testimoni 1 -->
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Andi Setiawan">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
                     <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
@@ -219,7 +194,6 @@ $css_extra   = '/assets/css/public.css';
                 </footer>
             </article>
 
-            <!-- Testimoni 2 -->
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Rina Kusuma">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
                     <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
@@ -239,7 +213,6 @@ $css_extra   = '/assets/css/public.css';
                 </footer>
             </article>
 
-            <!-- Testimoni 3 -->
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Bagas Pratama">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
                     <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
@@ -259,7 +232,6 @@ $css_extra   = '/assets/css/public.css';
                 </footer>
             </article>
 
-            <!-- Testimoni 4 (bonus) -->
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Dewi Anggraini">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
                     <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
@@ -279,8 +251,8 @@ $css_extra   = '/assets/css/public.css';
                 </footer>
             </article>
 
-        </div><!-- /.catalog-grid -->
-    </div><!-- /.container -->
+        </div>
+    </div>
 </section>
 
 <?php include 'components/footer.php'; ?>

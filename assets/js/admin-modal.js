@@ -1,23 +1,8 @@
-/**
- * assets/js/admin-modal.js
- * Modal ubah status pesanan — vanilla JS, tidak ada inline onclick.
- *
- * Cara kerja:
- *  1. Inject modal HTML ke <body>.
- *  2. Event delegation untuk tombol .btn-ubah-status.
- *  3. fetch() POST ke /admin/ajax/update-status-pesanan.php dengan CSRF token.
- *  4. Pada sukses: update badge & data-* di baris tabel, tutup modal.
- *  5. Tutup modal: tombol Batal, klik overlay, tombol Escape.
- *
- * Requirements: 8.3, 8.7, 16.9, 17.5
- */
 
 (function () {
     'use strict';
 
-    /* ── Badge helpers ──────────────────────────────────────────────────────── */
 
-    /** @type {Record<string, string>} */
     var BADGE_CLASS = {
         menunggu_konfirmasi: 'badge-menunggu',
         diproses:            'badge-diproses',
@@ -25,7 +10,6 @@
         dibatalkan:          'badge-dibatalkan',
     };
 
-    /** @type {Record<string, string>} */
     var BADGE_LABEL = {
         menunggu_konfirmasi: 'Menunggu Konfirmasi',
         diproses:            'Diproses',
@@ -33,14 +17,11 @@
         dibatalkan:          'Dibatalkan',
     };
 
-    /* ── State ──────────────────────────────────────────────────────────────── */
     var currentIdPesanan  = null;
     var currentTriggerBtn = null;
 
-    /* ── DOM refs (dipopulasi setelah inject) ───────────────────────────────── */
     var overlay, modal, selectStatus, errorBox, btnConfirm, btnCancel;
 
-    /* ── Inject modal HTML ──────────────────────────────────────────────────── */
     function injectModal() {
         var wrapper = document.createElement('div');
         wrapper.innerHTML = [
@@ -104,18 +85,15 @@
             '</style>',
         ].join('\n');
 
-        document.body.appendChild(wrapper.firstElementChild); // overlay div
-        // Append the <style> tag separately
+        document.body.appendChild(wrapper.firstElementChild);
         var styleEl = wrapper.querySelector('style');
         if (styleEl) document.head.appendChild(styleEl);
     }
 
-    /* ── Modal open / close ─────────────────────────────────────────────────── */
     function openModal(idPesanan, statusSaatIni, triggerBtn) {
         currentIdPesanan  = idPesanan;
         currentTriggerBtn = triggerBtn;
 
-        // Preset select ke status saat ini
         selectStatus.value = statusSaatIni;
         hideError();
 
@@ -133,7 +111,6 @@
         }
     }
 
-    /* ── Error helpers ──────────────────────────────────────────────────────── */
     function showError(msg) {
         errorBox.textContent = msg;
         errorBox.style.display = 'block';
@@ -144,21 +121,17 @@
         errorBox.style.display = 'none';
     }
 
-    /* ── Update badge di tabel ──────────────────────────────────────────────── */
     function updateRowBadge(triggerBtn, statusBaru) {
-        // Naik dari button → <td> → <tr>
         var td  = triggerBtn.closest('td');
         var row = triggerBtn.closest('tr');
         if (!row) return;
 
-        // Cari <span class="badge ..."> di kolom status (td ke-5, index 4)
         var cells = row.querySelectorAll('td');
         // Status badge ada di td indeks 4 (0-based: No, Nama, Total, Metode, Status, Tanggal, Aksi)
         var statusCell = cells[4];
         if (statusCell) {
             var badge = statusCell.querySelector('.badge');
             if (badge) {
-                // Hapus semua kelas badge-*
                 Object.values(BADGE_CLASS).forEach(function (cls) {
                     badge.classList.remove(cls);
                 });
@@ -167,11 +140,9 @@
             }
         }
 
-        // Update data-* pada tombol agar pembukaan modal berikutnya akurat
         triggerBtn.dataset.statusSaatIni = statusBaru;
     }
 
-    /* ── Kirim perubahan status ke server ───────────────────────────────────── */
     function submitStatusChange() {
         var csrfInput = document.getElementById('csrf_token_modal');
         var csrfToken = csrfInput ? csrfInput.value : '';
@@ -200,7 +171,6 @@
         })
         .then(function (data) {
             if (data.success) {
-                // Update badge & data-* di baris tabel
                 if (currentTriggerBtn) {
                     updateRowBadge(currentTriggerBtn, data.status_baru);
                 }
@@ -218,13 +188,10 @@
         });
     }
 
-    /* ── Inisialisasi setelah DOM siap ──────────────────────────────────────── */
     document.addEventListener('DOMContentLoaded', function () {
 
-        // 1. Inject modal HTML
         injectModal();
 
-        // 2. Simpan referensi elemen modal
         overlay       = document.getElementById('wf-modal-overlay');
         modal         = document.getElementById('wf-modal');
         selectStatus  = document.getElementById('wf-modal-status');
@@ -232,7 +199,6 @@
         btnConfirm    = document.getElementById('wf-modal-confirm');
         btnCancel     = document.getElementById('wf-modal-cancel');
 
-        // 3. Event delegation — klik tombol .btn-ubah-status
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.btn-ubah-status');
             if (btn) {
@@ -242,24 +208,20 @@
             }
         });
 
-        // 4. Tombol Konfirmasi
         btnConfirm.addEventListener('click', function () {
             submitStatusChange();
         });
 
-        // 5. Tombol Batal
         btnCancel.addEventListener('click', function () {
             closeModal();
         });
 
-        // 6. Klik overlay (di luar kotak modal) → tutup
         overlay.addEventListener('click', function (e) {
             if (e.target === overlay) {
                 closeModal();
             }
         });
 
-        // 7. Tombol Escape → tutup
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && overlay && overlay.style.display !== 'none') {
                 closeModal();

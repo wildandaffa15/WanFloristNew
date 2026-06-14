@@ -18,21 +18,12 @@ require_once __DIR__ . '/../config/helpers.php';
 $pdo        = get_pdo();
 $csrf_token = generate_csrf();
 
-// ----------------------------------------------------------------
-// 1. Stat card: Pesanan hari ini
-// ----------------------------------------------------------------
 $stmt = $pdo->query("SELECT COUNT(*) FROM pesanan WHERE DATE(created_at) = CURDATE()");
 $pesanan_hari_ini = (int) $stmt->fetchColumn();
 
-// ----------------------------------------------------------------
-// 2. Stat card: Pesanan sedang diproses
-// ----------------------------------------------------------------
 $stmt = $pdo->query("SELECT COUNT(*) FROM pesanan WHERE status = 'diproses'");
 $pesanan_diproses = (int) $stmt->fetchColumn();
 
-// ----------------------------------------------------------------
-// 3. Stat card: Pemasukan bulan berjalan (dari tabel lunas)
-// ----------------------------------------------------------------
 $stmt = $pdo->query(
     "SELECT COALESCE(SUM(jumlah_lunas), 0)
      FROM lunas
@@ -41,15 +32,9 @@ $stmt = $pdo->query(
 );
 $pemasukan_bulan = (int) $stmt->fetchColumn();
 
-// ----------------------------------------------------------------
-// 4. Stat card: Stok bahan kritis
-// ----------------------------------------------------------------
 $stmt = $pdo->query("SELECT COUNT(*) FROM stok_bahan WHERE stok_saat_ini < stok_minimum");
 $stok_kritis = (int) $stmt->fetchColumn();
 
-// ----------------------------------------------------------------
-// 5. Pesanan terbaru (5 terakhir)
-// ----------------------------------------------------------------
 $stmt = $pdo->query(
     "SELECT id_pesanan, no_pesanan, nama_pemesan, total_harga,
             status, metode_bayar, created_at
@@ -59,9 +44,6 @@ $stmt = $pdo->query(
 );
 $pesanan_terbaru = $stmt->fetchAll();
 
-// ----------------------------------------------------------------
-// 6. Data donut chart: distribusi status pesanan bulan ini
-// ----------------------------------------------------------------
 $stmt = $pdo->query(
     "SELECT status, COUNT(*) AS jumlah
      FROM pesanan
@@ -71,7 +53,6 @@ $stmt = $pdo->query(
 );
 $rows_status = $stmt->fetchAll();
 
-// Mapping status DB → label tampilan
 $label_map = [
     'menunggu_konfirmasi' => 'Menunggu Konfirmasi',
     'diproses'            => 'Diproses',
@@ -94,9 +75,6 @@ foreach ($rows_status as $row) {
     }
 }
 
-// ----------------------------------------------------------------
-// 7. Produk terlaris (top 3)
-// ----------------------------------------------------------------
 $stmt = $pdo->query(
     "SELECT p.nama_produk, SUM(dp.jumlah) AS total_terjual
      FROM detail_pesanan dp
@@ -107,9 +85,6 @@ $stmt = $pdo->query(
 );
 $produk_terlaris = $stmt->fetchAll();
 
-// ----------------------------------------------------------------
-// 8. Pengeluaran terakhir (3 terakhir)
-// ----------------------------------------------------------------
 $stmt = $pdo->query(
     "SELECT keterangan, jumlah, tanggal
      FROM pengeluaran
@@ -118,9 +93,6 @@ $stmt = $pdo->query(
 );
 $pengeluaran_terakhir = $stmt->fetchAll();
 
-// ----------------------------------------------------------------
-// 9. Status toko
-// ----------------------------------------------------------------
 $stmt       = $pdo->query("SELECT id, status FROM status_toko LIMIT 1");
 $status_toko = $stmt->fetch();
 
@@ -129,9 +101,6 @@ if (!$status_toko) {
     $status_toko = ['id' => 0, 'status' => 'nonaktif'];
 }
 
-// ----------------------------------------------------------------
-// Variabel template
-// ----------------------------------------------------------------
 $page_title  = 'Dashboard';
 $active_page = 'dashboard';
 $css_extra   = '/assets/css/admin.css';
@@ -147,16 +116,12 @@ $css_extra   = '/assets/css/admin.css';
     <main class="admin-main">
         <div class="admin-content">
 
-            <!-- ================================================
-                 Page Header
-                 ================================================ -->
             <div class="page-header">
                 <div>
                     <h1 class="page-header__title">Dashboard</h1>
                     <p class="page-header__subtitle">Selamat datang kembali, Admin WanFlorist!</p>
                 </div>
 
-                <!-- Toggle Status Toko -->
                 <div class="admin-card" style="margin-bottom:0;padding:0.875rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
                     <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#374151;font-weight:500;">Status Toko:</span>
                     <label class="toggle-switch" for="ownerToggle">
@@ -173,14 +138,10 @@ $css_extra   = '/assets/css/admin.css';
                     </label>
                     <input type="hidden" id="csrf_token_ajax" value="<?= e($csrf_token) ?>">
                 </div>
-            </div><!-- /.page-header -->
+            </div>
 
-            <!-- ================================================
-                 Stat Cards
-                 ================================================ -->
             <div class="stat-cards">
 
-                <!-- Pesanan Hari Ini -->
                 <div class="stat-card stat-card--info">
                     <div class="stat-card__header">
                         <div>
@@ -192,7 +153,6 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Hari ini</div>
                 </div>
 
-                <!-- Pesanan Diproses -->
                 <div class="stat-card stat-card--warning">
                     <div class="stat-card__header">
                         <div>
@@ -204,7 +164,6 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Perlu perhatian</div>
                 </div>
 
-                <!-- Pemasukan Bulan Ini -->
                 <div class="stat-card stat-card--success">
                     <div class="stat-card__header">
                         <div>
@@ -216,7 +175,6 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Bulan berjalan</div>
                 </div>
 
-                <!-- Stok Bahan Kritis -->
                 <div class="stat-card stat-card--danger">
                     <div class="stat-card__header">
                         <div>
@@ -228,14 +186,10 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Di bawah minimum</div>
                 </div>
 
-            </div><!-- /.stat-cards -->
+            </div>
 
-            <!-- ================================================
-                 Baris Tengah: Pesanan Terbaru + Donut Chart
-                 ================================================ -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
 
-                <!-- Tabel Pesanan Terbaru -->
                 <div class="admin-card" style="margin-bottom:0;">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pesanan Terbaru</h2>
@@ -262,7 +216,6 @@ $css_extra   = '/assets/css/admin.css';
                                 <?php else: ?>
                                     <?php foreach ($pesanan_terbaru as $p): ?>
                                         <?php
-                                        // Badge class berdasarkan status
                                         $badge_class = match ($p['status']) {
                                             'menunggu_konfirmasi' => 'badge-menunggu',
                                             'diproses'            => 'badge-diproses',
@@ -272,7 +225,6 @@ $css_extra   = '/assets/css/admin.css';
                                         };
                                         $label_status = $label_map[$p['status']] ?? e($p['status']);
 
-                                        // Format tanggal
                                         $tgl_obj = new DateTime($p['created_at']);
                                         $tgl_fmt = $tgl_obj->format('d/m/Y H:i');
                                         ?>
@@ -292,9 +244,8 @@ $css_extra   = '/assets/css/admin.css';
                             </tbody>
                         </table>
                     </div>
-                </div><!-- /Tabel Pesanan Terbaru -->
+                </div>
 
-                <!-- Donut Chart Distribusi Status -->
                 <div class="admin-card" style="margin-bottom:0;">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pesanan per Status (Bulan Ini)</h2>
@@ -302,16 +253,12 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__body" style="display:flex;align-items:center;justify-content:center;">
                         <?php echo generate_svg_donat($distribusi_data); ?>
                     </div>
-                </div><!-- /Donut Chart -->
+                </div>
 
-            </div><!-- /.grid tengah -->
+            </div>
 
-            <!-- ================================================
-                 Baris Bawah: Produk Terlaris + Pengeluaran Terakhir
-                 ================================================ -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
 
-                <!-- Produk Terlaris -->
                 <div class="admin-card" style="margin-bottom:0;">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Produk Terlaris</h2>
@@ -345,9 +292,8 @@ $css_extra   = '/assets/css/admin.css';
                             </ul>
                         <?php endif; ?>
                     </div>
-                </div><!-- /Produk Terlaris -->
+                </div>
 
-                <!-- Pengeluaran Terakhir -->
                 <div class="admin-card" style="margin-bottom:0;">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pengeluaran Terakhir</h2>
@@ -379,14 +325,14 @@ $css_extra   = '/assets/css/admin.css';
                             </ul>
                         <?php endif; ?>
                     </div>
-                </div><!-- /Pengeluaran Terakhir -->
+                </div>
 
-            </div><!-- /.grid bawah -->
+            </div>
 
-        </div><!-- /.admin-content -->
-    </main><!-- /.admin-main -->
+        </div>
+    </main>
 
-</div><!-- /.admin-layout -->
+</div>
 
 <script src="/assets/js/toggle-status.js"></script>
 </body>

@@ -19,12 +19,8 @@ $csrf_token  = generate_csrf();
 $errors      = [];
 $success_msg = '';
 
-/* ============================================================
-   Handler: POST action=tambah
-   ============================================================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tambah') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Token keamanan tidak valid. Silakan muat ulang halaman.';
     } else {
@@ -37,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
                         ? $_POST['status']
                         : 'tersedia';
 
-        // 2. Validasi field teks
         if ($nama_produk === '') {
             $errors[] = 'Nama produk tidak boleh kosong.';
         } elseif (mb_strlen($nama_produk) > 200) {
@@ -58,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             }
         }
 
-        // 3. Validasi file foto (wajib untuk produk baru)
         $filename = '';
         if (empty($_FILES['foto']['tmp_name']) || $_FILES['foto']['error'] === UPLOAD_ERR_NO_FILE) {
             $errors[] = 'Foto produk wajib diunggah.';
@@ -89,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             }
         }
 
-        // 4. Simpan ke DB jika tidak ada error
         if (empty($errors)) {
             $destDir = __DIR__ . '/../assets/img/produk/';
             move_uploaded_file($_FILES['foto']['tmp_name'], $destDir . $filename);
@@ -109,18 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             ]);
 
             $success_msg = 'Produk berhasil ditambahkan.';
-            // Regenerate CSRF token after successful action
             $csrf_token = generate_csrf();
         }
     }
 }
 
-/* ============================================================
-   Handler: POST action=edit
-   ============================================================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit') {
 
-    // 1. Validasi CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Token keamanan tidak valid. Silakan muat ulang halaman.';
     } else {
@@ -134,7 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
                         ? $_POST['status']
                         : 'tersedia';
 
-        // 2. Ambil data produk saat ini
         $stmtGet = $pdo->prepare('SELECT * FROM produk WHERE id_produk = :id LIMIT 1');
         $stmtGet->execute([':id' => $id_produk]);
         $currentProduk = $stmtGet->fetch();
@@ -142,7 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
         if (!$currentProduk) {
             $errors[] = 'Produk tidak ditemukan.';
         } else {
-            // 3. Validasi field teks (sama seperti tambah)
             if ($nama_produk === '') {
                 $errors[] = 'Nama produk tidak boleh kosong.';
             } elseif (mb_strlen($nama_produk) > 200) {
@@ -163,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
                 }
             }
 
-            // 4. Validasi foto baru jika diunggah
             $newFilename = '';
             $hasFoto     = !empty($_FILES['foto']['tmp_name']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE;
 
@@ -195,7 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
                 }
             }
 
-            // 5. Update jika tidak ada error
             if (empty($errors)) {
                 $finalFoto = $currentProduk['foto']; // pertahankan foto lama by default
 
@@ -204,12 +188,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
                     move_uploaded_file($_FILES['foto']['tmp_name'], $destDir . $newFilename);
                     $finalFoto = $newFilename;
 
-                    // Hapus file lama (kecuali placeholder)
+                    // Hapus file upload lama (bukan foto seed bawaan)
                     $oldFoto    = $currentProduk['foto'];
                     $oldFotoPath = $destDir . $oldFoto;
                     if (
                         $oldFoto !== '' &&
-                        $oldFoto !== 'placeholder.jpg' &&
+                        str_starts_with($oldFoto, 'produk_') &&
                         file_exists($oldFotoPath)
                     ) {
                         unlink($oldFotoPath);
@@ -245,9 +229,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
     }
 }
 
-/* ============================================================
-   Handler: POST action=toggle_status
-   ============================================================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggle_status') {
 
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
@@ -268,9 +249,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggl
     }
 }
 
-/* ============================================================
-   Query: Semua produk untuk tabel
-   ============================================================ */
 $stmtProduk = $pdo->query(
     'SELECT p.*, k.nama_kategori
      FROM produk p
@@ -279,17 +257,11 @@ $stmtProduk = $pdo->query(
 );
 $produkList = $stmtProduk->fetchAll();
 
-/* ============================================================
-   Query: Semua kategori aktif untuk dropdown form
-   ============================================================ */
 $stmtKategori = $pdo->query(
     'SELECT id_kategori, nama_kategori FROM kategori WHERE is_active = 1 ORDER BY nama_kategori'
 );
 $kategoriList = $stmtKategori->fetchAll();
 
-/* ============================================================
-   Variabel template
-   ============================================================ */
 $page_title  = 'Manajemen Produk';
 $active_page = 'produk';
 $css_extra   = '/assets/css/admin.css';
@@ -302,13 +274,9 @@ $css_extra   = '/assets/css/admin.css';
 
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
-    <!-- ======================================================
-         Konten Utama
-         ====================================================== -->
     <main class="admin-main">
         <div class="admin-content">
 
-            <!-- Page Header -->
             <div class="page-header">
                 <div>
                     <h1 class="page-header__title">Manajemen Produk</h1>
@@ -327,7 +295,6 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <!-- Pesan Sukses -->
             <?php if ($success_msg !== ''): ?>
             <div class="alert alert--success" role="alert" style="
                 background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;
@@ -339,7 +306,6 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- Pesan Error -->
             <?php if (!empty($errors)): ?>
             <div class="alert alert--error" role="alert" style="
                 background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;
@@ -354,9 +320,6 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <!-- ============================================
-                 Panel Tambah Produk (tersembunyi secara default)
-                 ============================================ -->
             <div id="panel-tambah" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title">➕ Tambah Produk Baru</h2>
@@ -374,7 +337,6 @@ $css_extra   = '/assets/css/admin.css';
                         <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
                         <div class="form-grid">
-                            <!-- Nama Produk -->
                             <div class="form-group">
                                 <label class="form-label" for="tambah-nama_produk">Nama Produk <span class="req" aria-hidden="true">*</span></label>
                                 <input
@@ -389,7 +351,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Harga -->
                             <div class="form-group">
                                 <label class="form-label" for="tambah-harga">Harga (Rp) <span class="req" aria-hidden="true">*</span></label>
                                 <input
@@ -404,7 +365,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Kategori -->
                             <div class="form-group">
                                 <label class="form-label" for="tambah-id_kategori">Kategori <span class="req" aria-hidden="true">*</span></label>
                                 <select id="tambah-id_kategori" name="id_kategori" class="form-input" required>
@@ -420,7 +380,6 @@ $css_extra   = '/assets/css/admin.css';
                                 </select>
                             </div>
 
-                            <!-- Foto -->
                             <div class="form-group">
                                 <label class="form-label" for="tambah-foto">Foto Produk <span class="req" aria-hidden="true">*</span></label>
                                 <input
@@ -434,7 +393,6 @@ $css_extra   = '/assets/css/admin.css';
                                 <small class="form-hint">Format: JPG, JPEG, PNG. Ukuran maks: 2 MB.</small>
                             </div>
 
-                            <!-- Status -->
                             <div class="form-group">
                                 <label class="form-label" for="tambah-status">Status</label>
                                 <select id="tambah-status" name="status" class="form-input">
@@ -443,7 +401,6 @@ $css_extra   = '/assets/css/admin.css';
                                 </select>
                             </div>
 
-                            <!-- Deskripsi (lebar penuh) -->
                             <div class="form-group form-group--full">
                                 <label class="form-label" for="tambah-deskripsi">Deskripsi</label>
                                 <textarea
@@ -455,7 +412,6 @@ $css_extra   = '/assets/css/admin.css';
                                 ><?= e($_POST['deskripsi'] ?? '') ?></textarea>
                             </div>
 
-                            <!-- Is Featured -->
                             <div class="form-group form-group--full">
                                 <label class="form-label--inline" for="tambah-is_featured">
                                     <input
@@ -469,7 +425,7 @@ $css_extra   = '/assets/css/admin.css';
                                     Tampilkan sebagai produk unggulan di beranda
                                 </label>
                             </div>
-                        </div><!-- /.form-grid -->
+                        </div>
 
                         <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
                             <button type="submit" class="btn btn--primary">💾 Simpan Produk</button>
@@ -477,11 +433,8 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
                     </form>
                 </div>
-            </div><!-- /#panel-tambah -->
+            </div>
 
-            <!-- ============================================
-                 Panel Edit Produk (tersembunyi secara default)
-                 ============================================ -->
             <div id="panel-edit" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title">✏️ Edit Produk</h2>
@@ -500,7 +453,6 @@ $css_extra   = '/assets/css/admin.css';
                         <input type="hidden" name="id_produk"  id="edit-id_produk" value="">
 
                         <div class="form-grid">
-                            <!-- Nama Produk -->
                             <div class="form-group">
                                 <label class="form-label" for="edit-nama_produk">Nama Produk <span class="req" aria-hidden="true">*</span></label>
                                 <input
@@ -513,7 +465,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Harga -->
                             <div class="form-group">
                                 <label class="form-label" for="edit-harga">Harga (Rp) <span class="req" aria-hidden="true">*</span></label>
                                 <input
@@ -526,7 +477,6 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <!-- Kategori -->
                             <div class="form-group">
                                 <label class="form-label" for="edit-id_kategori">Kategori <span class="req" aria-hidden="true">*</span></label>
                                 <select id="edit-id_kategori" name="id_kategori" class="form-input" required>
@@ -539,7 +489,6 @@ $css_extra   = '/assets/css/admin.css';
                                 </select>
                             </div>
 
-                            <!-- Foto (opsional saat edit) -->
                             <div class="form-group">
                                 <label class="form-label" for="edit-foto">Ganti Foto Produk</label>
                                 <div id="edit-foto-preview" style="margin-bottom:8px;"></div>
@@ -553,7 +502,6 @@ $css_extra   = '/assets/css/admin.css';
                                 <small class="form-hint">Kosongkan jika tidak ingin mengganti foto. Format: JPG, JPEG, PNG. Maks 2 MB.</small>
                             </div>
 
-                            <!-- Status -->
                             <div class="form-group">
                                 <label class="form-label" for="edit-status">Status</label>
                                 <select id="edit-status" name="status" class="form-input">
@@ -562,7 +510,6 @@ $css_extra   = '/assets/css/admin.css';
                                 </select>
                             </div>
 
-                            <!-- Deskripsi -->
                             <div class="form-group form-group--full">
                                 <label class="form-label" for="edit-deskripsi">Deskripsi</label>
                                 <textarea
@@ -573,7 +520,6 @@ $css_extra   = '/assets/css/admin.css';
                                 ></textarea>
                             </div>
 
-                            <!-- Is Featured -->
                             <div class="form-group form-group--full">
                                 <label class="form-label--inline" for="edit-is_featured">
                                     <input
@@ -586,7 +532,7 @@ $css_extra   = '/assets/css/admin.css';
                                     Tampilkan sebagai produk unggulan di beranda
                                 </label>
                             </div>
-                        </div><!-- /.form-grid -->
+                        </div>
 
                         <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
                             <button type="submit" class="btn btn--primary">💾 Perbarui Produk</button>
@@ -594,11 +540,8 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
                     </form>
                 </div>
-            </div><!-- /#panel-edit -->
+            </div>
 
-            <!-- ============================================
-                 Tabel Produk
-                 ============================================ -->
             <div class="admin-card">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title">📦 Daftar Produk (<?= count($produkList) ?> produk)</h2>
@@ -626,20 +569,18 @@ $css_extra   = '/assets/css/admin.css';
                         <tbody>
                             <?php foreach ($produkList as $p): ?>
                             <tr>
-                                <!-- Foto thumbnail -->
                                 <td>
                                     <img
-                                        src="/assets/img/produk/<?= e($p['foto'] ?: 'placeholder.jpg') ?>"
+                                        src="<?= e(produk_foto_src($p['foto'] ?? null, '/')) ?>"
                                         alt="Foto <?= e($p['nama_produk']) ?>"
                                         width="48"
                                         height="48"
                                         class="table-thumbnail"
                                         loading="lazy"
-                                        onerror="this.src='/assets/img/placeholder.jpg'"
+                                        onerror="this.src='<?= e(produk_foto_src(null, '/')) ?>'"
                                     >
                                 </td>
 
-                                <!-- Nama -->
                                 <td>
                                     <strong><?= e($p['nama_produk']) ?></strong>
                                     <?php if (!empty($p['deskripsi'])): ?>
@@ -647,15 +588,12 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </td>
 
-                                <!-- Kategori -->
                                 <td><?= e($p['nama_kategori'] ?? '—') ?></td>
 
-                                <!-- Harga -->
                                 <td style="white-space:nowrap;font-weight:600;color:#6B21A8;">
                                     <?= format_rupiah((int) $p['harga']) ?>
                                 </td>
 
-                                <!-- Status badge -->
                                 <td>
                                     <?php if ($p['status'] === 'tersedia'): ?>
                                     <span class="badge badge-aktif">Tersedia</span>
@@ -664,15 +602,12 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php endif; ?>
                                 </td>
 
-                                <!-- Is Featured -->
                                 <td style="text-align:center;">
                                     <?= $p['is_featured'] ? '⭐' : '—' ?>
                                 </td>
 
-                                <!-- Aksi -->
                                 <td>
                                     <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
-                                        <!-- Tombol Edit -->
                                         <button
                                             type="button"
                                             class="btn btn--ghost btn--sm btn-edit-produk"
@@ -689,7 +624,6 @@ $css_extra   = '/assets/css/admin.css';
                                             ✏️ Edit
                                         </button>
 
-                                        <!-- Toggle Status -->
                                         <form method="POST" action="/admin/produk.php" style="margin:0;">
                                             <input type="hidden" name="action"         value="toggle_status">
                                             <input type="hidden" name="csrf_token"     value="<?= e($csrf_token) ?>">
@@ -710,19 +644,15 @@ $css_extra   = '/assets/css/admin.css';
                         </tbody>
                     </table>
                     <?php endif; ?>
-                </div><!-- /.table-responsive -->
-            </div><!-- /.admin-card -->
+                </div>
+            </div>
 
-        </div><!-- /.admin-content -->
+        </div>
     </main>
 
-</div><!-- /.admin-layout -->
+</div>
 
-<!-- ============================================================
-     Inline CSS — form grid + button variants + form helpers
-     ============================================================ -->
 <style>
-/* Form grid: 2 kolom di desktop, 1 di mobile */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -795,7 +725,6 @@ input[type="file"].form-input {
     display: block;
 }
 
-/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -853,16 +782,12 @@ input[type="file"].form-input {
 }
 </style>
 
-<!-- ============================================================
-     Vanilla JS — toggle panel tambah/edit, pre-fill form edit
-     ============================================================ -->
 <script>
 (function () {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        /* ---- Referensi elemen ---- */
         var btnShowTambah  = document.getElementById('btn-show-tambah');
         var panelTambah    = document.getElementById('panel-tambah');
         var btnTutupTambah = document.getElementById('btn-tutup-tambah');
@@ -871,7 +796,6 @@ input[type="file"].form-input {
         var btnTutupEdit   = document.getElementById('btn-tutup-edit');
         var btnTutupEdit2  = document.getElementById('btn-tutup-edit-2');
 
-        /* ---- Helper: tampilkan panel ---- */
         function showPanel(panel, btn) {
             panel.style.display = 'block';
             panel.setAttribute('aria-hidden', 'false');
@@ -885,7 +809,6 @@ input[type="file"].form-input {
             if (btn) btn.setAttribute('aria-expanded', 'false');
         }
 
-        /* ---- Tambah produk ---- */
         if (btnShowTambah && panelTambah) {
             btnShowTambah.addEventListener('click', function () {
                 var isOpen = panelTambah.style.display !== 'none';
@@ -904,14 +827,12 @@ input[type="file"].form-input {
             });
         }
 
-        /* ---- Tutup form edit ---- */
         function tutupEdit() {
             hidePanel(panelEdit, null);
         }
         if (btnTutupEdit)  btnTutupEdit.addEventListener('click', tutupEdit);
         if (btnTutupEdit2) btnTutupEdit2.addEventListener('click', tutupEdit);
 
-        /* ---- Tombol Edit: isi ulang form edit ---- */
         var editButtons = document.querySelectorAll('.btn-edit-produk');
         editButtons.forEach(function (btn) {
             btn.addEventListener('click', function () {
@@ -924,47 +845,40 @@ input[type="file"].form-input {
                 var featured  = btn.getAttribute('data-featured');
                 var foto      = btn.getAttribute('data-foto');
 
-                /* Pre-fill hidden & text fields */
                 document.getElementById('edit-id_produk').value  = id;
                 document.getElementById('edit-nama_produk').value = nama;
                 document.getElementById('edit-harga').value      = harga;
                 document.getElementById('edit-deskripsi').value  = deskripsi;
 
-                /* Pilih kategori */
                 var selKat = document.getElementById('edit-id_kategori');
                 for (var i = 0; i < selKat.options.length; i++) {
                     selKat.options[i].selected = (selKat.options[i].value === kategori);
                 }
 
-                /* Pilih status */
                 var selStatus = document.getElementById('edit-status');
                 for (var j = 0; j < selStatus.options.length; j++) {
                     selStatus.options[j].selected = (selStatus.options[j].value === status);
                 }
 
-                /* Checkbox is_featured */
                 document.getElementById('edit-is_featured').checked = (featured === '1');
 
-                /* Tampilkan preview foto saat ini */
                 var previewDiv = document.getElementById('edit-foto-preview');
                 if (foto) {
                     previewDiv.innerHTML =
                         '<img src="/assets/img/produk/' + encodeURIComponent(foto) + '"'
                         + ' alt="Foto saat ini" width="64" height="64"'
                         + ' style="object-fit:cover;border-radius:8px;border:1px solid #E5E7EB;"'
-                        + ' onerror="this.src=\'/assets/img/placeholder.jpg\'">'
+                        + ' onerror="this.src=\'<?= e(produk_foto_src(null, '/')) ?>\'">'
                         + '<small style="display:block;color:#9CA3AF;margin-top:4px;font-size:.75rem;">Foto saat ini</small>';
                 } else {
                     previewDiv.innerHTML = '';
                 }
 
-                /* Sembunyikan panel tambah, tampilkan panel edit */
                 hidePanel(panelTambah, btnShowTambah);
                 showPanel(panelEdit, null);
             });
         });
 
-        /* ---- Jika ada error POST, tampilkan kembali panel yang relevan ---- */
         var actionInput = document.querySelector('input[name="action"]');
         if (actionInput && document.querySelector('.alert--error')) {
             var act = actionInput.value;

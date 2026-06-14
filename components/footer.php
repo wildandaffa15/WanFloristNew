@@ -6,15 +6,12 @@
  * Layout 3 kolom di desktop, ditumpuk di mobile.
  *
  * Tidak memerlukan input database.
- *
- * Requirements: 2.6, 17.1
  */
 ?>
 
 <footer class="wf-footer" role="contentinfo">
     <div class="wf-footer__inner">
 
-        <!-- Kolom 1: Logo + Deskripsi + Kontak Sosial -->
         <div class="wf-footer__col wf-footer__col--brand">
             <a href="/index.php" class="wf-footer__logo" aria-label="WanFlorist — Beranda">
                 WanFlorist
@@ -44,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Kolom 2: Tautan Cepat -->
         <div class="wf-footer__col">
             <h2 class="wf-footer__heading">Tautan Cepat</h2>
             <nav aria-label="Tautan cepat footer">
@@ -65,7 +61,6 @@
             </nav>
         </div>
 
-        <!-- Kolom 3: Informasi Kontak -->
         <div class="wf-footer__col">
             <h2 class="wf-footer__heading">Kontak &amp; Lokasi</h2>
             <address class="wf-footer__address">
@@ -95,9 +90,8 @@
             </address>
         </div>
 
-    </div><!-- /.wf-footer__inner -->
+    </div>
 
-    <!-- Bottom bar: Copyright -->
     <div class="wf-footer__bottom">
         <p class="wf-footer__copyright">
             &copy; 2025 WanFlorist. Dibuat dengan 🌸 di Singojuruh, Banyuwangi.
@@ -106,29 +100,23 @@
 </footer>
 
 <style>
-/* ============================================================
-   Footer Component — WanFlorist
-   Pure CSS, no framework. Responsive via media queries.
-   ============================================================ */
-
 .wf-footer {
     width: 100%;
     background-color: #1E1040;
-    color: #E9D5FF;           /* dark-text */
+    color: #E9D5FF;
     font-family: 'Inter', sans-serif;
     padding-top: 64px;
 }
 
 .wf-footer__inner {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr; /* 3 kolom desktop */
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 32px;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 32px 48px 32px;
 }
 
-/* --- Kolom 1: Brand ----------------------------------------- */
 .wf-footer__logo {
     display: inline-block;
     font-family: 'Playfair Display', serif;
@@ -152,7 +140,7 @@
 .wf-footer__tagline {
     font-size: 14px;
     line-height: 1.65;
-    color: #A78BFA;           /* dark-muted */
+    color: #A78BFA;
     max-width: 340px;
     margin: 0 0 20px 0;
 }
@@ -186,7 +174,6 @@
     line-height: 1;
 }
 
-/* --- Kolom 2 & 3: Nav / Kontak ----------------------------- */
 .wf-footer__col {
     display: flex;
     flex-direction: column;
@@ -225,7 +212,6 @@
     outline: none;
 }
 
-/* --- Adress ------------------------------------------------- */
 .wf-footer__address {
     font-style: normal;
     display: flex;
@@ -248,7 +234,6 @@
     margin-top: 1px;
 }
 
-/* --- Bottom bar -------------------------------------------- */
 .wf-footer__bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     max-width: 1280px;
@@ -266,7 +251,6 @@
     text-align: center;
 }
 
-/* --- Responsive: tablet (≤1023px) -------------------------- */
 @media (max-width: 1023px) {
     .wf-footer__inner {
         grid-template-columns: 1fr 1fr;
@@ -274,11 +258,10 @@
     }
 
     .wf-footer__col--brand {
-        grid-column: 1 / -1; /* ocupa toda a largura */
+        grid-column: 1 / -1;
     }
 }
 
-/* --- Responsive: mobile (<768px) --------------------------- */
 @media (max-width: 767px) {
     .wf-footer {
         padding-top: 48px;
