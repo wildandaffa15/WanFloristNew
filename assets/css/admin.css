@@ -1,4 +1,24 @@
+.wf-sidebar__icon {
+    width: 24px;
+    min-width: 24px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.wf-sidebar__icon i {
+    font-size: 1rem;
+}
+
+.wf-sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wf-sidebar__link--active .wf-sidebar__icon i {
+    font-weight: 700;
+}
 
 .admin-layout {
     display: flex;

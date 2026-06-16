@@ -148,7 +148,10 @@ $css_extra   = '/assets/css/admin.css';
                             <div class="stat-card__value"><?= e((string) $pesanan_hari_ini) ?></div>
                             <div class="stat-card__label">Pesanan Hari Ini</div>
                         </div>
-                        <div class="stat-card__icon">🛍️</div>
+
+                        <div class="stat-card__icon">
+                            <i class="bi bi-bag-check-fill"></i>
+                        </div>
                     </div>
                     <div class="stat-card__change">Hari ini</div>
                 </div>
@@ -159,7 +162,9 @@ $css_extra   = '/assets/css/admin.css';
                             <div class="stat-card__value"><?= e((string) $pesanan_diproses) ?></div>
                             <div class="stat-card__label">Pesanan Diproses</div>
                         </div>
-                        <div class="stat-card__icon">⏳</div>
+                        <div class="stat-card__icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
                     </div>
                     <div class="stat-card__change">Perlu perhatian</div>
                 </div>
@@ -170,7 +175,9 @@ $css_extra   = '/assets/css/admin.css';
                             <div class="stat-card__value" style="font-size:1.25rem;"><?= e(format_rupiah($pemasukan_bulan)) ?></div>
                             <div class="stat-card__label">Pemasukan Bulan Ini</div>
                         </div>
-                        <div class="stat-card__icon">💰</div>
+                        <div class="stat-card__icon">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
                     </div>
                     <div class="stat-card__change">Bulan berjalan</div>
                 </div>
@@ -181,7 +188,9 @@ $css_extra   = '/assets/css/admin.css';
                             <div class="stat-card__value"><?= e((string) $stok_kritis) ?></div>
                             <div class="stat-card__label">Stok Bahan Kritis</div>
                         </div>
-                        <div class="stat-card__icon">⚠️</div>
+                        <div class="stat-card__icon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
                     </div>
                     <div class="stat-card__change">Di bawah minimum</div>
                 </div>
@@ -266,7 +275,6 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__body" style="padding:0;">
                         <?php if (empty($produk_terlaris)): ?>
                             <div class="admin-empty">
-                                <div class="admin-empty__icon">🌸</div>
                                 <div class="admin-empty__title">Belum ada data penjualan</div>
                             </div>
                         <?php else: ?>
@@ -302,7 +310,9 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__body" style="padding:0;">
                         <?php if (empty($pengeluaran_terakhir)): ?>
                             <div class="admin-empty">
-                                <div class="admin-empty__icon">💸</div>
+                                <div class="admin-empty__icon">
+                                    <i class="bi bi-cash-coin"></i>
+                                </div>
                                 <div class="admin-empty__title">Belum ada pengeluaran</div>
                             </div>
                         <?php else: ?>

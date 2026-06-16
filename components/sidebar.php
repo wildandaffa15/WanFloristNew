@@ -1,38 +1,12 @@
 <?php
-/**
- * components/sidebar.php
- *
- * Sidebar navigasi admin WanFlorist.
- * — Lebar 240px, latar belakang #1E1040 (dark-bg).
- * — Menerima variabel $active_page (string) untuk menyorot item aktif.
- * — Mobile: tersembunyi secara default, tampil via tombol hamburger.
- * — Logout menggunakan form POST (bukan tautan GET) untuk keamanan.
- * — Semua event listener JavaScript ditambahkan via addEventListener();
- *   TIDAK ada atribut onclick="" inline di HTML.
- *
- * Variabel yang dibutuhkan dari halaman pemanggil:
- *   $active_page  (string) — nama halaman aktif, contoh: 'dashboard', 'pesanan'
- *   $_SESSION['username'] — username admin yang sedang login
- *
- * Requirements: 8.8, 16.7, 16.9
- */
-
-// Pastikan session sudah dimulai oleh config/session.php sebelum sidebar ini di-include.
-$admin_username = htmlspecialchars($_SESSION['username'] ?? 'Admin', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$admin_role     = htmlspecialchars(ucfirst($_SESSION['role'] ?? 'staf'), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-/**
- * Daftar item menu sidebar.
- * Setiap item: [key, label, ikon emoji, href, is_logout]
- */
 $menu_items = [
-    ['dashboard',   'Dashboard',    '📊', '/admin/index.php',       false],
-    ['pesanan',     'Pesanan',      '📦', '/admin/pesanan.php',      false],
-    ['produk',      'Produk',       '🌸', '/admin/produk.php',       false],
-    ['stok',        'Stok Bahan',   '🌿', '/admin/stok.php',         false],
-    ['pembayaran',  'Pembayaran',   '💳', '/admin/pembayaran.php',   false],
-    ['pengeluaran', 'Pengeluaran',  '💰', '/admin/pengeluaran.php',  false],
-    ['laporan',     'Laporan',      '📈', '/admin/laporan.php',      false],
+    ['dashboard',   'Dashboard',    'bi bi-speedometer2', '/admin/index.php', false],
+    ['pesanan',     'Pesanan',      'bi bi-box-seam', '/admin/pesanan.php', false],
+    ['produk',      'Produk',       'bi bi-flower1', '/admin/produk.php', false],
+    ['stok',        'Stok Bahan',   'bi bi-archive', '/admin/stok.php', false],
+    ['pembayaran',  'Pembayaran',   'bi bi-credit-card', '/admin/pembayaran.php', false],
+    ['pengeluaran', 'Pengeluaran',  'bi bi-cash-stack', '/admin/pengeluaran.php', false],
+    ['laporan',     'Laporan',      'bi bi-bar-chart-line', '/admin/laporan.php', false],
 ];
 ?>
 
@@ -49,57 +23,75 @@ $menu_items = [
     <span class="wf-hamburger__bar"></span>
 </button>
 
-<div id="wf-sidebar-overlay" class="wf-sidebar-overlay" aria-hidden="true"></div>
-
-<aside id="wf-sidebar" class="wf-sidebar" role="navigation" aria-label="Navigasi admin">
-
+<aside id="wf-sidebar" class="wf-sidebar">
     <div class="wf-sidebar__header">
         <div class="wf-sidebar__brand">
-            <span class="wf-sidebar__brand-icon" aria-hidden="true">🌸</span>
-            <span class="wf-sidebar__brand-name">WanFlorist</span>
-        </div>
-        <div class="wf-sidebar__user">
-            <div class="wf-sidebar__avatar" aria-hidden="true">
-                <?= strtoupper(mb_substr($_SESSION['username'] ?? 'A', 0, 1, 'UTF-8')) ?>
+            <div class="wf-sidebar__brand-icon">
+                <i class="bi bi-flower1"></i>
             </div>
-            <div class="wf-sidebar__user-info">
-                <span class="wf-sidebar__username"><?= $admin_username ?></span>
-                <span class="wf-sidebar__role"><?= $admin_role ?></span>
+
+            <div class="wf-sidebar__brand-text">
+                <span class="wf-sidebar__brand-name">WanFlorist</span>
+                <span class="wf-sidebar__brand-subtitle">
+                    Admin Panel
+                </span>
             </div>
         </div>
     </div>
 
-    <nav class="wf-sidebar__nav" aria-label="Menu admin">
-        <ul class="wf-sidebar__menu" role="list">
-            <?php foreach ($menu_items as [$key, $label, $icon, $href, $is_logout]): ?>
-                <?php $is_active = ($active_page ?? '') === $key; ?>
-                <li class="wf-sidebar__item" role="listitem">
+    <nav class="wf-sidebar__nav">
+        <ul class="wf-sidebar__menu">
+            <?php foreach ($menu_items as $item): ?>
+                <?php
+                $is_active = ($active_page ?? '') === $item[0];
+                ?>
+                <li>
                     <a
-                        href="<?= htmlspecialchars($href, ENT_QUOTES | ENT_HTML5, 'UTF-8') ?>"
-                        class="wf-sidebar__link<?= $is_active ? ' wf-sidebar__link--active' : '' ?>"
-                        <?= $is_active ? 'aria-current="page"' : '' ?>
+                        href="<?= e($item[3]) ?>"
+                        class="wf-sidebar__link <?= $is_active ? 'wf-sidebar__link--active' : '' ?>"
                     >
-                        <span class="wf-sidebar__icon" aria-hidden="true"><?= $icon ?></span>
-                        <span class="wf-sidebar__label"><?= htmlspecialchars($label, ENT_QUOTES | ENT_HTML5, 'UTF-8') ?></span>
+                        <span class="wf-sidebar__icon">
+                            <i class="<?= e($item[2]) ?>"></i>
+                        </span>
+
+                        <span class="wf-sidebar__text">
+                            <?= e($item[1]) ?>
+                        </span>
                     </a>
                 </li>
             <?php endforeach; ?>
         </ul>
     </nav>
 
-    <div class="wf-sidebar__spacer" aria-hidden="true"></div>
-
+    <div class="wf-sidebar__spacer"></div>
     <div class="wf-sidebar__footer">
-        <div class="wf-sidebar__divider" aria-hidden="true"></div>
-        <form method="POST" action="/admin/logout.php" class="wf-sidebar__logout-form">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf(), ENT_QUOTES | ENT_HTML5, 'UTF-8') ?>">
-            <button type="submit" class="wf-sidebar__link wf-sidebar__link--logout">
-                <span class="wf-sidebar__icon" aria-hidden="true">🚪</span>
-                <span class="wf-sidebar__label">Keluar</span>
+        <div class="wf-sidebar__divider"></div>
+
+        <form
+            method="post"
+            action="/admin/logout.php"
+            class="wf-sidebar__logout-form"
+        >
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= e($csrf_token) ?>"
+            >
+
+            <button
+                type="submit"
+                class="wf-sidebar__link wf-sidebar__link--logout"
+            >
+                <span class="wf-sidebar__icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </span>
+
+                <span class="wf-sidebar__text">
+                    Keluar
+                </span>
             </button>
         </form>
     </div>
-
 </aside>
 
 <style>
@@ -133,15 +125,43 @@ $menu_items = [
 }
 
 .wf-sidebar__header {
-    padding: 24px 16px 16px 16px;
-    flex-shrink: 0;
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--sidebar-divider);
 }
 
 .wf-sidebar__brand {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.wf-sidebar__brand-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(147,51,234,.15);
+    color: #C084FC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.wf-sidebar__brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.wf-sidebar__brand-name {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.wf-sidebar__brand-subtitle {
+    color: #A78BFA;
+    font-size: 12px;
 }
 
 .wf-sidebar__brand-icon {
@@ -413,12 +433,6 @@ $menu_items = [
 </style>
 
 <script>
-/**
- * Sidebar toggle — vanilla JS, addEventListener only.
- * Tidak ada inline onclick="".
- *
- * Requirements: 16.9, 17.5
- */
 (function () {
     'use strict';
 
