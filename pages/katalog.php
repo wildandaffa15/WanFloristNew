@@ -81,17 +81,6 @@ $stmt_kat = $pdo->prepare(
 $stmt_kat->execute();
 $all_kategori = $stmt_kat->fetchAll(PDO::FETCH_ASSOC);
 
-// Map legacy emoji values from seed data to Bootstrap Icon classes
-$ikon_map = [
-    '🌹' => 'bi bi-flower1',
-    '🌻' => 'bi bi-sun',
-    '🌷' => 'bi bi-flower2',
-    '🌸' => 'bi bi-flower1',
-    '💍' => 'bi bi-gem',
-    '🎓' => 'bi bi-mortarboard',
-    '🎁' => 'bi bi-gift',
-];
-
 function build_url(array $params): string
 {
     return '?' . http_build_query(
@@ -159,18 +148,6 @@ $active_page = 'produk';
                             value="<?= e($kat['slug']) ?>"
                             <?= ($kategori === $kat['slug']) ? 'selected' : '' ?>
                         >
-                            <?php if (!empty($kat['ikon_emoji'])): ?>
-                                <?php
-                                    $ikon = $kat['ikon_emoji'];
-                                    if (isset($ikon_map[$ikon])) {
-                                        ?><span aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
-                                    } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
-                                        ?><span aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
-                                    } else {
-                                        ?><span aria-hidden="true"><?= e($ikon) ?></span><?php
-                                    }
-                                ?>
-                            <?php endif; ?>
                             <?= e($kat['nama_kategori']) ?>
                         </option>
                         <?php endforeach; ?>
@@ -215,19 +192,7 @@ $active_page = 'produk';
                     class="category-pill <?= ($kategori === $kat['slug']) ? 'category-pill--active' : '' ?>"
                     <?= ($kategori === $kat['slug']) ? 'aria-current="true"' : '' ?>
                 >
-                    <?php if (!empty($kat['ikon_emoji'])): ?>
-                        <?php
-                            $ikon = $kat['ikon_emoji'];
-                            if (isset($ikon_map[$ikon])) {
-                                ?><span aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
-                            } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
-                                ?><span aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
-                            } else {
-                                ?><span aria-hidden="true"><?= e($ikon) ?></span><?php
-                            }
-                        ?>
-                    <?php endif; ?>
-                    <?= e($kat['nama_kategori']) ?>
+                        <?= e($kat['nama_kategori']) ?>
                 </a>
                 <?php endforeach; ?>
             </div>

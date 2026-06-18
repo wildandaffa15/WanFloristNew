@@ -4,7 +4,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ------------------------------------------------------------
 -- Kategori (minimal 5)
 -- ------------------------------------------------------------
-INSERT INTO kategori (nama_kategori, slug, ikon_emoji, is_active) VALUES
+INSERT INTO kategori (nama_kategori, slug, is_active) VALUES
 ('Mawar',       'mawar',       '🌹', 1),
 ('Sunflower',   'sunflower',   '🌻', 1),
 ('Tulip',       'tulip',       '🌷', 1),

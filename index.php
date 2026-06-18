@@ -64,18 +64,6 @@ $css_extra   = '/assets/css/public.css';
                class="category-pill"
                role="listitem"
                aria-label="Lihat produk kategori <?= e($cat['nama_kategori']) ?>">
-                <?php if (!empty($cat['ikon_emoji'])): ?>
-                    <?php
-                        $ikon = $cat['ikon_emoji'];
-                        if (isset($ikon_map[$ikon])) {
-                            ?><span class="category-pill__emoji" aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
-                        } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
-                            ?><span class="category-pill__emoji" aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
-                        } else {
-                            ?><span class="category-pill__emoji" aria-hidden="true"><?= e($ikon) ?></span><?php
-                        }
-                    ?>
-                <?php endif; ?>
                 <?= e($cat['nama_kategori']) ?>
             </a>
             <?php endforeach; ?>
