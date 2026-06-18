@@ -110,7 +110,6 @@
 }
 
 .pem-radio-input {
-    /* Keep visible but style it naturally */
     flex-shrink: 0;
     width: 18px;
     height: 18px;
@@ -211,7 +210,7 @@
 
 .pem-sidebar {
     position: sticky;
-    top: 120px; /* below sticky navbar (~64px) + status banner (~40px) + breathing room */
+    top: 120px;
 }
 
 .pem-summary-card {
@@ -291,10 +290,14 @@
 }
 
 .pem-dp-info {
+    display: none;
     font-size: 0.875rem;
     margin-bottom: 0;
 }
 
+.pem-dp-info--visible {
+    display: flex;
+}
 
 @media (max-width: 1023px) {
     .pem-layout {

@@ -1,18 +1,11 @@
 <?php
-/**
- * pages/tentang.php — Halaman Tentang Kami WanFlorist
- *
- * Menampilkan kisah pemilik, lokasi, dan misi toko.
- * Layout publik: head + navbar + footer.
- */
-
 require_once '../config/database.php';
 require_once '../config/helpers.php';
 
 $pdo         = get_pdo();
 $page_title  = 'Tentang Kami';
 $active_page = 'tentang';
-$css_extra   = '/assets/css/public.css';
+$css_extra   = '/assets/css/pages/tentang.css';
 ?>
 <!DOCTYPE html>
 <html lang="id">

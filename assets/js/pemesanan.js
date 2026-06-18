@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
@@ -172,25 +170,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         summaryTotal.textContent = formatRupiah(total);
 
-        // Info box: show when metode = cod
         if (dpInfo) {
             var metodeInput = form.querySelector('input[name="metode_pengambilan"]:checked');
             var metode      = metodeInput ? metodeInput.value : 'ambil_sendiri';
-            if (metode === 'cod') {
-                dpInfo.style.display = '';
-            } else {
-                dpInfo.style.display = 'none';
-            }
+            dpInfo.classList.toggle('pem-dp-info--visible', metode === 'cod');
         }
     }
 
-    // Mirrors the PHP format_rupiah() helper.
     function formatRupiah(angka) {
         if (angka === 0) return 'Rp 0';
         return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 
-    // Basic HTML escape to prevent XSS in dynamically inserted content.
     function escapeHtml(str) {
         return String(str)
             .replace(/&/g, '&amp;')

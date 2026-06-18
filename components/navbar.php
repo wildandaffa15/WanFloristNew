@@ -1,18 +1,4 @@
 <?php
-/**
- * components/navbar.php
- *
- * Navbar publik sticky untuk semua halaman publik WanFlorist.
- * Membaca status toko dari database untuk menampilkan banner ketersediaan.
- *
- * Variabel yang dibutuhkan dari halaman pemanggil:
- *   $pdo          — instance PDO (dari config/database.php)
- *   $active_page  — string: 'beranda' | 'produk' | 'cek-pesanan' | 'tentang' | 'kontak'
- *                   (opsional, default kosong = tidak ada yang aktif)
- *
- * Requirements: 1.4, 1.5, 1.6, 2.5, 16.7
- */
-
 if (!function_exists('e')) {
     require_once __DIR__ . '/../config/helpers.php';
 }

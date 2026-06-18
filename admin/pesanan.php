@@ -1,11 +1,4 @@
 <?php
-/**
- * admin/pesanan.php
- * Halaman manajemen pesanan — daftar, filter, cari, ekspor CSV, ubah status.
- *
- * Requirements: 8.1, 8.2, 8.3, 8.4, 8.7
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';

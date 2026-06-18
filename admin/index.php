@@ -1,14 +1,4 @@
 <?php
-/**
- * admin/index.php
- * Halaman Dashboard Admin WanFlorist
- *
- * Menampilkan ringkasan statistik toko, pesanan terbaru,
- * distribusi pesanan per status, produk terlaris, dan pengeluaran terakhir.
- *
- * Requirements: 8.1, 8.2, 8.3, 8.4, 8.5
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';

@@ -1,15 +1,4 @@
 <?php
-/**
- * config/session.php
- * Inisialisasi session dan validasi autentikasi admin.
- *
- * File ini di-require_once oleh SEMUA halaman di direktori admin/.
- * Jika session tidak valid, pengguna di-redirect ke login.php (HTTP 302).
- *
- * Penggunaan (di setiap halaman admin):
- *   require_once __DIR__ . '/../config/session.php';
- */
-
 declare(strict_types=1);
 
 if (session_status() === PHP_SESSION_NONE) {

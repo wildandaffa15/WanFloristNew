@@ -1,5 +1,3 @@
-
-
 .hero {
     width: 100%;
     min-height: 80vh;
@@ -467,12 +465,6 @@
     border-color: #5B1A90;
     color: #ffffff;
 }
-
-.category-pill__emoji {
-    font-size: 1rem;
-    line-height: 1;
-}
-
 
 .pagination {
     display: flex;

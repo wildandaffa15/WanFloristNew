@@ -354,6 +354,41 @@
     -webkit-overflow-scrolling:touch;
 }
 
+.bar-chart-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+}
+
+.donut-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.donut-legend-swatch {
+    flex-shrink: 0;
+    display: inline-flex;
+}
+
+.donut-legend-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #374151;
+}
+
+.donut-legend-pct {
+    margin-left: auto;
+    font-weight: 600;
+    color: #1F2937;
+}
+
 .admin-table{
     width:100%;
     min-width:900px;
@@ -1647,6 +1682,58 @@ body.login-body {
     color: var(--color-text-muted);
 }
 
+.login-alert-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.form-group--compact {
+    margin-top: 28px;
+    margin-bottom: 0;
+}
+
+.admin-card--spaced {
+    margin-bottom: 1.25rem;
+}
+
+.form-label--small {
+    font-size: 0.8rem;
+}
+
+.input--small {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.compact-list {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+}
+
+.form-note {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #6B7280;
+    margin-left: 0.5rem;
+}
+
+.table-col--narrow {
+    width: 3rem;
+}
+
+.text-right-nowrap {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.table-divider {
+    border-top: 2px solid #E5E7EB;
+}
+
 @media (max-width: 1023px) {
     body.login-body {
         background-color: var(--color-white);
@@ -1658,10 +1745,6 @@ body.login-body {
         padding-top: 80px;
     }
 }
-
-/* =========================
-   FIX OVERFLOW ADMIN PANEL
-   ========================= */
 
 html,
 body {

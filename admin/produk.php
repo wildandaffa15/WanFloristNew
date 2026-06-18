@@ -1,13 +1,4 @@
 <?php
-/**
- * admin/produk.php
- *
- * Halaman manajemen produk untuk Admin WanFlorist.
- * Menangani tambah, edit, dan toggle status produk.
- *
- * Requirements: 10.1 – 10.7, 15.1 – 15.6
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';
@@ -596,7 +587,17 @@ $css_extra   = '/assets/css/admin.css';
                                             <i class="bi bi-pencil" aria-hidden="true"></i> Edit
                                         </button>
 
-                                        <form method="POST" action="/admin/produk.php" class="admin-inline-form" style="display: none;" data-product-id="<?= e((string) $p['id_produk']) ?>">
+                                        <button
+                                            type="button"
+                                            class="btn btn--ghost btn--sm btn-toggle-status"
+                                            data-id="<?= e((string) $p['id_produk']) ?>"
+                                            aria-label="<?= e($p['status'] === 'tersedia' ? 'Nonaktifkan produk ' . $p['nama_produk'] : 'Aktifkan produk ' . $p['nama_produk']) ?>"
+                                        >
+                                            <i class="bi <?= $p['status'] === 'tersedia' ? 'bi-toggle-on' : 'bi-toggle-off' ?>" aria-hidden="true"></i>
+                                            <?= $p['status'] === 'tersedia' ? 'Nonaktifkan' : 'Aktifkan' ?>
+                                        </button>
+
+                                        <form method="POST" action="/admin/produk.php" class="admin-inline-form hidden" data-product-id="<?= e((string) $p['id_produk']) ?>">
                                             <input type="hidden" name="action" value="toggle_status">
                                             <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
                                             <input type="hidden" name="id_produk" value="<?= e((string) $p['id_produk']) ?>">

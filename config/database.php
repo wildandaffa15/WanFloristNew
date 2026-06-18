@@ -1,13 +1,4 @@
 <?php
-/**
- * config/database.php
- * Koneksi PDO Singleton untuk WanFlorist
- *
- * Penggunaan:
- *   require_once __DIR__ . '/../config/database.php';
- *   $pdo = get_pdo();
- */
-
 declare(strict_types=1);
 
 /**

@@ -1,15 +1,7 @@
-/* pages/public.css
-   Page-specific styles for public-facing pages (katalog, tentang, kontak, pemesanan).
-   We'll migrate inline/embedded styles from `pages/*.php` into these files.
-*/
-
 .hero { padding: 4rem 1.5rem; }
 .section { padding: 4rem 0; }
-
 .kontak-card { transition: transform .15s, box-shadow .15s; }
 .kontak-card:hover { transform: translateY(-3px); }
-
-/* Hero variants used by specific public pages */
 .hero--short { min-height: 40vh; padding: 3rem 1.5rem; }
 .hero--medium { min-height: 45vh; padding: 3.5rem 1.5rem; }
 
@@ -94,7 +86,6 @@
     margin-right: auto;
 }
 
-/* Kontak page grid and card */
 .kontak-grid {
    display: grid;
    grid-template-columns: 1fr 1fr;
@@ -128,8 +119,6 @@
 }
 
 .kontak-card__content p { margin: 0; }
-
-/* About page helpers */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 
 .about-illustration {

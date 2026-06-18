@@ -22,12 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     statusText.textContent = data.status_baru === 'aktif' ? 'Aktif' : 'Nonaktif';
                 }
             } else {
-                // Kembalikan posisi toggle ke keadaan sebelumnya
                 this.checked = !this.checked;
                 alert('Gagal mengubah status: ' + (data.message || 'Terjadi kesalahan.'));
             }
-        } catch (err) {
-            // Kesalahan jaringan — kembalikan posisi toggle
+        } catch (err) {\
             this.checked = !this.checked;
         }
     });

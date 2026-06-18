@@ -1,16 +1,4 @@
 <?php
-/**
- * admin/pengeluaran.php
- *
- * Halaman pencatatan pengeluaran WanFlorist.
- * — Menampilkan ringkasan total pengeluaran bulan ini.
- * — Form tambah pengeluaran baru (POST).
- * — Filter rentang tanggal (GET).
- * — Tabel daftar pengeluaran dengan total baris terbawah.
- *
- * Requirements: 13.1, 13.2, 13.3
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';
@@ -149,7 +137,7 @@ $css_extra   = '/assets/css/admin.css';
             <?php if (!empty($errors)): ?>
             <div class="alert alert--error" role="alert">
                 <strong>Terjadi kesalahan:</strong>
-                <ul style="margin:0.5rem 0 0 1.25rem;padding:0;">
+                <ul class="compact-list">
                     <?php foreach ($errors as $err): ?>
                     <li><?= e($err) ?></li>
                     <?php endforeach; ?>
@@ -170,7 +158,7 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div class="form-group">
                                 <label class="form-label" for="keterangan">
-                                    Keterangan <span aria-hidden="true" style="color:#DC2626;">*</span>
+                                    Keterangan <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -186,7 +174,7 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div class="form-group">
                                 <label class="form-label" for="jumlah">
-                                    Jumlah (Rp) <span aria-hidden="true" style="color:#DC2626;">*</span>
+                                    Jumlah (Rp) <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="number"
@@ -203,7 +191,7 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div class="form-group">
                                 <label class="form-label" for="tanggal">
-                                    Tanggal <span aria-hidden="true" style="color:#DC2626;">*</span>
+                                    Tanggal <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="date"
@@ -215,7 +203,7 @@ $css_extra   = '/assets/css/admin.css';
                                 >
                             </div>
 
-                            <button type="submit" class="btn btn--primary" style="width:100%;">
+                            <button type="submit" class="btn btn--primary btn-block">
                                 <i class="bi bi-save" aria-hidden="true"></i> Simpan Pengeluaran
                             </button>
                         </form>
@@ -224,7 +212,7 @@ $css_extra   = '/assets/css/admin.css';
 
                 <div>
 
-                    <div class="admin-card" style="margin-bottom:1.25rem;">
+                    <div class="admin-card admin-card--spaced">
                         <div class="admin-card__header">
                             <h3 class="admin-card__title"><i class="bi bi-search"></i> Filter Tanggal</h3>
                         </div>
@@ -233,29 +221,27 @@ $css_extra   = '/assets/css/admin.css';
                                 <div class="form-row">
 
                                     <div>
-                                        <label class="form-label" for="dari" style="font-size:0.8rem;">
+                                        <label class="form-label form-label--small" for="dari">
                                             Dari
                                         </label>
                                         <input
                                             type="date"
                                             id="dari"
                                             name="dari"
-                                            class="form-input"
-                                            style="font-size:0.875rem;padding:0.5rem 0.75rem;"
+                                            class="form-input input--small"
                                             value="<?= e($dari) ?>"
                                         >
                                     </div>
 
                                     <div>
-                                        <label class="form-label" for="sampai" style="font-size:0.8rem;">
+                                        <label class="form-label form-label--small" for="sampai">
                                             Sampai
                                         </label>
                                         <input
                                             type="date"
                                             id="sampai"
                                             name="sampai"
-                                            class="form-input"
-                                            style="font-size:0.875rem;padding:0.5rem 0.75rem;"
+                                            class="form-input input--small"
                                             value="<?= e($sampai) ?>"
                                         >
                                     </div>
@@ -279,7 +265,7 @@ $css_extra   = '/assets/css/admin.css';
                             <h3 class="admin-card__title">
                                 <i class="bi bi-card-list"></i> Daftar Pengeluaran
                                 <?php if ($dari !== '' || $sampai !== ''): ?>
-                                    <span style="font-size:0.8rem;font-weight:400;color:#6B7280;margin-left:0.5rem;">
+                                    <span class="form-note">
                                         (<?php
                                             $label_filter = [];
                                             if ($dari    !== '') $label_filter[] = 'dari ' . e($dari);
@@ -309,11 +295,11 @@ $css_extra   = '/assets/css/admin.css';
                             <table class="admin-table" aria-label="Tabel pengeluaran">
                                 <thead>
                                     <tr>
-                                        <th style="width:3rem;">No.</th>
+                                        <th class="table-col--narrow">No.</th>
                                         <th>Keterangan</th>
-                                        <th style="text-align:right;white-space:nowrap;">Jumlah</th>
-                                        <th style="white-space:nowrap;">Tanggal</th>
-                                        <th style="white-space:nowrap;">Tanggal Input</th>
+                                        <th class="text-right-nowrap">Jumlah</th>
+                                        <th class="text-nowrap">Tanggal</th>
+                                        <th class="text-nowrap">Tanggal Input</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -346,7 +332,7 @@ $css_extra   = '/assets/css/admin.css';
                                         <td class="table-row__total--amount">
                                             <?= e(format_rupiah($total_range)) ?>
                                         </td>
-                                        <td colspan="2" style="border-top:2px solid #E5E7EB;"></td>
+                                        <td colspan="2" class="table-divider"></td>
                                     </tr>
                                 </tfoot>
                             </table>

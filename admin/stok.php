@@ -1,13 +1,4 @@
 <?php
-/**
- * admin/stok.php
- *
- * Halaman manajemen stok bahan WanFlorist.
- * Fitur: tambah bahan baru, lihat semua bahan, update stok via AJAX.
- *
- * Requirements: 16.1, 16.4
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';

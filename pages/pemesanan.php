@@ -1,19 +1,4 @@
 <?php
-/**
- * pages/pemesanan.php
- *
- * Halaman form pemesanan publik WanFlorist.
- * Menangani:
- *   - Pre-fill produk dari query string ?id=
- *   - Daftar semua produk tersedia untuk selector
- *   - Validasi server-side (nama, WA, tanggal, produk)
- *   - Perlindungan CSRF
- *   - INSERT pesanan + detail_pesanan dalam satu transaksi
- *   - PRG redirect ke cek-pesanan.php setelah berhasil
- *
- * Requirements: 5.1–5.10, 15.1–15.3, 17.2, 17.4, 17.5
- */
-
 session_start(); // needed for CSRF
 require_once '../config/database.php';
 require_once '../config/helpers.php';
@@ -142,7 +127,7 @@ $saved_catatan = trim($form_data['catatan'] ?? $_POST['catatan'] ?? '');
 
 $page_title = 'Form Pemesanan';
 $active_page = 'produk';
-$css_extra   = '/assets/css/pemesanan.css';
+$css_extra   = '/assets/css/pages/pemesanan.css';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -474,7 +459,7 @@ $css_extra   = '/assets/css/pemesanan.css';
                     </div>
 
                     <!-- Info box: shown by JS when metode = cod -->
-                    <div id="pem-dp-info" class="alert alert-info pem-dp-info" style="display:none;" role="status">
+                    <div id="pem-dp-info" class="alert alert-info pem-dp-info" role="status">
                         <span><i class="bi bi-info-circle" aria-hidden="true"></i></span>
                         <div>
                             <strong>Informasi COD</strong><br>

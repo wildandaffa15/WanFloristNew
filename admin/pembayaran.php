@@ -1,13 +1,4 @@
 <?php
-/**
- * admin/pembayaran.php
- *
- * Halaman Pencatatan Pembayaran — Panel Admin WanFlorist.
- * Mengelola pencatatan DP dan pembayaran lunas dari pembeli.
- *
- * Requirements: 12.1 – 12.8, 15.1 – 15.3, 15.5
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/session.php';
@@ -727,11 +718,6 @@ $css_extra   = '/assets/css/admin.css';
 </div>
 
 <script>
-/**
- * Vanilla JS — tab switching + info hint lunas.
- * addEventListener only, no inline onclick.
- * Requirements: 17.5
- */
 (function () {
     'use strict';
 

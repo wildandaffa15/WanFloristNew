@@ -1,14 +1,3 @@
-<?php
-/**
- * components/footer.php
- *
- * Footer publik WanFlorist — ditampilkan di semua halaman publik.
- * Layout 3 kolom di desktop, ditumpuk di mobile.
- *
- * Tidak memerlukan input database.
- */
-?>
-
 <footer class="wf-footer" role="contentinfo">
     <div class="wf-footer__inner">
 

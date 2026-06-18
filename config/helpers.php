@@ -406,13 +406,13 @@ function generate_svg_donat(array $data, int $radius = 80): string
         $color   = $warna[$label] ?? $warna_fallback[$fallback_idx++ % count($warna_fallback)];
         $persen  = round(($nilai / $total) * 100, 1);
         $legend .= '<div class="donut-legend-item">'
-                 . '<span class="donut-legend-swatch" style="background:' . $color . ';'
-                 . 'display:inline-block;width:12px;height:12px;border-radius:2px;'
-                 . 'margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>'
-                 . '<span style="vertical-align:middle;">'
+                 . '<svg class="donut-legend-swatch" width="12" height="12" aria-hidden="true">'
+                 . '<rect width="12" height="12" rx="2" fill="' . $color . '"/>'
+                 . '</svg>'
+                 . '<span class="donut-legend-label">'
                  . htmlspecialchars($label, ENT_QUOTES | ENT_HTML5, 'UTF-8')
                  . '</span>'
-                 . '<span class="donut-legend-pct" style="margin-left:auto;font-weight:600;">'
+                 . '<span class="donut-legend-pct">'
                  . $persen . '%</span>'
                  . '</div>';
     }
@@ -511,7 +511,7 @@ function generate_svg_bar(array $pemasukan, array $pengeluaran): string
             . '<rect x="' . ($pad_left + 100) . '" y="' . $leg_y . '" width="12" height="12" fill="#DC2626" rx="2"/>'
             . '<text x="' . ($pad_left + 116) . '" y="' . ($leg_y + 10) . '" font-family="Inter,sans-serif" font-size="11" fill="#374151">Pengeluaran</text>';
 
-    return '<div class="bar-chart-wrap" style="overflow-x:auto;">'
+    return '<div class="bar-chart-wrap">'
          . '<svg viewBox="0 0 ' . $total_w . ' ' . $svg_h . '" width="' . $total_w . '" '
          . 'height="' . $svg_h . '" xmlns="http://www.w3.org/2000/svg" '
          . 'aria-label="Grafik pemasukan vs pengeluaran 6 bulan terakhir">'

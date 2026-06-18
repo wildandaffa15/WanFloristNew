@@ -1,13 +1,4 @@
 <?php
-/**
- * index.php — Halaman Beranda (Landing Page) WanFlorist
- *
- * Menampilkan: hero, koleksi kategori, produk terlaris (featured),
- * seksi CTA, dan testimoni statis.
- *
- * Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8
- */
-
 require_once 'config/database.php';
 require_once 'config/helpers.php';
 
@@ -75,12 +66,12 @@ $css_extra   = '/assets/css/public.css';
 </section>
 
 <section class="section section--primary" aria-label="Hubungi kami">
-    <div class="container" style="text-align: center;">
+    <div class="container text-center">
         <h2 class="section__title">Siap Memesan Buket Impian Anda?</h2>
         <p class="section__subtitle">
             Hubungi kami via WhatsApp atau isi form pemesanan online kami.
         </p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+        <div class="public-cta__actions">
                 <a href="pages/pemesanan.php"
                    class="hero__btn"
                    aria-label="Isi form pemesanan online">
@@ -107,80 +98,80 @@ $css_extra   = '/assets/css/public.css';
 
         <div class="catalog-grid">
 
-            <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Andi Setiawan">
-                <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">
+            <article class="card testimonial-card" aria-label="Testimoni dari Andi Setiawan">
+                <div class="testimonial-rating" aria-label="Rating: 5 bintang">
+                    <span class="testimonial-stars" aria-hidden="true">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                     </span>
                 </div>
                 <blockquote>
-                    <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
+                    <p class="testimonial-text">
                         "Bunganya sangat segar dan rangkaiannya cantik sekali! Pengiriman juga tepat waktu.
                         Pacar saya sangat suka dengan buket mawarnya. Pasti pesan lagi!"
                     </p>
                 </blockquote>
-                <footer style="display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid #F3F4F6; padding-top: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #F5F0FF; display: flex; align-items: center; justify-content: center; color: #6B21A8; font-weight: 700; font-size: 1rem;" aria-hidden="true">A</div>
+                <footer class="testimonial-footer">
+                    <div class="testimonial-avatar" aria-hidden="true">A</div>
                     <div>
-                        <p style="font-weight: 600; color: #1F2937; font-size: 0.9375rem; margin: 0;">Andi Setiawan</p>
-                        <p style="font-size: 0.75rem; color: #9CA3AF; margin: 0;">Pesan: Buket Mawar Merah</p>
+                        <p class="testimonial-author">Andi Setiawan</p>
+                        <p class="testimonial-meta">Pesan: Buket Mawar Merah</p>
                     </div>
                 </footer>
             </article>
 
-            <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Rina Kusuma">
-                <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
+            <article class="card testimonial-card" aria-label="Testimoni dari Rina Kusuma">
+                <div class="testimonial-rating" aria-label="Rating: 5 bintang">
+                    <span class="testimonial-stars" aria-hidden="true"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
-                    <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
+                    <p class="testimonial-text">
                         "Pelayanannya sangat ramah, bisa custom buket sesuai budget. Hasilnya melebihi ekspektasi.
                         Cocok banget buat hadiah wisuda dan anniversary!"
                     </p>
                 </blockquote>
-                <footer style="display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid #F3F4F6; padding-top: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #F5F0FF; display: flex; align-items: center; justify-content: center; color: #6B21A8; font-weight: 700; font-size: 1rem;" aria-hidden="true">R</div>
+                <footer class="testimonial-footer">
+                    <div class="testimonial-avatar" aria-hidden="true">R</div>
                     <div>
-                        <p style="font-weight: 600; color: #1F2937; font-size: 0.9375rem; margin: 0;">Rina Kusuma</p>
-                        <p style="font-size: 0.75rem; color: #9CA3AF; margin: 0;">Pesan: Buket Mix Pastel</p>
+                        <p class="testimonial-author">Rina Kusuma</p>
+                        <p class="testimonial-meta">Pesan: Buket Mix Pastel</p>
                     </div>
                 </footer>
             </article>
 
-            <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Bagas Pratama">
-                <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
+            <article class="card testimonial-card" aria-label="Testimoni dari Bagas Pratama">
+                <div class="testimonial-rating" aria-label="Rating: 5 bintang">
+                    <span class="testimonial-stars" aria-hidden="true"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
-                    <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
+                    <p class="testimonial-text">
                         "Saya pesan untuk dekorasi pernikahan adik saya. WanFlorist benar-benar profesional,
                         buket hand bouquet dan standing flower-nya indah banget. Semua tamu takjub!"
                     </p>
                 </blockquote>
-                <footer style="display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid #F3F4F6; padding-top: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #F5F0FF; display: flex; align-items: center; justify-content: center; color: #6B21A8; font-weight: 700; font-size: 1rem;" aria-hidden="true">B</div>
+                <footer class="testimonial-footer">
+                    <div class="testimonial-avatar" aria-hidden="true">B</div>
                     <div>
-                        <p style="font-weight: 600; color: #1F2937; font-size: 0.9375rem; margin: 0;">Bagas Pratama</p>
-                        <p style="font-size: 0.75rem; color: #9CA3AF; margin: 0;">Pesan: Paket Wedding Bouquet</p>
+                        <p class="testimonial-author">Bagas Pratama</p>
+                        <p class="testimonial-meta">Pesan: Paket Wedding Bouquet</p>
                     </div>
                 </footer>
             </article>
 
-            <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Dewi Anggraini">
-                <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
+            <article class="card testimonial-card" aria-label="Testimoni dari Dewi Anggraini">
+                <div class="testimonial-rating" aria-label="Rating: 5 bintang">
+                    <span class="testimonial-stars" aria-hidden="true"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
-                    <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
+                    <p class="testimonial-text">
                         "Buket sunflower-nya segar dan tahan lama, lebih dari seminggu masih cantik!
                         Harga juga terjangkau untuk kualitas sebagus ini. Rekomended banget!"
                     </p>
                 </blockquote>
-                <footer style="display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid #F3F4F6; padding-top: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #F5F0FF; display: flex; align-items: center; justify-content: center; color: #6B21A8; font-weight: 700; font-size: 1rem;" aria-hidden="true">D</div>
+                <footer class="testimonial-footer">
+                    <div class="testimonial-avatar" aria-hidden="true">D</div>
                     <div>
-                        <p style="font-weight: 600; color: #1F2937; font-size: 0.9375rem; margin: 0;">Dewi Anggraini</p>
-                        <p style="font-size: 0.75rem; color: #9CA3AF; margin: 0;">Pesan: Sunshine Sunflower</p>
+                        <p class="testimonial-author">Dewi Anggraini</p>
+                        <p class="testimonial-meta">Pesan: Sunshine Sunflower</p>
                     </div>
                 </footer>
             </article>

@@ -1,17 +1,3 @@
-<?php
-/**
- * components/head.php
- *
- * Komponen <head> HTML standar untuk semua halaman WanFlorist.
- *
- * Variabel yang harus di-set sebelum meng-include file ini:
- *   - $page_title  (string, wajib)  — judul halaman yang ditampilkan di tab browser.
- *   - $css_extra   (string, opsional) — path tambahan CSS, misalnya:
- *                                       '/assets/css/public.css' atau '/assets/css/admin.css'
- *
- * Requirements: 16.2, 17.1
- */
-?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

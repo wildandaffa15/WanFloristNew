@@ -1,18 +1,11 @@
 <?php
-/**
- * pages/kontak.php — Halaman Kontak WanFlorist
- *
- * Menampilkan info kontak: WhatsApp, alamat, dan cara menghubungi.
- * Layout publik: head + navbar + footer. Tidak ada form pengiriman.
- */
-
 require_once '../config/database.php';
 require_once '../config/helpers.php';
 
 $pdo         = get_pdo();
 $page_title  = 'Kontak';
 $active_page = 'kontak';
-$css_extra   = '/assets/css/public.css';
+$css_extra   = '/assets/css/pages/kontak.css';
 ?>
 <!DOCTYPE html>
 <html lang="id">
