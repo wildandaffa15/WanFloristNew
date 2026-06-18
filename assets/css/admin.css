@@ -712,26 +712,100 @@ input:focus-visible + .toggle-slider {
     padding: 1.5rem;
 }
 
-.admin-card__footer {
-    padding: 0.875rem 1.5rem;
-    border-top: 1px solid #F3F4F6;
-    background: #FAFAFA;
-}
+    .admin-card--compact {
+        margin-bottom: 0;
+        padding: 0.875rem 1.25rem;
+    }
 
+    .admin-card--row-wrap {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
 
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:1rem;
-    flex-wrap:wrap;
-}
+    .admin-card__body--centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.page-header__actions{
-    display:flex;
-    gap:.75rem;
-    flex-wrap:wrap;
-}
+    .admin-card__body--no-padding {
+        padding: 0;
+    }
+
+    .list-reset {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .list-item-horizontal {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.875rem 1.5rem;
+        border-bottom: 1px solid #F3F4F6;
+    }
+
+    .list-item-space-between {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.875rem 1.5rem;
+        border-bottom: 1px solid #F3F4F6;
+    }
+
+    .stat-badge {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #F5F0FF;
+        color: #6B21A8;
+        font-weight: 700;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .text-strong {
+        font-weight: 600;
+    }
+
+    .text-xs {
+        font-size: 0.8rem;
+    }
+
+    .text-nowrap {
+        white-space: nowrap;
+    }
+
+    .text-ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .badge-pill {
+        border-radius: 9999px;
+    }
+
+    .link-underline {
+        font-size: 0.8125rem;
+        color: #6B21A8;
+        text-decoration: none;
+    }
+
+    .link-underline:hover {
+        text-decoration: underline;
+    }
+
+    .mb-6 {
+        margin-bottom: 1.5rem;
+    }
 
 .page-header__title {
     font-family: 'Playfair Display', Georgia, serif;
@@ -761,6 +835,127 @@ input:focus-visible + .toggle-slider {
 
 .page-header__action-card .btn {
     margin: 0;
+}
+
+.alert-list {
+    margin: 0.5rem 0 0 1rem;
+    padding-left: 1.25rem;
+}
+
+.alert-list li {
+    margin: 0.25rem 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.25rem;
+}
+
+.form-grid .form-control {
+    min-width: 0;
+}
+
+.stat-cards--stacked {
+    grid-template-columns: repeat(1, minmax(0, 320px));
+}
+
+.stok-count {
+    font-weight: 600;
+}
+
+.stok-count--kritis {
+    color: #DC2626;
+}
+
+.stok-count--safe {
+    color: #065F46;
+}
+
+.table-empty td {
+    text-align: center;
+    padding: 2rem;
+    color: #9CA3AF;
+}
+
+.modal-note {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin-bottom: 1rem;
+}
+
+.form-error.hidden {
+    display: none !important;
+}
+
+.form-group--full {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-label--inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+}
+
+.form-checkbox {
+    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.preview-box {
+    margin-bottom: 0.5rem;
+}
+
+.preview-image {
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    width: 64px;
+    height: 64px;
+    display: block;
+}
+
+.preview-meta {
+    display: block;
+    color: #9CA3AF;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+.admin-action-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.table-price {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #6B21A8;
 }
 
 .filter-grid{

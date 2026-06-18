@@ -1,0 +1,26 @@
+/* layout/layout.css
+   Shared layout rules: containers, grid breakpoints, header/footer, admin layout
+   This is a starter file for the CSS modularization. Rules will be migrated here
+   from existing files (`admin.css`, `public.css`, `main.css`) in following steps.
+*/
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--sp-6);
+    padding-right: var(--sp-6);
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    .container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+}
+
+/* Admin layout placeholder */
+.admin-layout { display: flex; min-height: 100vh; }
+.admin-main { flex: 1; }
+
+.page-header { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; }
+.page-header__title { font-family: var(--font-heading); font-size: 1.625rem; }

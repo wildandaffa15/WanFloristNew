@@ -122,8 +122,8 @@ $css_extra   = '/assets/css/admin.css';
                     <p class="page-header__subtitle">Selamat datang kembali, Admin WanFlorist!</p>
                 </div>
 
-                <div class="admin-card" style="margin-bottom:0;padding:0.875rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#374151;font-weight:500;">Status Toko:</span>
+                <div class="admin-card admin-card--compact admin-card--row-wrap">
+                    <span class="text-sm text-strong">Status Toko:</span>
                     <label class="toggle-switch" for="ownerToggle">
                         <input
                             type="checkbox"
@@ -132,7 +132,7 @@ $css_extra   = '/assets/css/admin.css';
                         >
                         <span class="toggle-slider"></span>
                     </label>
-                    <label for="ownerToggle" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#374151;">
+                    <label for="ownerToggle" class="text-sm text-muted">
                         Status Toko:
                         <span id="ownerStatusText"><?= e($status_toko['status'] === 'aktif' ? 'Aktif' : 'Nonaktif') ?></span>
                     </label>
@@ -169,10 +169,10 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="stat-card__change">Perlu perhatian</div>
                 </div>
 
-                <div class="stat-card stat-card--success">
+                <div class="stat-card stat-card--success stat-card--large-value">
                     <div class="stat-card__header">
                         <div>
-                            <div class="stat-card__value" style="font-size:1.25rem;"><?= e(format_rupiah($pemasukan_bulan)) ?></div>
+                            <div class="stat-card__value"><?= e(format_rupiah($pemasukan_bulan)) ?></div>
                             <div class="stat-card__label">Pemasukan Bulan Ini</div>
                         </div>
                         <div class="stat-card__icon">
@@ -197,12 +197,12 @@ $css_extra   = '/assets/css/admin.css';
 
             </div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+            <div class="grid grid-2 gap-3 mb-6">
 
-                <div class="admin-card" style="margin-bottom:0;">
+                <div class="admin-card admin-card--no-margin">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pesanan Terbaru</h2>
-                        <a href="/admin/pesanan.php" style="font-size:0.8125rem;color:#6B21A8;text-decoration:none;">Lihat Semua</a>
+                        <a href="/admin/pesanan.php" class="link-underline text-sm">Lihat Semua</a>
                     </div>
                     <div class="table-responsive">
                         <table class="admin-table">
@@ -217,8 +217,8 @@ $css_extra   = '/assets/css/admin.css';
                             </thead>
                             <tbody>
                                 <?php if (empty($pesanan_terbaru)): ?>
-                                    <tr>
-                                        <td colspan="5" style="text-align:center;color:#9CA3AF;padding:2rem;">
+                                    <tr class="table-empty">
+                                        <td colspan="5">
                                             Belum ada pesanan.
                                         </td>
                                     </tr>
@@ -255,46 +255,42 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <div class="admin-card" style="margin-bottom:0;">
+                <div class="admin-card admin-card--no-margin">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pesanan per Status (Bulan Ini)</h2>
                     </div>
-                    <div class="admin-card__body" style="display:flex;align-items:center;justify-content:center;">
+                    <div class="admin-card__body admin-card__body--centered">
                         <?php echo generate_svg_donat($distribusi_data); ?>
                     </div>
                 </div>
 
             </div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+            <div class="grid grid-2 gap-3 mb-6">
 
-                <div class="admin-card" style="margin-bottom:0;">
+                <div class="admin-card admin-card--no-margin">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Produk Terlaris</h2>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <?php if (empty($produk_terlaris)): ?>
                             <div class="admin-empty">
                                 <div class="admin-empty__title">Belum ada data penjualan</div>
                             </div>
                         <?php else: ?>
-                            <ul style="list-style:none;margin:0;padding:0;">
+                            <ul class="list-reset">
                                 <?php foreach ($produk_terlaris as $idx => $prod): ?>
-                                    <li style="display:flex;align-items:center;gap:1rem;padding:0.875rem 1.5rem;border-bottom:1px solid #F3F4F6;">
-                                        <div style="width:2rem;height:2rem;border-radius:50%;background:#F5F0FF;color:#6B21A8;font-weight:700;font-size:0.875rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                            <?= e((string) ($idx + 1)) ?>
-                                        </div>
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="font-family:'Inter',sans-serif;font-weight:600;color:#1F2937;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    <li class="list-item-horizontal">
+                                        <div class="stat-badge"><?= e((string) ($idx + 1)) ?></div>
+                                        <div class="list-item-content">
+                                            <div class="text-strong text-ellipsis">
                                                 <?= e($prod['nama_produk']) ?>
                                             </div>
-                                            <div style="font-family:'Inter',sans-serif;color:#6B7280;font-size:0.8rem;margin-top:0.125rem;">
+                                            <div class="text-muted text-xs mt-1">
                                                 Terjual: <?= e((string) $prod['total_terjual']) ?> item
                                             </div>
                                         </div>
-                                        <div style="font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:600;color:#16A34A;background:#D1FAE5;padding:0.2rem 0.6rem;border-radius:9999px;flex-shrink:0;">
-                                            #<?= e((string) ($idx + 1)) ?>
-                                        </div>
+                                        <div class="badge badge-selesai badge-pill">#<?= e((string) ($idx + 1)) ?></div>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -302,12 +298,12 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <div class="admin-card" style="margin-bottom:0;">
+                <div class="admin-card admin-card--no-margin">
                     <div class="admin-card__header">
                         <h2 class="admin-card__title">Pengeluaran Terakhir</h2>
-                        <a href="/admin/pengeluaran.php" style="font-size:0.8125rem;color:#6B21A8;text-decoration:none;">Detail</a>
+                        <a href="/admin/pengeluaran.php" class="link-underline text-sm">Detail</a>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <?php if (empty($pengeluaran_terakhir)): ?>
                             <div class="admin-empty">
                                 <div class="admin-empty__icon">
@@ -316,18 +312,18 @@ $css_extra   = '/assets/css/admin.css';
                                 <div class="admin-empty__title">Belum ada pengeluaran</div>
                             </div>
                         <?php else: ?>
-                            <ul style="list-style:none;margin:0;padding:0;">
+                            <ul class="list-reset">
                                 <?php foreach ($pengeluaran_terakhir as $pen): ?>
-                                    <li style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.875rem 1.5rem;border-bottom:1px solid #F3F4F6;">
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="font-family:'Inter',sans-serif;font-weight:600;color:#1F2937;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    <li class="list-item-space-between">
+                                        <div class="list-item-content">
+                                            <div class="text-strong text-ellipsis">
                                                 <?= e($pen['keterangan']) ?>
                                             </div>
-                                            <div style="font-family:'Inter',sans-serif;color:#6B7280;font-size:0.8rem;margin-top:0.125rem;">
+                                            <div class="text-muted text-xs mt-1">
                                                 <?= e($pen['tanggal']) ?>
                                             </div>
                                         </div>
-                                        <div style="font-family:'Inter',sans-serif;font-weight:600;color:#DC2626;font-size:0.9rem;flex-shrink:0;white-space:nowrap;">
+                                        <div class="text-danger text-strong text-nowrap">
                                             - <?= e(format_rupiah((int) $pen['jumlah'])) ?>
                                         </div>
                                     </li>

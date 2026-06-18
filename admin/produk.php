@@ -283,7 +283,7 @@ $css_extra   = '/assets/css/admin.css';
                     <p class="page-header__subtitle">Kelola katalog bunga, harga, dan status produk.</p>
                 </div>
                 <div class="page-header__actions">
-                    <div class="admin-card" style="margin-bottom:0;padding:0.875rem 1.25rem;display:flex;align-items:center;justify-content:flex-end;">
+                    <div class="page-header__action-card">
                         <button
                             type="button"
                             id="btn-show-tambah"
@@ -298,23 +298,16 @@ $css_extra   = '/assets/css/admin.css';
             </div>
 
             <?php if ($success_msg !== ''): ?>
-            <div class="alert alert--success" role="alert" style="
-                background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;
-                border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;
-                font-family:'Inter',sans-serif;font-size:.9rem;display:flex;
-                align-items:center;gap:8px;">
+            <div class="alert alert--success" role="alert">
                 <span aria-hidden="true"><i class="bi bi-check-lg"></i></span>
                 <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
 
             <?php if (!empty($errors)): ?>
-            <div class="alert alert--error" role="alert" style="
-                background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;
-                border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;
-                font-family:'Inter',sans-serif;font-size:.9rem;">
+            <div class="alert alert--error" role="alert">
                 <strong><i class="bi bi-exclamation-triangle-fill"></i> Terjadi kesalahan:</strong>
-                <ul style="margin:8px 0 0 16px;padding:0;">
+                <ul class="alert-list">
                     <?php foreach ($errors as $err): ?>
                     <li><?= e($err) ?></li>
                     <?php endforeach; ?>
@@ -322,7 +315,7 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <div id="panel-tambah" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
+            <div id="panel-tambah" class="admin-card hidden" aria-hidden="true">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title"><i class="bi bi-plus-lg"></i> Tambah Produk Baru</h2>
                     <button type="button" id="btn-tutup-tambah" class="btn btn--ghost btn--sm" aria-label="Tutup form tambah"><i class="bi bi-x"></i> Tutup</button>
@@ -421,23 +414,23 @@ $css_extra   = '/assets/css/admin.css';
                                         id="tambah-is_featured"
                                         name="is_featured"
                                         value="1"
+                                        class="form-checkbox"
                                         <?= isset($_POST['is_featured']) ? 'checked' : '' ?>
-                                        style="margin-right:8px;width:16px;height:16px;vertical-align:middle;"
                                     >
                                     Tampilkan sebagai produk unggulan di beranda
                                 </label>
                             </div>
                         </div>
 
-                        <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+                        <div class="form-actions">
                             <button type="submit" class="btn btn--primary"><i class="bi bi-save"></i> Simpan Produk</button>
-                                <button type="reset"  class="btn btn--ghost"><i class="bi bi-arrow-repeat"></i> Reset</button>
+                            <button type="reset" class="btn btn--ghost"><i class="bi bi-arrow-repeat"></i> Reset</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div id="panel-edit" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
+            <div id="panel-edit" class="admin-card hidden" aria-hidden="true">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title"><i class="bi bi-pencil"></i> Edit Produk</h2>
                     <button type="button" id="btn-tutup-edit" class="btn btn--ghost btn--sm" aria-label="Tutup form edit"><i class="bi bi-x"></i> Tutup</button>
@@ -493,7 +486,7 @@ $css_extra   = '/assets/css/admin.css';
 
                             <div class="form-group">
                                 <label class="form-label" for="edit-foto">Ganti Foto Produk</label>
-                                <div id="edit-foto-preview" style="margin-bottom:8px;"></div>
+                                <div id="edit-foto-preview" class="preview-box"></div>
                                 <input
                                     type="file"
                                     id="edit-foto"
@@ -529,14 +522,14 @@ $css_extra   = '/assets/css/admin.css';
                                         id="edit-is_featured"
                                         name="is_featured"
                                         value="1"
-                                        style="margin-right:8px;width:16px;height:16px;vertical-align:middle;"
+                                        class="form-checkbox"
                                     >
                                     Tampilkan sebagai produk unggulan di beranda
                                 </label>
                             </div>
                         </div>
 
-                        <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+                        <div class="form-actions">
                             <button type="submit" class="btn btn--primary"><i class="bi bi-save"></i> Perbarui Produk</button>
                             <button type="button" id="btn-tutup-edit-2" class="btn btn--ghost">Batal</button>
                         </div>
@@ -586,30 +579,22 @@ $css_extra   = '/assets/css/admin.css';
                                 <td>
                                     <strong><?= e($p['nama_produk']) ?></strong>
                                     <?php if (!empty($p['deskripsi'])): ?>
-                                    <br><small style="color:#9CA3AF;font-size:.75rem;"><?= e(mb_substr($p['deskripsi'], 0, 60)) ?><?= mb_strlen((string)$p['deskripsi']) > 60 ? '…' : '' ?></small>
+                                    <br><small class="text-muted"><?= e(mb_substr($p['deskripsi'], 0, 60)) ?><?= mb_strlen((string)$p['deskripsi']) > 60 ? '…' : '' ?></small>
                                     <?php endif; ?>
                                 </td>
 
                                 <td><?= e($p['nama_kategori'] ?? '—') ?></td>
 
-                                <td style="white-space:nowrap;font-weight:600;color:#6B21A8;">
+                                <td class="table-price">
                                     <?= format_rupiah((int) $p['harga']) ?>
                                 </td>
 
-                                <td>
-                                    <?php if ($p['status'] === 'tersedia'): ?>
-                                    <span class="badge badge-aktif">Tersedia</span>
-                                    <?php else: ?>
-                                    <span class="badge badge-nonaktif">Nonaktif</span>
-                                    <?php endif; ?>
-                                </td>
-
-                                <td style="text-align:center;">
+                                <td class="text-center">
                                     <?= $p['is_featured'] ? '<i class="bi bi-star-fill" aria-hidden="true"></i>' : '—' ?>
                                 </td>
 
                                 <td>
-                                    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+                                    <div class="admin-action-row">
                                             <button
                                             type="button"
                                             class="btn btn--ghost btn--sm btn-edit-produk"
@@ -626,7 +611,7 @@ $css_extra   = '/assets/css/admin.css';
                                             <i class="bi bi-pencil" aria-hidden="true"></i> Edit
                                         </button>
 
-                                        <form method="POST" action="/admin/produk.php" style="margin:0;">
+                                        <form method="POST" action="/admin/produk.php" class="inline-form">
                                             <input type="hidden" name="action"         value="toggle_status">
                                             <input type="hidden" name="csrf_token"     value="<?= e($csrf_token) ?>">
                                             <input type="hidden" name="id_produk"      value="<?= e((string) $p['id_produk']) ?>">
@@ -654,136 +639,6 @@ $css_extra   = '/assets/css/admin.css';
 
 </div>
 
-<style>
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem 1.25rem;
-}
-.form-group--full {
-    grid-column: 1 / -1;
-}
-@media (max-width: 640px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.form-label {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-size: .875rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: .375rem;
-}
-.form-label--inline {
-    font-family: 'Inter', sans-serif;
-    font-size: .875rem;
-    color: #374151;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-.form-label .req { color: #DC2626; }
-
-.form-input {
-    display: block;
-    width: 100%;
-    padding: .5rem .75rem;
-    border: 1.5px solid #D1D5DB;
-    border-radius: 9999px;
-    font-family: 'Inter', sans-serif;
-    font-size: .9rem;
-    color: #1F2937;
-    background: #fff;
-    transition: border-color .15s, box-shadow .15s;
-    box-sizing: border-box;
-}
-.form-input:focus {
-    outline: none;
-    border-color: #9333EA;
-    box-shadow: 0 0 0 3px rgba(147,51,234,.12);
-}
-textarea.form-input {
-    border-radius: 12px;
-    resize: vertical;
-}
-select.form-input {
-    border-radius: 9999px;
-    cursor: pointer;
-}
-input[type="file"].form-input {
-    border-radius: 12px;
-    padding: .375rem .75rem;
-    cursor: pointer;
-}
-
-.form-hint {
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
-    color: #9CA3AF;
-    margin-top: .25rem;
-    display: block;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: .375rem;
-    padding: .5rem 1.125rem;
-    border-radius: 9999px;
-    font-family: 'Inter', sans-serif;
-    font-size: .875rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: background-color .15s, color .15s, border-color .15s, box-shadow .15s;
-    text-decoration: none;
-    line-height: 1.4;
-    white-space: nowrap;
-}
-.btn--primary {
-    background: #6B21A8;
-    color: #fff;
-    border-color: #6B21A8;
-}
-.btn--primary:hover, .btn--primary:focus {
-    background: #5B1A90;
-    border-color: #5B1A90;
-}
-.btn--ghost {
-    background: transparent;
-    color: #6B7280;
-    border-color: #D1D5DB;
-}
-.btn--ghost:hover, .btn--ghost:focus {
-    background: #F3F4F6;
-    color: #374151;
-    border-color: #9CA3AF;
-}
-.btn--danger-ghost {
-    background: transparent;
-    color: #DC2626;
-    border-color: #FCA5A5;
-}
-.btn--danger-ghost:hover, .btn--danger-ghost:focus {
-    background: #FEE2E2;
-}
-.btn--success-ghost {
-    background: transparent;
-    color: #16A34A;
-    border-color: #86EFAC;
-}
-.btn--success-ghost:hover, .btn--success-ghost:focus {
-    background: #DCFCE7;
-}
-.btn--sm {
-    padding: .325rem .75rem;
-    font-size: .8rem;
-}
-</style>
-
 <script>
 (function () {
     'use strict';
@@ -799,21 +654,21 @@ input[type="file"].form-input {
         var btnTutupEdit2  = document.getElementById('btn-tutup-edit-2');
 
         function showPanel(panel, btn) {
-            panel.style.display = 'block';
+            panel.classList.remove('hidden');
             panel.setAttribute('aria-hidden', 'false');
             if (btn) btn.setAttribute('aria-expanded', 'true');
             panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function hidePanel(panel, btn) {
-            panel.style.display = 'none';
+            panel.classList.add('hidden');
             panel.setAttribute('aria-hidden', 'true');
             if (btn) btn.setAttribute('aria-expanded', 'false');
         }
 
         if (btnShowTambah && panelTambah) {
             btnShowTambah.addEventListener('click', function () {
-                var isOpen = panelTambah.style.display !== 'none';
+                var isOpen = !panelTambah.classList.contains('hidden');
                 if (isOpen) {
                     hidePanel(panelTambah, btnShowTambah);
                 } else {
@@ -867,11 +722,12 @@ input[type="file"].form-input {
                 var previewDiv = document.getElementById('edit-foto-preview');
                 if (foto) {
                     previewDiv.innerHTML =
-                        '<img src="/assets/img/produk/' + encodeURIComponent(foto) + '"'
-                        + ' alt="Foto saat ini" width="64" height="64"'
-                        + ' style="object-fit:cover;border-radius:8px;border:1px solid #E5E7EB;"'
+                        '<div class="preview-box">'
+                        + '<img src="/assets/img/produk/' + encodeURIComponent(foto) + '"'
+                        + ' alt="Foto saat ini" width="64" height="64" class="preview-image"'
                         + ' onerror="this.src=\'<?= e(produk_foto_src(null, '/')) ?>\'">'
-                        + '<small style="display:block;color:#9CA3AF;margin-top:4px;font-size:.75rem;">Foto saat ini</small>';
+                        + '<small class="preview-meta">Foto saat ini</small>'
+                        + '</div>';
                 } else {
                     previewDiv.innerHTML = '';
                 }

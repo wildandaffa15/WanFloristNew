@@ -100,7 +100,7 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <div class="stat-cards" style="grid-template-columns:repeat(1,minmax(0,320px));">
+            <div class="stat-cards stat-cards--stacked">
                 <div class="stat-card <?= $jumlah_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                     <div class="stat-card__header">
                         <div>
@@ -124,23 +124,15 @@ $css_extra   = '/assets/css/admin.css';
             </div>
 
             <?php if ($success_msg !== ''): ?>
-                <div class="alert alert-success" role="alert" style="
-                    background:#D1FAE5; color:#065F46; border:1px solid #6EE7B7;
-                    border-radius:8px; padding:0.875rem 1rem; margin-bottom:1.25rem;
-                    font-family:'Inter',sans-serif; font-size:0.9rem;
-                ">
+                <div class="alert alert-success" role="alert">
                     <i class="bi bi-check-lg" aria-hidden="true"></i> <?= e($success_msg) ?>
                 </div>
             <?php endif; ?>
 
             <?php if (!empty($errors)): ?>
-                <div class="alert alert-danger" role="alert" style="
-                    background:#FEE2E2; color:#991B1B; border:1px solid #FECACA;
-                    border-radius:8px; padding:0.875rem 1rem; margin-bottom:1.25rem;
-                    font-family:'Inter',sans-serif; font-size:0.9rem;
-                ">
+                <div class="alert alert-danger" role="alert">
                     <strong>Terjadi kesalahan:</strong>
-                    <ul style="margin:0.5rem 0 0 1.25rem; padding:0;">
+                    <ul class="alert-list">
                         <?php foreach ($errors as $err): ?>
                             <li><?= e($err) ?></li>
                         <?php endforeach; ?>
@@ -148,7 +140,7 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             <?php endif; ?>
 
-            <div class="admin-card" style="margin-bottom:1.5rem;">
+            <div class="admin-card">
                 <div class="admin-card__header">
                     <h2 class="admin-card__title"><i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Bahan Baru</h2>
                 </div>
@@ -157,11 +149,11 @@ $css_extra   = '/assets/css/admin.css';
                         <input type="hidden" name="action" value="tambah_bahan">
                         <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                        <div class="form-grid">
 
                             <div>
-                                <label for="nama_bahan" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
-                                    Nama Bahan <span style="color:#DC2626;" aria-hidden="true">*</span>
+                                <label for="nama_bahan" class="form-label">
+                                    Nama Bahan <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -172,13 +164,12 @@ $css_extra   = '/assets/css/admin.css';
                                     placeholder="Contoh: Mawar Merah"
                                     value="<?= e($_POST['nama_bahan'] ?? '') ?>"
                                     class="form-control"
-                                    style="width:100%; padding:0.625rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:8px; font-family:'Inter',sans-serif; font-size:0.9rem; color:#1F2937; box-sizing:border-box;"
                                 >
                             </div>
 
                             <div>
-                                <label for="satuan" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
-                                    Satuan <span style="color:#DC2626;" aria-hidden="true">*</span>
+                                <label for="satuan" class="form-label">
+                                    Satuan <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -189,13 +180,12 @@ $css_extra   = '/assets/css/admin.css';
                                     placeholder="pcs / tangkai / kg / lembar"
                                     value="<?= e($_POST['satuan'] ?? 'pcs') ?>"
                                     class="form-control"
-                                    style="width:100%; padding:0.625rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:8px; font-family:'Inter',sans-serif; font-size:0.9rem; color:#1F2937; box-sizing:border-box;"
                                 >
                             </div>
 
                             <div>
-                                <label for="stok_awal" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
-                                    Stok Awal <span style="color:#DC2626;" aria-hidden="true">*</span>
+                                <label for="stok_awal" class="form-label">
+                                    Stok Awal <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="number"
@@ -207,13 +197,12 @@ $css_extra   = '/assets/css/admin.css';
                                     placeholder="0"
                                     value="<?= e($_POST['stok_awal'] ?? '0') ?>"
                                     class="form-control"
-                                    style="width:100%; padding:0.625rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:8px; font-family:'Inter',sans-serif; font-size:0.9rem; color:#1F2937; box-sizing:border-box;"
                                 >
                             </div>
 
                             <div>
-                                <label for="stok_minimum" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
-                                    Stok Minimum <span style="color:#DC2626;" aria-hidden="true">*</span>
+                                <label for="stok_minimum" class="form-label">
+                                    Stok Minimum <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     type="number"
@@ -225,19 +214,13 @@ $css_extra   = '/assets/css/admin.css';
                                     placeholder="5"
                                     value="<?= e($_POST['stok_minimum'] ?? '5') ?>"
                                     class="form-control"
-                                    style="width:100%; padding:0.625rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:8px; font-family:'Inter',sans-serif; font-size:0.9rem; color:#1F2937; box-sizing:border-box;"
                                 >
                             </div>
 
                         </div>
 
-                        <div style="text-align:right;">
-                            <button type="submit" class="btn btn-primary" style="
-                                background:#6B21A8; color:#fff; border:none; border-radius:8px;
-                                padding:0.625rem 1.5rem; font-family:'Inter',sans-serif;
-                                font-size:0.9rem; font-weight:600; cursor:pointer;
-                                transition:background-color 0.15s ease;
-                            ">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn--primary">
                                 Tambah Bahan
                             </button>
                         </div>
@@ -248,7 +231,7 @@ $css_extra   = '/assets/css/admin.css';
             <div class="admin-card">
                     <div class="admin-card__header">
                     <h2 class="admin-card__title"><i class="bi bi-card-list"></i> Daftar Bahan</h2>
-                    <span style="font-family:'Inter',sans-serif; font-size:0.875rem; color:#6B7280;">
+                    <span class="text-muted">
                         Total: <?= e((string) count($list_bahan)) ?> bahan
                     </span>
                 </div>
@@ -268,8 +251,8 @@ $css_extra   = '/assets/css/admin.css';
                         </thead>
                         <tbody>
                             <?php if (empty($list_bahan)): ?>
-                                <tr>
-                                    <td colspan="7" style="text-align:center; padding:2rem; color:#9CA3AF;">
+                                <tr class="table-empty">
+                                    <td colspan="7">
                                         Belum ada data bahan. Tambahkan bahan pertama Anda.
                                     </td>
                                 </tr>
@@ -281,12 +264,12 @@ $css_extra   = '/assets/css/admin.css';
                                         id="bahan-row-<?= e((string)$bahan['id_bahan']) ?>"
                                     >
                                         <td><?= e((string)($no + 1)) ?></td>
-                                        <td style="font-weight:500;"><?= e($bahan['nama_bahan']) ?></td>
+                                        <td><strong><?= e($bahan['nama_bahan']) ?></strong></td>
                                         <td><?= e($bahan['satuan']) ?></td>
                                         <td>
                                             <span
                                                 id="stok-nilai-<?= e((string)$bahan['id_bahan']) ?>"
-                                                style="font-weight:600; color:<?= $is_kritis ? '#DC2626' : '#065F46' ?>;"
+                                                class="stok-count <?= $is_kritis ? 'stok-count--kritis' : 'stok-count--safe' ?>"
                                             >
                                                 <?= e((string)$bahan['stok_saat_ini']) ?>
                                             </span>
@@ -302,18 +285,11 @@ $css_extra   = '/assets/css/admin.css';
                                         <td>
                                             <button
                                                 type="button"
-                                                class="btn-update-stok"
+                                                class="btn btn--primary btn--sm btn-update-stok"
                                                 data-id="<?= e((string)$bahan['id_bahan']) ?>"
                                                 data-nama="<?= e($bahan['nama_bahan']) ?>"
                                                 data-stok="<?= e((string)$bahan['stok_saat_ini']) ?>"
                                                 aria-label="Update stok <?= e($bahan['nama_bahan']) ?>"
-                                                style="
-                                                    background:#6B21A8; color:#fff; border:none;
-                                                    border-radius:6px; padding:0.4rem 0.875rem;
-                                                    font-family:'Inter',sans-serif; font-size:0.8125rem;
-                                                    font-weight:600; cursor:pointer;
-                                                    transition:background-color 0.15s ease;
-                                                "
                                             >
                                                 Update Stok
                                             </button>
@@ -351,10 +327,10 @@ $css_extra   = '/assets/css/admin.css';
             </button>
         </div>
         <div class="modal-body">
-            <p id="modal-bahan-nama" style="font-family:'Inter',sans-serif; font-size:0.9rem; color:#6B7280; margin-bottom:1rem;"></p>
+            <p id="modal-bahan-nama" class="modal-note"></p>
 
-            <label for="input-stok-baru" style="display:block; font-family:'Inter',sans-serif; font-size:0.875rem; font-weight:500; color:#374151; margin-bottom:0.375rem;">
-                Stok Baru <span style="color:#DC2626;" aria-hidden="true">*</span>
+            <label for="input-stok-baru" class="form-label">
+                Stok Baru <span class="text-danger" aria-hidden="true">*</span>
             </label>
             <input
                 type="number"
@@ -362,41 +338,23 @@ $css_extra   = '/assets/css/admin.css';
                 min="0"
                 step="1"
                 placeholder="Masukkan jumlah stok baru"
-                style="
-                    width:100%; padding:0.625rem 0.875rem;
-                    border:1.5px solid #D1D5DB; border-radius:8px;
-                    font-family:'Inter',sans-serif; font-size:0.9rem;
-                    color:#1F2937; box-sizing:border-box;
-                "
+                class="form-control"
             >
 
-            <p id="modal-error-msg" role="alert" style="
-                display:none; margin-top:0.5rem;
-                font-family:'Inter',sans-serif; font-size:0.8125rem;
-                color:#DC2626;
-            "></p>
+            <p id="modal-error-msg" role="alert" class="form-error hidden"></p>
         </div>
         <div class="modal-footer">
             <button
                 type="button"
                 id="modal-cancel-btn"
-                style="
-                    background:#F3F4F6; color:#374151; border:none; border-radius:8px;
-                    padding:0.625rem 1.25rem; font-family:'Inter',sans-serif;
-                    font-size:0.9rem; font-weight:500; cursor:pointer;
-                "
+                class="btn btn--ghost btn--sm"
             >
                 Batal
             </button>
             <button
                 type="button"
                 id="modal-confirm-btn"
-                style="
-                    background:#6B21A8; color:#fff; border:none; border-radius:8px;
-                    padding:0.625rem 1.5rem; font-family:'Inter',sans-serif;
-                    font-size:0.9rem; font-weight:600; cursor:pointer;
-                    transition:background-color 0.15s ease;
-                "
+                class="btn btn--primary btn--sm"
             >
                 Simpan
             </button>
@@ -423,7 +381,7 @@ $css_extra   = '/assets/css/admin.css';
         currentId = id;
         modalNama.textContent = 'Bahan: ' + nama;
         inputStok.value = stok;
-        errorMsg.style.display = 'none';
+        errorMsg.classList.add('hidden');
         errorMsg.textContent = '';
         modal.classList.add('modal-overlay--open');
         modal.setAttribute('aria-hidden', 'false');
@@ -435,7 +393,7 @@ $css_extra   = '/assets/css/admin.css';
         modal.setAttribute('aria-hidden', 'true');
         currentId = null;
         inputStok.value = '';
-        errorMsg.style.display = 'none';
+        errorMsg.classList.add('hidden');
         errorMsg.textContent = '';
     }
 
@@ -469,14 +427,9 @@ $css_extra   = '/assets/css/admin.css';
 
         if (stokBaru === '' || isNaN(parseInt(stokBaru, 10)) || parseInt(stokBaru, 10) < 0) {
             errorMsg.textContent = 'Stok baru harus berupa bilangan bulat >= 0.';
-            errorMsg.style.display = 'block';
-            inputStok.focus();
-            return;
-        }
-
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = 'Menyimpan…';
-
+                errorMsg.classList.remove('hidden');
+                inputStok.focus();
+                return;
         fetch('/admin/ajax/update-stok.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -503,16 +456,20 @@ $css_extra   = '/assets/css/admin.css';
                 }
 
                 if (data.is_kritis !== undefined && row) {
+                    if (nilaiEl) {
+                        nilaiEl.classList.remove('stok-count--kritis', 'stok-count--safe');
+                    }
+
                     if (data.is_kritis) {
                         row.classList.add('row-kritis');
-                        if (nilaiEl) nilaiEl.style.color = '#DC2626';
+                        if (nilaiEl) nilaiEl.classList.add('stok-count--kritis');
                         if (badge) {
                             badge.className = 'badge badge-kritis';
                             badge.textContent = '⚠ Stok Kritis';
                         }
                     } else {
                         row.classList.remove('row-kritis');
-                        if (nilaiEl) nilaiEl.style.color = '#065F46';
+                        if (nilaiEl) nilaiEl.classList.add('stok-count--safe');
                         if (badge) {
                             badge.className = 'badge badge-aktif';
                             badge.textContent = '✓ Aman';

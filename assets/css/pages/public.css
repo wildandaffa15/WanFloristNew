@@ -1,0 +1,217 @@
+/* pages/public.css
+   Page-specific styles for public-facing pages (katalog, tentang, kontak, pemesanan).
+   We'll migrate inline/embedded styles from `pages/*.php` into these files.
+*/
+
+.hero { padding: 4rem 1.5rem; }
+.section { padding: 4rem 0; }
+
+.kontak-card { transition: transform .15s, box-shadow .15s; }
+.kontak-card:hover { transform: translateY(-3px); }
+
+/* Hero variants used by specific public pages */
+.hero--short { min-height: 40vh; padding: 3rem 1.5rem; }
+.hero--medium { min-height: 45vh; padding: 3.5rem 1.5rem; }
+
+.hero__eyebrow {
+   font-family: 'Inter', sans-serif;
+   font-size: 0.8125rem;
+   font-weight: 600;
+   letter-spacing: 0.1em;
+   text-transform: uppercase;
+   color: rgba(255,255,255,0.65);
+   margin-bottom: 0.75rem;
+}
+
+.eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6B21A8;
+    margin-bottom: 0.75rem;
+}
+
+.text-center { text-align: center; }
+
+.about-figure { text-align: center; }
+
+.about-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background: #F5F0FF;
+    border: 1.5px solid #E9D5FF;
+    border-radius: 12px;
+}
+
+.about-card__icon { font-size: 1.5rem; }
+
+.about-card__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6B21A8;
+    margin-bottom: 0.125rem;
+}
+
+.about-card__text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #6B7280;
+    margin: 0;
+}
+
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+.value-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.125rem;
+    color: #1A1A2E;
+    margin-bottom: 0.625rem;
+}
+
+.value-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #6B7280;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.section--primary.text-center .section__title,
+.section--primary.text-center .section__subtitle {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Kontak page grid and card */
+.kontak-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 3rem;
+   align-items: start;
+}
+
+.kontak-card {
+   display: flex;
+   align-items: center;
+   gap: 1.25rem;
+   padding: 1.25rem 1.5rem;
+   background: #fff;
+   border: 1.5px solid #E9D5FF;
+   border-radius: 16px;
+   text-decoration: none;
+   box-shadow: 0 2px 12px rgba(107,33,168,0.06);
+   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+   color: inherit;
+}
+
+.kontak-card__icon {
+   width: 52px;
+   height: 52px;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.5rem;
+   flex-shrink: 0;
+}
+
+.kontak-card__content p { margin: 0; }
+
+/* About page helpers */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+.about-illustration {
+   width: 100%;
+   max-width: 380px;
+   margin: 0 auto;
+   aspect-ratio: 1/1;
+   border-radius: 24px;
+   background: linear-gradient(135deg,#F5F0FF 0%,#E9D5FF 100%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 6rem;
+   box-shadow: 0 12px 40px rgba(107,33,168,0.15);
+   position: relative;
+   overflow: hidden;
+}
+.about-illustration .decor-small { position:absolute; bottom:24px; right:24px; font-size:2.5rem; opacity:0.4; }
+.about-illustration .decor-top { position:absolute; top:20px; left:20px; font-size:2rem; opacity:0.35; }
+
+.value-card {
+   background:#fff;
+   border:1.5px solid #E9D5FF;
+   border-radius:16px;
+   padding:2rem 1.5rem;
+   text-align:center;
+   box-shadow:0 2px 12px rgba(107,33,168,0.06);
+   transition:transform 0.2s ease,box-shadow 0.2s ease;
+}
+.value-card:hover { transform: translateY(-6px); box-shadow:0 12px 36px rgba(107,33,168,0.12); }
+.value-card .value-icon { width:64px; height:64px; border-radius:50%; background:#F5F0FF; display:flex;align-items:center;justify-content:center; font-size:1.75rem; margin:0 auto 1.25rem; }
+
+@media (max-width: 767px) {
+   .kontak-grid, .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+   .values-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+   .about-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+   .values-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.stack--lg { gap: 1.25rem; }
+.stack--xl { gap: 1.5rem; }
+
+.section--centered { text-align: center; }
+.section__title--small { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem; color: #1A1A2E; }
+.section__copy { font-family: 'Inter', sans-serif; font-size: 0.9375rem; color: #6B7280; line-height: 1.7; margin: 0; }
+
+.kontak-card__content { display: flex; flex-direction: column; gap: 0.35rem; }
+.contact-label { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+.contact-label--success { color: #16A34A; }
+.contact-label--danger { color: #BE185D; }
+.contact-label--info { color: #2563EB; }
+.contact-title { font-family: 'Inter', sans-serif; font-size: 1.0625rem; font-weight: 700; color: #1F2937; margin: 0; }
+.contact-text { font-family: 'Inter', sans-serif; font-size: 0.8125rem; color: #6B7280; margin: 0; }
+
+.event-link-icon { margin-left: auto; color: #9CA3AF; font-size: 1.25rem; }
+
+.kontak-card__icon--whatsapp { background: #D1FAE5; }
+.kontak-card__icon--instagram { background: #FDF2F8; }
+.kontak-card__icon--location { background: #EFF6FF; }
+
+.panel-card { border-radius: 16px; padding: 1.75rem; }
+.panel-card--info { background: #F5F0FF; border: 1.5px solid #E9D5FF; }
+.panel-card--white { background: #fff; border: 1.5px solid #E5E7EB; }
+
+.panel-card__title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.125rem; color: #1A1A2E; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.schedule-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.schedule-item { display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; font-size: 0.9rem; padding-bottom: 0.625rem; border-bottom: 1px solid #E9D5FF; }
+.schedule-item__day { color: #374151; font-weight: 500; }
+.schedule-item__time { color: #6B21A8; font-weight: 600; background: #fff; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8125rem; }
+
+.panel-note { font-family: 'Inter', sans-serif; font-size: 0.8125rem; color: #9CA3AF; margin-top: 0.875rem; margin-bottom: 0; }
+
+.tips-list { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4B5563; line-height: 1.7; display: flex; flex-direction: column; gap: 0.625rem; list-style: none; margin: 0; padding: 0; }
+.tips-item { display: flex; align-items: flex-start; gap: 0.5rem; }
+.tips-item__icon { color: #6B21A8; font-weight: 700; flex-shrink: 0; }
+.link-underline { color: #6B21A8; font-weight: 600; text-decoration: underline; }
+
+.hero__title--clamp { font-size: clamp(2rem, 5vw, 2.75rem); }
+
+.section__subtitle--spaced { margin-top: 0.75rem; }
