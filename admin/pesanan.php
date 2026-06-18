@@ -145,12 +145,12 @@ function pagination_url(int $pg, string $q, string $status): string
                 </div>
             </div>
 
-            <div class="admin-card" style="margin-bottom:1.25rem;">
-                <div class="admin-card__body" style="padding:1rem 1.5rem;">
+            <div class="admin-card admin-card--no-margin">
+                <div class="admin-card__body admin-card__body--compact">
                     <form method="GET" action="/admin/pesanan.php" class="wf-filter-form">
                         <div class="filter-grid">
-                            <div style="flex:1;min-width:200px;">
-                                <label for="wf-search" style="display:block;font-size:0.75rem;font-weight:600;color:#6B7280;margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:.05em;">
+                            <div class="filter-grid-grow">
+                                <label for="wf-search" class="form-label--caps">
                                     Cari Pesanan
                                 </label>
                                 <div class="admin-search">
@@ -166,14 +166,14 @@ function pagination_url(int $pg, string $q, string $status): string
                                 </div>
                             </div>
 
-                            <div style="min-width:180px;">
-                                <label for="wf-status" style="display:block;font-size:0.75rem;font-weight:600;color:#6B7280;margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:.05em;">
+                            <div>
+                                <label for="wf-status" class="form-label--caps">
                                     Filter Status
                                 </label>
                                 <select
                                     id="wf-status"
                                     name="status"
-                                    style="width:100%;padding:0.5rem 0.875rem;border:1.5px solid #E5E7EB;border-radius:9999px;font-family:'Inter',sans-serif;font-size:0.875rem;color:#1F2937;background:#F9FAFB;outline:none;cursor:pointer;"
+                                    class="form-control"
                                 >
                                     <option value="" <?= $filter_status === '' ? 'selected' : '' ?>>Semua Status</option>
                                     <option value="menunggu_konfirmasi" <?= $filter_status === 'menunggu_konfirmasi' ? 'selected' : '' ?>>Menunggu Konfirmasi</option>
@@ -183,7 +183,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                 </select>
                             </div>
 
-                            <div style="display:flex;gap:0.5rem;align-items:flex-end;">
+                            <div class="admin-action-row">
                                 <button type="submit" class="btn btn--primary btn--sm">
                                     <i class="bi bi-search" aria-hidden="true"></i> Cari
                                 </button>
@@ -211,7 +211,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                 <th>Metode Pengambilan</th>
                                 <th>Status</th>
                                 <th>Tanggal Pesan</th>
-                                <th style="text-align:center;">Aksi</th>
+                                <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -235,15 +235,15 @@ function pagination_url(int $pg, string $q, string $status): string
                                 <?php foreach ($pesanan_list as $p): ?>
                                     <tr>
                                         <td>
-                                            <strong style="color:#6B21A8;font-family:'Inter',monospace;font-size:0.85rem;">
+                                            <strong class="text-strong text-purple text-mono text-sm">
                                                 <?= e($p['no_pesanan']) ?>
                                             </strong>
                                         </td>
                                         <td><?= e($p['nama_pembeli']) ?></td>
-                                        <td style="white-space:nowrap;">
+                                        <td class="text-nowrap">
                                             <strong><?= e(format_rupiah((int) $p['total_harga'])) ?></strong>
                                         </td>
-                                        <td style="text-transform:capitalize;">
+                                        <td class="text-capitalize">
                                             <?= e(str_replace('_', ' ', $p['metode_pengambilan'] ?? '-')) ?>
                                         </td>
                                         <td>
@@ -251,7 +251,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                                 <?= e(status_label($p['status'])) ?>
                                             </span>
                                         </td>
-                                        <td style="white-space:nowrap;color:#6B7280;font-size:0.85rem;">
+                                        <td class="text-nowrap text-muted text-sm">
                                             <?php
                                             try {
                                                 $dt = new DateTime($p['created_at']);
@@ -261,7 +261,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                             }
                                             ?>
                                         </td>
-                                        <td style="text-align:center;">
+                                        <td class="text-center">
                                             <button
                                                 type="button"
                                                 class="btn btn--primary btn--sm btn-ubah-status"
@@ -279,18 +279,18 @@ function pagination_url(int $pg, string $q, string $status): string
                 </div>
 
                 <?php if ($total_pages > 1): ?>
-                    <div class="admin-card__footer" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-                        <span style="font-size:0.875rem;color:#6B7280;">
+                    <div class="admin-card__footer">
+                        <span class="text-sm text-muted">
                             Halaman <?= $page ?> dari <?= $total_pages ?>
                             &mdash; <?= number_format($total) ?> pesanan
                         </span>
-                        <div style="display:flex;gap:0.375rem;align-items:center;">
+                        <div class="pagination-list">
                             <?php if ($page > 1): ?>
                                 <a href="<?= e(pagination_url($page - 1, $q, $filter_status)) ?>" class="btn btn--secondary btn--sm">
                                     <i class="bi bi-arrow-left" aria-hidden="true"></i> Sebelumnya
                                 </a>
                             <?php else: ?>
-                                <button type="button" class="btn btn--secondary btn--sm" disabled style="opacity:.4;cursor:not-allowed;">
+                                <button type="button" class="btn btn--secondary btn--sm" disabled>
                                     <i class="bi bi-arrow-left" aria-hidden="true"></i> Sebelumnya
                                 </button>
                             <?php endif; ?>
@@ -302,11 +302,11 @@ function pagination_url(int $pg, string $q, string $status): string
                             for ($pg = $range_start; $pg <= $range_end; $pg++):
                             ?>
                                 <?php if ($pg === $page): ?>
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:8px;background:#6B21A8;color:#fff;font-size:0.875rem;font-weight:600;">
+                                    <span class="pagination-item pagination-item--active">
                                         <?= $pg ?>
                                     </span>
                                 <?php else: ?>
-                                    <a href="<?= e(pagination_url($pg, $q, $filter_status)) ?>" style="display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:8px;border:1px solid #E5E7EB;color:#374151;font-size:0.875rem;text-decoration:none;font-family:'Inter',sans-serif;transition:background .15s;">
+                                    <a href="<?= e(pagination_url($pg, $q, $filter_status)) ?>" class="pagination-item">
                                         <?= $pg ?>
                                     </a>
                                 <?php endif; ?>
@@ -317,7 +317,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                     <i class="bi bi-arrow-right" aria-hidden="true"></i> Berikutnya
                                 </a>
                             <?php else: ?>
-                                <button type="button" class="btn btn--primary btn--sm" disabled style="opacity:.4;cursor:not-allowed;">
+                                <button type="button" class="btn btn--primary btn--sm" disabled>
                                     <i class="bi bi-arrow-right" aria-hidden="true"></i> Berikutnya
                                 </button>
                             <?php endif; ?>

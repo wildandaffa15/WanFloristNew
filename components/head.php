@@ -25,6 +25,9 @@
 
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/sidebar.css">
 
     <?php if (!empty($css_extra)): ?>
     <link rel="stylesheet" href="<?= e($css_extra) ?>">

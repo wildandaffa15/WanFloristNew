@@ -13,18 +13,6 @@ require_once 'config/helpers.php';
 
 $pdo = get_pdo();
 
-$stmt_produk = $pdo->prepare(
-    "SELECT p.*, k.nama_kategori
-     FROM produk p
-     JOIN kategori k ON p.id_kategori = k.id_kategori
-     WHERE p.is_featured = 1
-       AND p.status = 'tersedia'
-     ORDER BY p.created_at DESC
-     LIMIT 4"
-);
-$stmt_produk->execute();
-$featured_products = $stmt_produk->fetchAll(PDO::FETCH_ASSOC);
-
 $stmt_kategori = $pdo->prepare(
     "SELECT * FROM kategori
      WHERE is_active = 1
@@ -32,16 +20,6 @@ $stmt_kategori = $pdo->prepare(
 );
 $stmt_kategori->execute();
 $categories = $stmt_kategori->fetchAll(PDO::FETCH_ASSOC);
-
-$ikon_map = [
-    '🌹' => 'bi bi-flower1',
-    '🌻' => 'bi bi-sun',
-    '🌷' => 'bi bi-flower2',
-    '🌸' => 'bi bi-flower1',
-    '💍' => 'bi bi-gem',
-    '🎓' => 'bi bi-mortarboard',
-    '🎁' => 'bi bi-gift',
-];
 
 $page_title  = 'Beranda';
 $active_page = 'beranda';
@@ -104,59 +82,6 @@ $css_extra   = '/assets/css/public.css';
         </div>
         <?php else: ?>
         <p class="text-center text-muted">Belum ada kategori yang tersedia.</p>
-        <?php endif; ?>
-    </div>
-</section>
-
-<section class="section section--alt" aria-label="Produk terlaris">
-    <div class="container">
-        <div class="section__header">
-            <h2 class="section__title">Produk Terlaris</h2>
-            <div class="section__title-underline" aria-hidden="true"></div>
-        </div>
-
-        <?php if (!empty($featured_products)): ?>
-        <div class="catalog-grid">
-            <?php foreach ($featured_products as $p): ?>
-            <?php $foto_path = produk_foto_src($p['foto'] ?? null); ?>
-            <article class="product-card" aria-label="Produk: <?= e($p['nama_produk']) ?>">
-                <div class="product-card__img-wrapper">
-                    <img
-                        src="<?= e($foto_path) ?>"
-                        alt="Foto <?= e($p['nama_produk']) ?>"
-                        class="product-card__img"
-                        loading="lazy"
-                        onerror="this.src='<?= e(produk_foto_src(null)) ?>'"
-                    >
-                    <span class="product-card__badge" aria-hidden="true">Terlaris</span>
-                </div>
-                <div class="product-card__body">
-                    <p class="product-card__category"><?= e($p['nama_kategori']) ?></p>
-                    <h3 class="product-card__name"><?= e($p['nama_produk']) ?></h3>
-                    <p class="product-card__price"><?= e(format_rupiah((int) $p['harga'])) ?></p>
-                    <div class="product-card__actions">
-                        <a href="pages/detail-produk.php?id=<?= e((string) $p['id_produk']) ?>"
-                           class="btn btn-secondary btn-sm"
-                           aria-label="Lihat detail <?= e($p['nama_produk']) ?>">
-                            Detail
-                        </a>
-                        <a href="pages/pemesanan.php?id=<?= e((string) $p['id_produk']) ?>"
-                           class="btn btn-primary btn-sm"
-                           aria-label="Pesan <?= e($p['nama_produk']) ?>">
-                            Pesan
-                        </a>
-                    </div>
-                </div>
-            </article>
-            <?php endforeach; ?>
-        </div>
-        <?php else: ?>
-        <div class="empty-state">
-            <p class="empty-state__icon" aria-hidden="true"><i class="bi bi-flower1"></i></p>
-            <p class="empty-state__title">Belum Ada Produk Unggulan</p>
-            <p class="empty-state__message">Produk unggulan kami akan segera hadir. Cek katalog lengkap kami.</p>
-            <a href="pages/katalog.php" class="btn btn-primary">Lihat Katalog</a>
-        </div>
         <?php endif; ?>
     </div>
 </section>

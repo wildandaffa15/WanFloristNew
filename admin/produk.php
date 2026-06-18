@@ -406,20 +406,6 @@ $css_extra   = '/assets/css/admin.css';
                                     placeholder="Tuliskan deskripsi produk..."
                                 ><?= e($_POST['deskripsi'] ?? '') ?></textarea>
                             </div>
-
-                            <div class="form-group form-group--full">
-                                <label class="form-label--inline" for="tambah-is_featured">
-                                    <input
-                                        type="checkbox"
-                                        id="tambah-is_featured"
-                                        name="is_featured"
-                                        value="1"
-                                        class="form-checkbox"
-                                        <?= isset($_POST['is_featured']) ? 'checked' : '' ?>
-                                    >
-                                    Tampilkan sebagai produk unggulan di beranda
-                                </label>
-                            </div>
                         </div>
 
                         <div class="form-actions">
@@ -552,13 +538,12 @@ $css_extra   = '/assets/css/admin.css';
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Foto</th>
+                                <th class="table-col--photo">Foto</th>
                                 <th>Nama Produk</th>
                                 <th>Kategori</th>
                                 <th>Harga</th>
-                                <th>Status</th>
-                                <th>Unggulan</th>
-                                <th>Aksi</th>
+                                <th class="text-center table-col--status">Status</th>
+                                <th class="text-center table-col--actions">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -585,17 +570,17 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <td><?= e($p['nama_kategori'] ?? '—') ?></td>
 
-                                <td class="table-price">
-                                    <?= format_rupiah((int) $p['harga']) ?>
-                                </td>
+                                <td><?= format_rupiah((int) $p['harga']) ?></td>
 
                                 <td class="text-center">
-                                    <?= $p['is_featured'] ? '<i class="bi bi-star-fill" aria-hidden="true"></i>' : '—' ?>
+                                    <span class="badge <?= $p['status'] === 'tersedia' ? 'badge-aktif' : 'badge-nonaktif' ?>">
+                                        <?= $p['status'] === 'tersedia' ? 'Aktif' : 'Nonaktif' ?>
+                                    </span>
                                 </td>
 
                                 <td>
                                     <div class="admin-action-row">
-                                            <button
+                                        <button
                                             type="button"
                                             class="btn btn--ghost btn--sm btn-edit-produk"
                                             data-id="<?= e((string) $p['id_produk']) ?>"
@@ -607,22 +592,15 @@ $css_extra   = '/assets/css/admin.css';
                                             data-featured="<?= e((string) $p['is_featured']) ?>"
                                             data-foto="<?= e($p['foto'] ?? '') ?>"
                                             aria-label="Edit produk <?= e($p['nama_produk']) ?>"
-                                            >
+                                        >
                                             <i class="bi bi-pencil" aria-hidden="true"></i> Edit
                                         </button>
 
-                                        <form method="POST" action="/admin/produk.php" class="inline-form">
-                                            <input type="hidden" name="action"         value="toggle_status">
-                                            <input type="hidden" name="csrf_token"     value="<?= e($csrf_token) ?>">
-                                            <input type="hidden" name="id_produk"      value="<?= e((string) $p['id_produk']) ?>">
+                                        <form method="POST" action="/admin/produk.php" class="admin-inline-form" style="display: none;" data-product-id="<?= e((string) $p['id_produk']) ?>">
+                                            <input type="hidden" name="action" value="toggle_status">
+                                            <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
+                                            <input type="hidden" name="id_produk" value="<?= e((string) $p['id_produk']) ?>">
                                             <input type="hidden" name="current_status" value="<?= e($p['status']) ?>">
-                                                <button
-                                                type="submit"
-                                                class="btn btn--sm <?= $p['status'] === 'tersedia' ? 'btn--danger-ghost' : 'btn--success-ghost' ?>"
-                                                aria-label="<?= $p['status'] === 'tersedia' ? 'Nonaktifkan' : 'Aktifkan' ?> produk <?= e($p['nama_produk']) ?>"
-                                            >
-                                                <?= $p['status'] === 'tersedia' ? '<i class="bi bi-x-circle" aria-hidden="true"></i> Nonaktifkan' : '<i class="bi bi-check-lg" aria-hidden="true"></i> Aktifkan' ?>
-                                            </button>
                                         </form>
                                     </div>
                                 </td>
@@ -746,6 +724,20 @@ $css_extra   = '/assets/css/admin.css';
                 showPanel(panelEdit, null);
             }
         }
+
+        // Toggle status button handler
+        var toggleStatusButtons = document.querySelectorAll('.btn-toggle-status');
+        toggleStatusButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var productId = btn.getAttribute('data-id');
+                var form = document.querySelector('.admin-inline-form[data-product-id="' + productId + '"]');
+                if (form) {
+                    if (confirm('Ubah status produk?')) {
+                        form.submit();
+                    }
+                }
+            });
+        });
 
     });
 }());

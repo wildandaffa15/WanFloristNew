@@ -255,24 +255,18 @@ $css_extra   = '/assets/css/admin.css';
             </div>
 
             <?php if ($success_msg !== ''): ?>
-            <div class="alert alert-success" role="alert" style="
-                    background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;
-                    border-radius:9999px;padding:0.75rem 1.25rem;margin-bottom:1.25rem;
-                    font-family:'Inter',sans-serif;font-size:0.9rem;">
+            <div class="alert alert-success" role="alert">
                 <i class="bi bi-check-lg" aria-hidden="true"></i> <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
 
             <?php if (!empty($errors['csrf']) || !empty($errors['db'])): ?>
-            <div class="alert alert-danger" role="alert" style="
-                    background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;
-                    border-radius:9999px;padding:0.75rem 1.25rem;margin-bottom:1.25rem;
-                    font-family:'Inter',sans-serif;font-size:0.9rem;">
+            <div class="alert alert-danger" role="alert">
                 <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> <?= e($errors['csrf'] ?? $errors['db'] ?? '') ?>
             </div>
             <?php endif; ?>
 
-            <div class="stat-cards" style="grid-template-columns:repeat(3,1fr);">
+            <div class="stat-cards stat-cards--3">
 
                 <div class="stat-card stat-card--success">
                     <div class="stat-card__header">
@@ -348,10 +342,10 @@ $css_extra   = '/assets/css/admin.css';
                 aria-labelledby="tab-btn-dp"
                 class="tab-panel<?= $active_tab === 'dp' ? ' tab-panel--active' : '' ?>"
             >
-                <div class="admin-card" style="margin-bottom:1.5rem;">
+                <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pesanan Menunggu DP</span>
-                        <span style="font-size:0.8125rem;color:#6B7280;">
+                        <span class="text-xs text-muted">
                             Status: menunggu_konfirmasi &amp; belum ada DP
                         </span>
                     </div>
@@ -383,7 +377,7 @@ $css_extra   = '/assets/css/admin.css';
                                 <?php foreach ($orders_dp as $row): ?>
                                 <tr>
                                     <td>
-                                        <span style="font-weight:600;color:#6B21A8;">
+                                        <span class="text-strong text-purple">
                                             <?= e($row['no_pesanan']) ?>
                                         </span>
                                     </td>
@@ -422,11 +416,7 @@ $css_extra   = '/assets/css/admin.css';
 
                         <?php if (!empty($errors) && $active_tab === 'dp'
                             && !isset($errors['csrf']) && !isset($errors['db'])): ?>
-                        <div style="
-                                background:#FEF3C7;color:#92400E;
-                                border:1px solid #FCD34D;border-radius:12px;
-                                padding:0.875rem 1rem;margin-bottom:1.25rem;
-                                font-family:'Inter',sans-serif;font-size:0.875rem;">
+                        <div class="alert alert-warning" role="alert">
                             Terdapat kesalahan pada formulir. Silakan periksa kembali isian Anda.
                         </div>
                         <?php endif; ?>
@@ -435,11 +425,11 @@ $css_extra   = '/assets/css/admin.css';
                             <input type="hidden" name="action" value="catat_dp">
                             <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                            <div style="display:grid;gap:1.25rem;">
+                            <div class="form-stack">
 
                                 <div class="form-group">
                                     <label for="dp_id_pesanan" class="form-label">
-                                        Pilih Pesanan <span style="color:#DC2626;">*</span>
+                                        Pilih Pesanan <span class="text-danger">*</span>
                                     </label>
                                     <select
                                         id="dp_id_pesanan"
@@ -467,7 +457,7 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <div class="form-group">
                                     <label for="dp_jumlah" class="form-label">
-                                        Jumlah DP (Rp) <span style="color:#DC2626;">*</span>
+                                        Jumlah DP (Rp) <span class="text-danger">*</span>
                                     </label>
                                     <input
                                         type="number"
@@ -487,7 +477,7 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <div class="form-group">
                                     <label for="dp_metode" class="form-label">
-                                        Metode Pembayaran <span style="color:#DC2626;">*</span>
+                                        Metode Pembayaran <span class="text-danger">*</span>
                                     </label>
                                     <select
                                         id="dp_metode"
@@ -537,10 +527,10 @@ $css_extra   = '/assets/css/admin.css';
                 aria-labelledby="tab-btn-lunas"
                 class="tab-panel<?= $active_tab === 'lunas' ? ' tab-panel--active' : '' ?>"
             >
-                <div class="admin-card" style="margin-bottom:1.5rem;">
+                <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pesanan Menunggu Pelunasan</span>
-                        <span style="font-size:0.8125rem;color:#6B7280;">
+                        <span class="text-xs text-muted">
                             Status: diproses &amp; belum lunas
                         </span>
                     </div>
@@ -580,7 +570,7 @@ $css_extra   = '/assets/css/admin.css';
                                 ?>
                                 <tr>
                                     <td>
-                                        <span style="font-weight:600;color:#6B21A8;">
+                                        <span class="text-strong text-purple">
                                             <?= e($row['no_pesanan']) ?>
                                         </span>
                                     </td>
@@ -588,12 +578,12 @@ $css_extra   = '/assets/css/admin.css';
                                     <td><?= e(format_rupiah($total_h)) ?></td>
                                     <td>
                                         <?php if ($row['metode_pengambilan'] === 'cod'): ?>
-                                        <span style="color:#9CA3AF;font-style:italic;">—</span>
+                                        <span class="text-muted text-italic">—</span>
                                         <?php else: ?>
                                         <?= e(format_rupiah($dp_bayar)) ?>
                                         <?php endif; ?>
                                     </td>
-                                    <td style="font-weight:600;color:#D97706;">
+                                    <td class="text-warning text-strong">
                                         <?= e(format_rupiah($sisa_bayar)) ?>
                                     </td>
                                     <td>
@@ -619,11 +609,7 @@ $css_extra   = '/assets/css/admin.css';
 
                         <?php if (!empty($errors) && $active_tab === 'lunas'
                             && !isset($errors['csrf']) && !isset($errors['db'])): ?>
-                        <div style="
-                                background:#FEF3C7;color:#92400E;
-                                border:1px solid #FCD34D;border-radius:12px;
-                                padding:0.875rem 1rem;margin-bottom:1.25rem;
-                                font-family:'Inter',sans-serif;font-size:0.875rem;">
+                        <div class="alert alert-warning" role="alert">
                             Terdapat kesalahan pada formulir. Silakan periksa kembali isian Anda.
                         </div>
                         <?php endif; ?>
@@ -632,11 +618,11 @@ $css_extra   = '/assets/css/admin.css';
                             <input type="hidden" name="action" value="catat_lunas">
                             <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                            <div style="display:grid;gap:1.25rem;">
+                            <div class="form-stack">
 
                                 <div class="form-group">
                                     <label for="lunas_id_pesanan" class="form-label">
-                                        Pilih Pesanan <span style="color:#DC2626;">*</span>
+                                        Pilih Pesanan <span class="text-danger">*</span>
                                     </label>
                                     <select
                                         id="lunas_id_pesanan"
@@ -663,16 +649,12 @@ $css_extra   = '/assets/css/admin.css';
                                     <?php if (!empty($errors['id_pesanan'])): ?>
                                     <div class="form-error"><?= e($errors['id_pesanan']) ?></div>
                                     <?php endif; ?>
-                                    <div id="lunas-info" style="
-                                            margin-top:0.5rem;font-size:0.8125rem;
-                                            color:#6B7280;font-family:'Inter',sans-serif;
-                                            display:none;">
-                                    </div>
+                                    <div id="lunas-info" class="form-note hidden"></div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="lunas_jumlah" class="form-label">
-                                        Jumlah Pelunasan (Rp) <span style="color:#DC2626;">*</span>
+                                        Jumlah Pelunasan (Rp) <span class="text-danger">*</span>
                                     </label>
                                     <input
                                         type="number"
@@ -692,7 +674,7 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <div class="form-group">
                                     <label for="lunas_metode" class="form-label">
-                                        Metode Pembayaran <span style="color:#DC2626;">*</span>
+                                        Metode Pembayaran <span class="text-danger">*</span>
                                     </label>
                                     <select
                                         id="lunas_metode"
@@ -743,86 +725,6 @@ $css_extra   = '/assets/css/admin.css';
         </div>
     </main>
 </div>
-
-<style>
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-}
-
-.form-label {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.form-control {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.9rem;
-    color: #1F2937;
-    background: #F9FAFB;
-    border: 1.5px solid #E5E7EB;
-    border-radius: 10px;
-    padding: 0.625rem 0.875rem;
-    width: 100%;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    box-sizing: border-box;
-    appearance: auto;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: #9333EA;
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
-}
-
-.form-control.is-invalid {
-    border-color: #DC2626;
-    background: #FFF5F5;
-}
-
-.form-control.is-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-}
-
-.form-error {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.8125rem;
-    color: #DC2626;
-    margin-top: 0.125rem;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.5rem;
-    border-radius: 9999px;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    text-decoration: none;
-}
-
-.btn-primary {
-    background: #6B21A8;
-    color: #ffffff;
-}
-
-.btn-primary:hover {
-    background: #5B1A90;
-}
-
-.btn-primary:active {
-    transform: scale(0.98);
-}
-</style>
 
 <script>
 /**
@@ -887,10 +789,10 @@ $css_extra   = '/assets/css/admin.css';
                 var infoText = 'Total: <strong>' + rupiah(total) + '</strong>';
                 if (metode === 'ambil_sendiri') {
                     infoText += ' | DP terbayar: <strong>' + rupiah(dp) + '</strong>';
-                    infoText += ' | Sisa: <strong style="color:#D97706;">' + rupiah(sisa) + '</strong>';
+                    infoText += ' | Sisa: <strong class="text-warning">' + rupiah(sisa) + '</strong>';
                 } else {
                     infoText += ' | Metode: <strong>COD</strong>';
-                    infoText += ' | Jumlah: <strong style="color:#D97706;">' + rupiah(sisa) + '</strong>';
+                    infoText += ' | Jumlah: <strong class="text-warning">' + rupiah(sisa) + '</strong>';
                 }
                 lunasInfo.innerHTML = infoText;
                 lunasInfo.style.display = 'block';

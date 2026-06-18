@@ -125,7 +125,7 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <div class="stat-cards" style="grid-template-columns:repeat(1,minmax(0,320px));">
+            <div class="stat-cards stat-cards--compact">
                 <div class="stat-card stat-card--danger">
                     <div class="stat-card__header">
                         <div>
@@ -140,24 +140,14 @@ $css_extra   = '/assets/css/admin.css';
             </div>
 
             <?php if ($success_msg !== ''): ?>
-                <div
-                role="alert"
-                style="background:#D1FAE5;border:1px solid #6EE7B7;color:#065F46;
-                       border-radius:10px;padding:0.875rem 1.25rem;margin-bottom:1.25rem;
-                       font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;"
-            >
+                <div class="alert alert--success" role="alert">
                 <span aria-hidden="true"><i class="bi bi-check-lg"></i></span>
                 <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
 
             <?php if (!empty($errors)): ?>
-            <div
-                role="alert"
-                style="background:#FEE2E2;border:1px solid #FECACA;color:#991B1B;
-                       border-radius:10px;padding:0.875rem 1.25rem;margin-bottom:1.25rem;
-                       font-size:0.9rem;"
-            >
+            <div class="alert alert--error" role="alert">
                 <strong>Terjadi kesalahan:</strong>
                 <ul style="margin:0.5rem 0 0 1.25rem;padding:0;">
                     <?php foreach ($errors as $err): ?>
@@ -167,9 +157,9 @@ $css_extra   = '/assets/css/admin.css';
             </div>
             <?php endif; ?>
 
-            <div style="display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start;">
+            <div class="form-layout">
 
-                <div class="admin-card" style="position:sticky;top:80px;">
+                <div class="admin-card form-sticky">
                     <div class="admin-card__header">
                         <h3 class="admin-card__title"><i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Pengeluaran</h3>
                     </div>
@@ -178,89 +168,55 @@ $css_extra   = '/assets/css/admin.css';
                             <input type="hidden" name="action"     value="tambah_pengeluaran">
                             <input type="hidden" name="csrf_token" value="<?= e($csrf_token) ?>">
 
-                            <div style="margin-bottom:1rem;">
-                                <label
-                                    for="keterangan"
-                                    style="display:block;font-size:0.875rem;font-weight:600;
-                                           color:#374151;margin-bottom:0.375rem;"
-                                >
-                                    Keterangan <span style="color:#DC2626;" aria-hidden="true">*</span>
+                            <div class="form-group">
+                                <label class="form-label" for="keterangan">
+                                    Keterangan <span aria-hidden="true" style="color:#DC2626;">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     id="keterangan"
                                     name="keterangan"
+                                    class="form-input"
                                     maxlength="255"
                                     required
                                     placeholder="Contoh: Beli bunga mawar merah"
                                     value="<?= e($_POST['keterangan'] ?? '') ?>"
-                                    style="width:100%;padding:0.625rem 0.875rem;border:1.5px solid #E5E7EB;
-                                           border-radius:8px;font-size:0.9rem;color:#1F2937;
-                                           font-family:inherit;transition:border-color .15s ease;
-                                           box-sizing:border-box;"
-                                    onfocus="this.style.borderColor='#9333EA'"
-                                    onblur="this.style.borderColor='#E5E7EB'"
                                 >
                             </div>
 
-                            <div style="margin-bottom:1rem;">
-                                <label
-                                    for="jumlah"
-                                    style="display:block;font-size:0.875rem;font-weight:600;
-                                           color:#374151;margin-bottom:0.375rem;"
-                                >
-                                    Jumlah (Rp) <span style="color:#DC2626;" aria-hidden="true">*</span>
+                            <div class="form-group">
+                                <label class="form-label" for="jumlah">
+                                    Jumlah (Rp) <span aria-hidden="true" style="color:#DC2626;">*</span>
                                 </label>
                                 <input
                                     type="number"
                                     id="jumlah"
                                     name="jumlah"
+                                    class="form-input"
                                     min="1"
                                     step="1"
                                     required
                                     placeholder="Contoh: 150000"
                                     value="<?= e($_POST['jumlah'] ?? '') ?>"
-                                    style="width:100%;padding:0.625rem 0.875rem;border:1.5px solid #E5E7EB;
-                                           border-radius:8px;font-size:0.9rem;color:#1F2937;
-                                           font-family:inherit;transition:border-color .15s ease;
-                                           box-sizing:border-box;"
-                                    onfocus="this.style.borderColor='#9333EA'"
-                                    onblur="this.style.borderColor='#E5E7EB'"
                                 >
                             </div>
 
-                            <div style="margin-bottom:1.5rem;">
-                                <label
-                                    for="tanggal"
-                                    style="display:block;font-size:0.875rem;font-weight:600;
-                                           color:#374151;margin-bottom:0.375rem;"
-                                >
-                                    Tanggal <span style="color:#DC2626;" aria-hidden="true">*</span>
+                            <div class="form-group">
+                                <label class="form-label" for="tanggal">
+                                    Tanggal <span aria-hidden="true" style="color:#DC2626;">*</span>
                                 </label>
                                 <input
                                     type="date"
                                     id="tanggal"
                                     name="tanggal"
+                                    class="form-input"
                                     required
                                     value="<?= e($_POST['tanggal'] ?? date('Y-m-d')) ?>"
-                                    style="width:100%;padding:0.625rem 0.875rem;border:1.5px solid #E5E7EB;
-                                           border-radius:8px;font-size:0.9rem;color:#1F2937;
-                                           font-family:inherit;transition:border-color .15s ease;
-                                           box-sizing:border-box;"
-                                    onfocus="this.style.borderColor='#9333EA'"
-                                    onblur="this.style.borderColor='#E5E7EB'"
                                 >
                             </div>
 
-                            <button
-                                type="submit"
-                                style="width:100%;padding:0.75rem 1rem;background:#6B21A8;color:#fff;
-                                       border:none;border-radius:8px;font-size:0.95rem;font-weight:600;
-                                       cursor:pointer;font-family:inherit;transition:background-color .15s ease;"
-                                onmouseover="this.style.backgroundColor='#7C3AED'"
-                                onmouseout="this.style.backgroundColor='#6B21A8'"
-                            >
-                                💾 Simpan Pengeluaran
+                            <button type="submit" class="btn btn--primary" style="width:100%;">
+                                <i class="bi bi-save" aria-hidden="true"></i> Simpan Pengeluaran
                             </button>
                         </form>
                     </div>
@@ -272,70 +228,43 @@ $css_extra   = '/assets/css/admin.css';
                         <div class="admin-card__header">
                             <h3 class="admin-card__title"><i class="bi bi-search"></i> Filter Tanggal</h3>
                         </div>
-                        <div class="admin-card__body" style="padding-top:1rem;">
+                        <div class="admin-card__body">
                             <form method="GET" action="/admin/pengeluaran.php">
-                                <div style="display:flex;align-items:flex-end;gap:0.75rem;flex-wrap:wrap;">
+                                <div class="form-row">
 
-                                    <div style="flex:1;min-width:140px;">
-                                        <label
-                                            for="dari"
-                                            style="display:block;font-size:0.8rem;font-weight:600;
-                                                   color:#6B7280;margin-bottom:0.3rem;"
-                                        >
+                                    <div>
+                                        <label class="form-label" for="dari" style="font-size:0.8rem;">
                                             Dari
                                         </label>
                                         <input
                                             type="date"
                                             id="dari"
                                             name="dari"
+                                            class="form-input"
+                                            style="font-size:0.875rem;padding:0.5rem 0.75rem;"
                                             value="<?= e($dari) ?>"
-                                            style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid #E5E7EB;
-                                                   border-radius:8px;font-size:0.875rem;color:#1F2937;
-                                                   font-family:inherit;box-sizing:border-box;"
                                         >
                                     </div>
 
-                                    <div style="flex:1;min-width:140px;">
-                                        <label
-                                            for="sampai"
-                                            style="display:block;font-size:0.8rem;font-weight:600;
-                                                   color:#6B7280;margin-bottom:0.3rem;"
-                                        >
+                                    <div>
+                                        <label class="form-label" for="sampai" style="font-size:0.8rem;">
                                             Sampai
                                         </label>
                                         <input
                                             type="date"
                                             id="sampai"
                                             name="sampai"
+                                            class="form-input"
+                                            style="font-size:0.875rem;padding:0.5rem 0.75rem;"
                                             value="<?= e($sampai) ?>"
-                                            style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid #E5E7EB;
-                                                   border-radius:8px;font-size:0.875rem;color:#1F2937;
-                                                   font-family:inherit;box-sizing:border-box;"
                                         >
                                     </div>
 
-                                    <div style="display:flex;gap:0.5rem;padding-bottom:0;">
-                                        <button
-                                            type="submit"
-                                            style="padding:0.5rem 1.25rem;background:#6B21A8;color:#fff;
-                                                   border:none;border-radius:8px;font-size:0.875rem;
-                                                   font-weight:600;cursor:pointer;font-family:inherit;
-                                                   white-space:nowrap;transition:background-color .15s ease;"
-                                            onmouseover="this.style.backgroundColor='#7C3AED'"
-                                            onmouseout="this.style.backgroundColor='#6B21A8'"
-                                        >
-                                            Filter
+                                    <div class="form-row__actions">
+                                        <button type="submit" class="btn btn--primary btn--sm">
+                                            <i class="bi bi-funnel" aria-hidden="true"></i> Filter
                                         </button>
-                                        <a
-                                            href="/admin/pengeluaran.php"
-                                            style="padding:0.5rem 1rem;background:#F3F4F6;color:#374151;
-                                                   border-radius:8px;font-size:0.875rem;font-weight:600;
-                                                   text-decoration:none;display:inline-flex;
-                                                   align-items:center;white-space:nowrap;
-                                                   transition:background-color .15s ease;"
-                                            onmouseover="this.style.backgroundColor='#E5E7EB'"
-                                            onmouseout="this.style.backgroundColor='#F3F4F6'"
-                                        >
+                                        <a href="/admin/pengeluaran.php" class="btn btn--ghost btn--sm">
                                             Reset
                                         </a>
                                     </div>
@@ -390,20 +319,20 @@ $css_extra   = '/assets/css/admin.css';
                                 <tbody>
                                     <?php foreach ($list as $i => $row): ?>
                                     <tr>
-                                        <td style="color:#9CA3AF;text-align:center;">
+                                        <td class="table-row__number">
                                             <?= e((string)($i + 1)) ?>
                                         </td>
                                         <td><?= e($row['keterangan']) ?></td>
-                                        <td style="text-align:right;font-weight:600;color:#DC2626;white-space:nowrap;">
+                                        <td class="table-row__amount">
                                             <?= e(format_rupiah((int) $row['jumlah'])) ?>
                                         </td>
-                                        <td style="white-space:nowrap;">
+                                        <td class="table-row__date">
                                             <?php
                                                 $tgl_obj = DateTime::createFromFormat('Y-m-d', $row['tanggal']);
                                                 echo $tgl_obj ? e(format_tanggal_id($tgl_obj)) : e($row['tanggal']);
                                             ?>
                                         </td>
-                                        <td style="color:#6B7280;font-size:0.8rem;white-space:nowrap;">
+                                        <td class="table-row__meta">
                                             <?= e($row['created_at']) ?>
                                         </td>
                                     </tr>
@@ -411,25 +340,13 @@ $css_extra   = '/assets/css/admin.css';
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td
-                                            colspan="2"
-                                            style="font-weight:700;font-size:0.9rem;
-                                                   color:#1F2937;padding:0.875rem 1rem;
-                                                   border-top:2px solid #E5E7EB;"
-                                        >
+                                        <td class="table-row__total" colspan="2">
                                             Total
                                         </td>
-                                        <td
-                                            style="text-align:right;font-weight:700;font-size:0.95rem;
-                                                   color:#DC2626;white-space:nowrap;
-                                                   border-top:2px solid #E5E7EB;padding:0.875rem 1rem;"
-                                        >
+                                        <td class="table-row__total--amount">
                                             <?= e(format_rupiah($total_range)) ?>
                                         </td>
-                                        <td
-                                            colspan="2"
-                                            style="border-top:2px solid #E5E7EB;"
-                                        ></td>
+                                        <td colspan="2" style="border-top:2px solid #E5E7EB;"></td>
                                     </tr>
                                 </tfoot>
                             </table>

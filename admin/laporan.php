@@ -196,26 +196,20 @@ $css_extra   = '/assets/css/admin.css';
                 </div>
             </div>
 
-            <div class="admin-card" style="margin-bottom:1.5rem;">
-                <div class="admin-card__body" style="padding:1rem 1.5rem;">
-                    <form method="GET" action="" style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <div class="admin-card">
+                <div class="admin-card__body admin-card__body--compact">
+                    <form method="GET" action="" class="form-actions">
                         <input type="hidden" name="tab" value="<?= e($active_tab) ?>">
-                        <label for="dari" style="font-size:0.875rem;font-weight:600;color:#374151;">Dari:</label>
-                        <input type="date" id="dari" name="dari" value="<?= e($dari) ?>"
-                               style="padding:0.45rem 0.75rem;border:1.5px solid #D1D5DB;border-radius:8px;
-                                      font-family:Inter,sans-serif;font-size:0.875rem;color:#374151;background:#fff;
-                                      transition:border-color .15s;">
+                        <label for="dari" class="form-label">Dari:</label>
+                        <input type="date" id="dari" name="dari" value="<?= e($dari) ?>" class="form-control">
 
-                        <label for="sampai" style="font-size:0.875rem;font-weight:600;color:#374151;">Sampai:</label>
-                        <input type="date" id="sampai" name="sampai" value="<?= e($sampai) ?>"
-                               style="padding:0.45rem 0.75rem;border:1.5px solid #D1D5DB;border-radius:8px;
-                                      font-family:Inter,sans-serif;font-size:0.875rem;color:#374151;background:#fff;
-                                      transition:border-color .15s;">
+                        <label for="sampai" class="form-label">Sampai:</label>
+                        <input type="date" id="sampai" name="sampai" value="<?= e($sampai) ?>" class="form-control">
 
-                        <button type="submit" class="btn btn--primary" style="padding:0.45rem 1.25rem;">
+                        <button type="submit" class="btn btn--primary btn--sm">
                             🔍 Filter
                         </button>
-                        <a href="?tab=<?= e($active_tab) ?>" class="btn btn--outline" style="padding:0.45rem 1.25rem;">
+                        <a href="?tab=<?= e($active_tab) ?>" class="btn btn--outline btn--sm">
                             ↺ Reset
                         </a>
                     </form>
@@ -253,21 +247,21 @@ $css_extra   = '/assets/css/admin.css';
                  class="tab-panel<?= $active_tab === 'ringkasan' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel" aria-labelledby="">
 
-                <div class="admin-card" style="margin-bottom:1.5rem;">
+                <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Pemasukan vs Pengeluaran — 6 Bulan Terakhir</span>
                     </div>
-                    <div class="admin-card__body" style="overflow-x:auto;">
+                    <div class="admin-card__body admin-card__body--overflow">
                         <?php echo generate_svg_bar($bar_pemasukan, $bar_pengeluaran); ?>
                     </div>
                 </div>
 
-                <div class="stat-cards" style="grid-template-columns:repeat(3,1fr);">
+                <div class="stat-cards stat-cards--3">
                     <div class="stat-card stat-card--success">
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><i class="bi bi-cash-stack"></i></span>
                         </div>
-                        <div class="stat-card__value" style="font-size:1.35rem;">
+                        <div class="stat-card__value stat-card__value--large">
                             <?= e(format_rupiah($total_pemasukan)) ?>
                         </div>
                         <div class="stat-card__label">Total Pemasukan</div>
@@ -278,7 +272,7 @@ $css_extra   = '/assets/css/admin.css';
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><i class="bi bi-wallet2"></i></span>
                         </div>
-                        <div class="stat-card__value" style="font-size:1.35rem;">
+                        <div class="stat-card__value stat-card__value--large">
                             <?= e(format_rupiah($total_pengeluaran)) ?>
                         </div>
                         <div class="stat-card__label">Total Pengeluaran</div>
@@ -289,10 +283,10 @@ $css_extra   = '/assets/css/admin.css';
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><?= $laba_bersih >= 0 ? '<i class="bi bi-graph-up"></i>' : '<i class="bi bi-graph-down"></i>' ?></span>
                         </div>
-                        <div class="stat-card__value" style="font-size:1.35rem;color:<?= $laba_bersih >= 0 ? '#16A34A' : '#DC2626' ?>;">
+                        <div class="stat-card__value stat-card__value--large <?= $laba_bersih >= 0 ? 'text-success' : 'text-danger' ?>">
                             <?= e(format_rupiah((int) abs($laba_bersih))) ?>
                             <?php if ($laba_bersih < 0): ?>
-                                <span style="font-size:0.85rem;font-weight:500;">(rugi)</span>
+                                <span class="text-sm text-strong">(rugi)</span>
                             <?php endif; ?>
                         </div>
                         <div class="stat-card__label">Laba Bersih</div>
@@ -305,7 +299,7 @@ $css_extra   = '/assets/css/admin.css';
                  class="tab-panel<?= $active_tab === 'pesanan' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
+                <div class="stat-cards stat-cards--stacked">
                     <div class="stat-card stat-card--info">
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><i class="bi bi-box-seam"></i></span>
@@ -316,11 +310,11 @@ $css_extra   = '/assets/css/admin.css';
                     </div>
                 </div>
 
-                <div class="admin-card" style="margin-bottom:1.5rem;">
+                <div class="admin-card">
                     <div class="admin-card__header">
                         <span class="admin-card__title">Distribusi Pesanan per Status</span>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <div class="table-responsive">
                             <table class="admin-table">
                                 <thead>
@@ -332,8 +326,8 @@ $css_extra   = '/assets/css/admin.css';
                                 </thead>
                                 <tbody>
                                     <?php if (empty($distribusi_status)): ?>
-                                        <tr>
-                                            <td colspan="3" style="text-align:center;color:#9CA3AF;padding:2rem;">
+                                        <tr class="table-empty">
+                                            <td colspan="3">
                                                 Tidak ada data pesanan pada periode ini.
                                             </td>
                                         </tr>
@@ -379,7 +373,7 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__header">
                         <span class="admin-card__title">Top 5 Produk Terlaris</span>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <div class="table-responsive">
                             <table class="admin-table">
                                 <thead>
@@ -391,8 +385,8 @@ $css_extra   = '/assets/css/admin.css';
                                 </thead>
                                 <tbody>
                                     <?php if (empty($produk_terlaris)): ?>
-                                        <tr>
-                                            <td colspan="3" style="text-align:center;color:#9CA3AF;padding:2rem;">
+                                        <tr class="table-empty">
+                                            <td colspan="3">
                                                 Tidak ada data produk terjual pada periode ini.
                                             </td>
                                         </tr>
@@ -400,7 +394,7 @@ $css_extra   = '/assets/css/admin.css';
                                         <?php foreach ($produk_terlaris as $idx => $row): ?>
                                             <tr>
                                                 <td>
-                                                    <span style="font-weight:700;color:#6B21A8;">
+                                                    <span class="text-strong text-purple">
                                                         #<?= e((string)($idx + 1)) ?>
                                                     </span>
                                                 </td>
@@ -420,7 +414,7 @@ $css_extra   = '/assets/css/admin.css';
                  class="tab-panel<?= $active_tab === 'produk' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <div class="stat-cards" style="grid-template-columns:repeat(2,1fr);margin-bottom:1.5rem;">
+                <div class="stat-cards stat-cards--2">
                     <div class="stat-card stat-card--success">
                         <div class="stat-card__header"><span class="stat-card__icon"><i class="bi bi-check-lg"></i></span></div>
                         <div class="stat-card__value"><?= e((string)$total_produk_aktif) ?></div>
@@ -437,7 +431,7 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__header">
                         <span class="admin-card__title">Daftar Produk</span>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <div class="table-responsive">
                             <table class="admin-table">
                                 <thead>
@@ -451,15 +445,15 @@ $css_extra   = '/assets/css/admin.css';
                                 </thead>
                                 <tbody>
                                     <?php if (empty($produk_list)): ?>
-                                        <tr>
-                                            <td colspan="5" style="text-align:center;color:#9CA3AF;padding:2rem;">
+                                        <tr class="table-empty">
+                                            <td colspan="5">
                                                 Belum ada data produk.
                                             </td>
                                         </tr>
                                     <?php else: ?>
                                         <?php foreach ($produk_list as $row): ?>
                                             <tr>
-                                                <td style="font-weight:500;"><?= e($row['nama_produk']) ?></td>
+                                                <td class="text-strong"><?= e($row['nama_produk']) ?></td>
                                                 <td><?= e($row['nama_kategori'] ?? '-') ?></td>
                                                 <td><?= e(format_rupiah((int)$row['harga'])) ?></td>
                                                 <td>
@@ -484,7 +478,7 @@ $css_extra   = '/assets/css/admin.css';
                  class="tab-panel<?= $active_tab === 'stok' ? ' tab-panel--active' : '' ?>"
                  role="tabpanel">
 
-                <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
+                <div class="stat-cards stat-cards--stacked">
                     <div class="stat-card <?= $total_stok_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                         <div class="stat-card__header">
                             <span class="stat-card__icon"><?= $total_stok_kritis > 0 ? '<i class="bi bi-exclamation-triangle-fill"></i>' : '<i class="bi bi-check-lg"></i>' ?></span>
@@ -498,7 +492,7 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card__header">
                         <span class="admin-card__title">Daftar Stok Bahan</span>
                     </div>
-                    <div class="admin-card__body" style="padding:0;">
+                    <div class="admin-card__body admin-card__body--no-padding">
                         <div class="table-responsive">
                             <table class="admin-table">
                                 <thead>
@@ -512,8 +506,8 @@ $css_extra   = '/assets/css/admin.css';
                                 </thead>
                                 <tbody>
                                     <?php if (empty($stok_list)): ?>
-                                        <tr>
-                                            <td colspan="5" style="text-align:center;color:#9CA3AF;padding:2rem;">
+                                        <tr class="table-empty">
+                                            <td colspan="5">
                                                 Belum ada data stok bahan.
                                             </td>
                                         </tr>
@@ -521,7 +515,7 @@ $css_extra   = '/assets/css/admin.css';
                                         <?php foreach ($stok_list as $row): ?>
                                             <?php $is_kritis = (int)$row['stok_saat_ini'] < (int)$row['stok_minimum']; ?>
                                             <tr class="<?= $is_kritis ? 'row-kritis' : '' ?>">
-                                                <td style="font-weight:500;"><?= e($row['nama_bahan']) ?></td>
+                                                <td class="text-strong"><?= e($row['nama_bahan']) ?></td>
                                                 <td><?= e($row['satuan']) ?></td>
                                                 <td><?= e((string)$row['stok_saat_ini']) ?></td>
                                                 <td><?= e((string)$row['stok_minimum']) ?></td>
