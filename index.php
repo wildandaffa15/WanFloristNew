@@ -33,6 +33,16 @@ $stmt_kategori = $pdo->prepare(
 $stmt_kategori->execute();
 $categories = $stmt_kategori->fetchAll(PDO::FETCH_ASSOC);
 
+$ikon_map = [
+    '🌹' => 'bi bi-flower1',
+    '🌻' => 'bi bi-sun',
+    '🌷' => 'bi bi-flower2',
+    '🌸' => 'bi bi-flower1',
+    '💍' => 'bi bi-gem',
+    '🎓' => 'bi bi-mortarboard',
+    '🎁' => 'bi bi-gift',
+];
+
 $page_title  = 'Beranda';
 $active_page = 'beranda';
 $css_extra   = '/assets/css/public.css';
@@ -57,7 +67,7 @@ $css_extra   = '/assets/css/public.css';
             untuk setiap momen istimewa Anda.
         </p>
         <a href="pages/katalog.php" class="hero__btn">
-            🌸 Belanja Sekarang
+            <i class="bi bi-flower1" aria-hidden="true"></i> Belanja Sekarang
         </a>
     </div>
 </section>
@@ -77,7 +87,16 @@ $css_extra   = '/assets/css/public.css';
                role="listitem"
                aria-label="Lihat produk kategori <?= e($cat['nama_kategori']) ?>">
                 <?php if (!empty($cat['ikon_emoji'])): ?>
-                <span class="category-pill__emoji" aria-hidden="true"><?= e($cat['ikon_emoji']) ?></span>
+                    <?php
+                        $ikon = $cat['ikon_emoji'];
+                        if (isset($ikon_map[$ikon])) {
+                            ?><span class="category-pill__emoji" aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
+                        } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
+                            ?><span class="category-pill__emoji" aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
+                        } else {
+                            ?><span class="category-pill__emoji" aria-hidden="true"><?= e($ikon) ?></span><?php
+                        }
+                    ?>
                 <?php endif; ?>
                 <?= e($cat['nama_kategori']) ?>
             </a>
@@ -133,7 +152,7 @@ $css_extra   = '/assets/css/public.css';
         </div>
         <?php else: ?>
         <div class="empty-state">
-            <p class="empty-state__icon" aria-hidden="true">🌸</p>
+            <p class="empty-state__icon" aria-hidden="true"><i class="bi bi-flower1"></i></p>
             <p class="empty-state__title">Belum Ada Produk Unggulan</p>
             <p class="empty-state__message">Produk unggulan kami akan segera hadir. Cek katalog lengkap kami.</p>
             <a href="pages/katalog.php" class="btn btn-primary">Lihat Katalog</a>
@@ -149,18 +168,18 @@ $css_extra   = '/assets/css/public.css';
             Hubungi kami via WhatsApp atau isi form pemesanan online kami.
         </p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-            <a href="pages/pemesanan.php"
-               class="hero__btn"
-               aria-label="Isi form pemesanan online">
-                📝 Form Pemesanan
-            </a>
-            <a href="https://wa.me/6281234567890"
-               class="hero__btn hero__btn--outline"
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="Hubungi WanFlorist via WhatsApp">
-                💬 WhatsApp Kami
-            </a>
+                <a href="pages/pemesanan.php"
+                   class="hero__btn"
+                   aria-label="Isi form pemesanan online">
+                    <i class="bi bi-journal-text" aria-hidden="true"></i> Form Pemesanan
+                </a>
+                <a href="https://wa.me/6281234567890"
+                   class="hero__btn hero__btn--outline"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Hubungi WanFlorist via WhatsApp">
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp Kami
+                </a>
         </div>
     </div>
 </section>
@@ -177,7 +196,9 @@ $css_extra   = '/assets/css/public.css';
 
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Andi Setiawan">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
+                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </span>
                 </div>
                 <blockquote>
                     <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
@@ -196,7 +217,7 @@ $css_extra   = '/assets/css/public.css';
 
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Rina Kusuma">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
+                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
                     <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
@@ -215,7 +236,7 @@ $css_extra   = '/assets/css/public.css';
 
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Bagas Pratama">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
+                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
                     <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">
@@ -234,7 +255,7 @@ $css_extra   = '/assets/css/public.css';
 
             <article class="card" style="padding: 1.5rem;" aria-label="Testimoni dari Dewi Anggraini">
                 <div style="display: flex; gap: 0.25rem; margin-bottom: 0.75rem;" aria-label="Rating: 5 bintang">
-                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;">⭐⭐⭐⭐⭐</span>
+                    <span aria-hidden="true" style="color: #F59E0B; font-size: 1.1rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>
                 </div>
                 <blockquote>
                     <p style="font-style: italic; color: #4B5563; line-height: 1.7; margin-bottom: 1rem;">

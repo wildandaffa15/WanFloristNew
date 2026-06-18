@@ -61,7 +61,7 @@ $active_page = 'produk';
 
         <?php if (!$produk): ?>
         <div class="detail-not-found" role="alert">
-            <div class="detail-not-found__icon" aria-hidden="true">🌸</div>
+            <div class="detail-not-found__icon" aria-hidden="true"><i class="bi bi-flower1"></i></div>
             <h1 class="detail-not-found__title">Produk Tidak Ditemukan</h1>
             <p class="detail-not-found__text">
                 Produk yang Anda cari tidak tersedia atau telah dihapus.

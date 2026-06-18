@@ -122,44 +122,39 @@ function pagination_url(int $pg, string $q, string $status): string
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
     <main class="admin-main">
-
-        <header class="admin-header">
-            <h1 class="admin-header__title">📦 Manajemen Pesanan</h1>
-            <div class="admin-header__actions">
-                <a
-                    href="<?= e(pagination_url(1, $q, $filter_status) . (str_contains(pagination_url(1, $q, $filter_status), '?') ? '&export=csv' : '?export=csv')) ?>"
-                    class="btn btn--secondary btn--sm"
-                >
-                    ⬇ Ekspor CSV
-                </a>
-            </div>
-        </header>
-
         <div class="admin-content">
 
             <div class="page-header">
                 <div>
-                    <h2 class="page-header__title">Daftar Pesanan</h2>
+                    <h1 class="page-header__title">Daftar Pesanan</h1>
                     <p class="page-header__subtitle">
-                        Total <?= number_format($total) ?> pesanan ditemukan
+                        Total <?= number_format($total) ?> pesanan
                         <?php if ($q !== '' || $filter_status !== ''): ?>
-                            (difilter)
+                            — difilter
                         <?php endif; ?>
                     </p>
+                </div>
+                <div class="page-header__actions">
+                    <a
+                        href="<?= e(pagination_url(1, $q, $filter_status) . (str_contains(pagination_url(1, $q, $filter_status), '?') ? '&export=csv' : '?export=csv')) ?>"
+                        class="btn btn--secondary"
+                    >
+                        <i class="bi bi-download"></i>
+                        Ekspor CSV
+                    </a>
                 </div>
             </div>
 
             <div class="admin-card" style="margin-bottom:1.25rem;">
                 <div class="admin-card__body" style="padding:1rem 1.5rem;">
                     <form method="GET" action="/admin/pesanan.php" class="wf-filter-form">
-                        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:flex-end;">
-
+                        <div class="filter-grid">
                             <div style="flex:1;min-width:200px;">
                                 <label for="wf-search" style="display:block;font-size:0.75rem;font-weight:600;color:#6B7280;margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:.05em;">
                                     Cari Pesanan
                                 </label>
                                 <div class="admin-search">
-                                    <span class="admin-search__icon">🔍</span>
+                                    <span class="admin-search__icon"><i class="bi bi-search"></i></span>
                                     <input
                                         id="wf-search"
                                         type="search"
@@ -190,19 +185,14 @@ function pagination_url(int $pg, string $q, string $status): string
 
                             <div style="display:flex;gap:0.5rem;align-items:flex-end;">
                                 <button type="submit" class="btn btn--primary btn--sm">
-                                    🔍 Cari
+                                    <i class="bi bi-search" aria-hidden="true"></i> Cari
                                 </button>
                                 <?php if ($q !== '' || $filter_status !== ''): ?>
                                     <a href="/admin/pesanan.php" class="btn btn--secondary btn--sm">
-                                        ✕ Reset
+                                        <i class="bi bi-x" aria-hidden="true"></i> Reset
                                     </a>
                                 <?php endif; ?>
-                                <a
-                                    href="<?= e(pagination_url(1, $q, $filter_status) . (str_contains(pagination_url(1, $q, $filter_status), '?') ? '&export=csv' : '?export=csv')) ?>"
-                                    class="btn btn--secondary btn--sm"
-                                >
-                                    ⬇ Ekspor CSV
-                                </a>
+
                             </div>
 
                         </div>
@@ -229,7 +219,7 @@ function pagination_url(int $pg, string $q, string $status): string
                                 <tr>
                                     <td colspan="7">
                                         <div class="admin-empty">
-                                            <div class="admin-empty__icon">📦</div>
+                                            <div class="admin-empty__icon"><i class="bi bi-box-seam"></i></div>
                                             <div class="admin-empty__title">Tidak Ada Pesanan</div>
                                             <p class="admin-empty__message">
                                                 <?php if ($q !== '' || $filter_status !== ''): ?>
@@ -277,8 +267,8 @@ function pagination_url(int $pg, string $q, string $status): string
                                                 class="btn btn--primary btn--sm btn-ubah-status"
                                                 data-id-pesanan="<?= e((string) $p['id_pesanan']) ?>"
                                                 data-status-saat-ini="<?= e($p['status']) ?>"
-                                            >
-                                                ✏ Ubah Status
+                                            ><i class="bi bi-pencil-square"></i>
+                                                Ubah Status
                                             </button>
                                         </td>
                                     </tr>
@@ -297,11 +287,11 @@ function pagination_url(int $pg, string $q, string $status): string
                         <div style="display:flex;gap:0.375rem;align-items:center;">
                             <?php if ($page > 1): ?>
                                 <a href="<?= e(pagination_url($page - 1, $q, $filter_status)) ?>" class="btn btn--secondary btn--sm">
-                                    ← Sebelumnya
+                                    <i class="bi bi-arrow-left" aria-hidden="true"></i> Sebelumnya
                                 </a>
                             <?php else: ?>
                                 <button type="button" class="btn btn--secondary btn--sm" disabled style="opacity:.4;cursor:not-allowed;">
-                                    ← Sebelumnya
+                                    <i class="bi bi-arrow-left" aria-hidden="true"></i> Sebelumnya
                                 </button>
                             <?php endif; ?>
 
@@ -324,11 +314,11 @@ function pagination_url(int $pg, string $q, string $status): string
 
                             <?php if ($page < $total_pages): ?>
                                 <a href="<?= e(pagination_url($page + 1, $q, $filter_status)) ?>" class="btn btn--primary btn--sm">
-                                    Berikutnya →
+                                    <i class="bi bi-arrow-right" aria-hidden="true"></i> Berikutnya
                                 </a>
                             <?php else: ?>
                                 <button type="button" class="btn btn--primary btn--sm" disabled style="opacity:.4;cursor:not-allowed;">
-                                    Berikutnya →
+                                    <i class="bi bi-arrow-right" aria-hidden="true"></i> Berikutnya
                                 </button>
                             <?php endif; ?>
                         </div>

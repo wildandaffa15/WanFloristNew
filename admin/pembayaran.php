@@ -244,17 +244,7 @@ $css_extra   = '/assets/css/admin.css';
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
     <main class="admin-main">
-        <header class="admin-header">
-            <h1 class="admin-header__title">Pencatatan Pembayaran</h1>
-            <div class="admin-header__actions">
-                <span style="font-size:0.875rem;color:#6B7280;">
-                    Halo, <?= e($_SESSION['username'] ?? 'Admin') ?>
-                </span>
-            </div>
-        </header>
-
         <div class="admin-content">
-
             <div class="page-header">
                 <div>
                     <h2 class="page-header__title">Pencatatan Pembayaran</h2>
@@ -269,7 +259,7 @@ $css_extra   = '/assets/css/admin.css';
                     background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;
                     border-radius:9999px;padding:0.75rem 1.25rem;margin-bottom:1.25rem;
                     font-family:'Inter',sans-serif;font-size:0.9rem;">
-                ✅ <?= e($success_msg) ?>
+                <i class="bi bi-check-lg" aria-hidden="true"></i> <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
 
@@ -278,7 +268,7 @@ $css_extra   = '/assets/css/admin.css';
                     background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;
                     border-radius:9999px;padding:0.75rem 1.25rem;margin-bottom:1.25rem;
                     font-family:'Inter',sans-serif;font-size:0.9rem;">
-                ⚠️ <?= e($errors['csrf'] ?? $errors['db'] ?? '') ?>
+                <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> <?= e($errors['csrf'] ?? $errors['db'] ?? '') ?>
             </div>
             <?php endif; ?>
 
@@ -292,7 +282,7 @@ $css_extra   = '/assets/css/admin.css';
                             </div>
                             <div class="stat-card__label">Total DP Bulan Ini</div>
                         </div>
-                        <span class="stat-card__icon" aria-hidden="true">💵</span>
+                        <span class="stat-card__icon" aria-hidden="true"><i class="bi bi-cash-stack"></i></span>
                     </div>
                     <div class="stat-card__change">Bulan berjalan</div>
                 </div>
@@ -305,7 +295,7 @@ $css_extra   = '/assets/css/admin.css';
                             </div>
                             <div class="stat-card__label">Total Lunas Bulan Ini</div>
                         </div>
-                        <span class="stat-card__icon" aria-hidden="true">💳</span>
+                        <span class="stat-card__icon" aria-hidden="true"><i class="bi bi-credit-card"></i></span>
                     </div>
                     <div class="stat-card__change">Bulan berjalan</div>
                 </div>
@@ -318,7 +308,7 @@ $css_extra   = '/assets/css/admin.css';
                             </div>
                             <div class="stat-card__label">Menunggu Pembayaran</div>
                         </div>
-                        <span class="stat-card__icon" aria-hidden="true">⏳</span>
+                        <span class="stat-card__icon" aria-hidden="true"><i class="bi bi-hourglass-split"></i></span>
                     </div>
                     <div class="stat-card__change">Pesanan belum dikonfirmasi</div>
                 </div>
@@ -381,7 +371,7 @@ $css_extra   = '/assets/css/admin.css';
                                 <tr>
                                     <td colspan="5">
                                         <div class="admin-empty">
-                                            <div class="admin-empty__icon" aria-hidden="true">🎉</div>
+                                            <div class="admin-empty__icon" aria-hidden="true"><i class="bi bi-emoji-smile"></i></div>
                                             <div class="admin-empty__title">Tidak ada pesanan menunggu DP</div>
                                             <div class="admin-empty__message">
                                                 Semua pesanan transfer sudah memiliki DP yang tercatat.
@@ -426,7 +416,7 @@ $css_extra   = '/assets/css/admin.css';
 
                 <div class="admin-card">
                     <div class="admin-card__header">
-                        <span class="admin-card__title">💵 Catat Down Payment (DP)</span>
+                        <span class="admin-card__title"><i class="bi bi-cash-stack" aria-hidden="true"></i> Catat Down Payment (DP)</span>
                     </div>
                     <div class="admin-card__body">
 
@@ -530,8 +520,8 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <div>
                                     <button type="submit" class="btn btn-primary">
-                                        💾 Catat DP
-                                    </button>
+                                                    <i class="bi bi-save" aria-hidden="true"></i> Catat DP
+                                                </button>
                                 </div>
 
                             </div>
@@ -571,7 +561,7 @@ $css_extra   = '/assets/css/admin.css';
                                 <tr>
                                     <td colspan="6">
                                         <div class="admin-empty">
-                                            <div class="admin-empty__icon" aria-hidden="true">🎉</div>
+                                            <div class="admin-empty__icon" aria-hidden="true"><i class="bi bi-emoji-smile"></i></div>
                                             <div class="admin-empty__title">Tidak ada pesanan menunggu pelunasan</div>
                                             <div class="admin-empty__message">
                                                 Semua pesanan yang diproses sudah lunas.
@@ -623,7 +613,7 @@ $css_extra   = '/assets/css/admin.css';
 
                 <div class="admin-card">
                     <div class="admin-card__header">
-                        <span class="admin-card__title">✅ Catat Pembayaran Lunas</span>
+                        <span class="admin-card__title"><i class="bi bi-check-lg" aria-hidden="true"></i> Catat Pembayaran Lunas</span>
                     </div>
                     <div class="admin-card__body">
 
@@ -739,7 +729,7 @@ $css_extra   = '/assets/css/admin.css';
 
                                 <div>
                                     <button type="submit" class="btn btn-primary">
-                                        ✅ Catat Pelunasan
+                                        <i class="bi bi-check-lg" aria-hidden="true"></i> Catat Pelunasan
                                     </button>
                                 </div>
 

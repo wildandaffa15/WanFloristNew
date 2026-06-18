@@ -182,16 +182,16 @@ $css_extra   = '/assets/css/admin.css';
 
             <div class="page-header">
                 <div>
-                    <h1 class="page-header__title">📈 Laporan</h1>
+                    <h1 class="page-header__title"> Laporan</h1>
                     <p class="page-header__subtitle">Ringkasan keuangan &amp; operasional toko</p>
                 </div>
                 <div class="page-header__actions">
                     <button id="btn-cetak" type="button" class="btn btn--outline" title="Cetak laporan ini">
-                        🖨️ Cetak PDF
+                        <i class="bi bi-printer" aria-hidden="true"></i> Cetak PDF
                     </button>
                     <a href="?tab=<?= e($active_tab) ?>&amp;dari=<?= e($dari) ?>&amp;sampai=<?= e($sampai) ?>&amp;export=csv"
                        class="btn btn--secondary">
-                        ⬇️ Ekspor CSV
+                        <i class="bi bi-download" aria-hidden="true"></i> Ekspor CSV
                     </a>
                 </div>
             </div>
@@ -227,25 +227,25 @@ $css_extra   = '/assets/css/admin.css';
                         data-tab="ringkasan" role="tab"
                         aria-selected="<?= $active_tab === 'ringkasan' ? 'true' : 'false' ?>"
                         aria-controls="panel-ringkasan">
-                    💰 Ringkasan Keuangan
+                    <i class="bi bi-cash-stack" aria-hidden="true"></i> Ringkasan Keuangan
                 </button>
                 <button type="button" class="tab-btn<?= $active_tab === 'pesanan' ? ' tab-btn--active' : '' ?>"
                         data-tab="pesanan" role="tab"
                         aria-selected="<?= $active_tab === 'pesanan' ? 'true' : 'false' ?>"
                         aria-controls="panel-pesanan">
-                    📦 Laporan Pesanan
+                    <i class="bi bi-box-seam" aria-hidden="true"></i> Laporan Pesanan
                 </button>
                 <button type="button" class="tab-btn<?= $active_tab === 'produk' ? ' tab-btn--active' : '' ?>"
                         data-tab="produk" role="tab"
                         aria-selected="<?= $active_tab === 'produk' ? 'true' : 'false' ?>"
                         aria-controls="panel-produk">
-                    🌸 Laporan Produk
+                    <i class="bi bi-flower1" aria-hidden="true"></i> Laporan Produk
                 </button>
                 <button type="button" class="tab-btn<?= $active_tab === 'stok' ? ' tab-btn--active' : '' ?>"
                         data-tab="stok" role="tab"
                         aria-selected="<?= $active_tab === 'stok' ? 'true' : 'false' ?>"
                         aria-controls="panel-stok">
-                    🌿 Laporan Stok
+                    <i class="bi bi-tree-fill" aria-hidden="true"></i> Laporan Stok
                 </button>
             </div>
 
@@ -265,7 +265,7 @@ $css_extra   = '/assets/css/admin.css';
                 <div class="stat-cards" style="grid-template-columns:repeat(3,1fr);">
                     <div class="stat-card stat-card--success">
                         <div class="stat-card__header">
-                            <span class="stat-card__icon">💵</span>
+                            <span class="stat-card__icon"><i class="bi bi-cash-stack"></i></span>
                         </div>
                         <div class="stat-card__value" style="font-size:1.35rem;">
                             <?= e(format_rupiah($total_pemasukan)) ?>
@@ -276,7 +276,7 @@ $css_extra   = '/assets/css/admin.css';
 
                     <div class="stat-card stat-card--danger">
                         <div class="stat-card__header">
-                            <span class="stat-card__icon">💸</span>
+                            <span class="stat-card__icon"><i class="bi bi-wallet2"></i></span>
                         </div>
                         <div class="stat-card__value" style="font-size:1.35rem;">
                             <?= e(format_rupiah($total_pengeluaran)) ?>
@@ -287,7 +287,7 @@ $css_extra   = '/assets/css/admin.css';
 
                     <div class="stat-card <?= $laba_bersih >= 0 ? 'stat-card--success' : 'stat-card--danger' ?>">
                         <div class="stat-card__header">
-                            <span class="stat-card__icon"><?= $laba_bersih >= 0 ? '📈' : '📉' ?></span>
+                            <span class="stat-card__icon"><?= $laba_bersih >= 0 ? '<i class="bi bi-graph-up"></i>' : '<i class="bi bi-graph-down"></i>' ?></span>
                         </div>
                         <div class="stat-card__value" style="font-size:1.35rem;color:<?= $laba_bersih >= 0 ? '#16A34A' : '#DC2626' ?>;">
                             <?= e(format_rupiah((int) abs($laba_bersih))) ?>
@@ -308,7 +308,7 @@ $css_extra   = '/assets/css/admin.css';
                 <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card stat-card--info">
                         <div class="stat-card__header">
-                            <span class="stat-card__icon">📦</span>
+                            <span class="stat-card__icon"><i class="bi bi-box-seam"></i></span>
                         </div>
                         <div class="stat-card__value"><?= e((string)$total_pesanan) ?></div>
                         <div class="stat-card__label">Total Pesanan pada periode ini</div>
@@ -422,12 +422,12 @@ $css_extra   = '/assets/css/admin.css';
 
                 <div class="stat-cards" style="grid-template-columns:repeat(2,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card stat-card--success">
-                        <div class="stat-card__header"><span class="stat-card__icon">✅</span></div>
+                        <div class="stat-card__header"><span class="stat-card__icon"><i class="bi bi-check-lg"></i></span></div>
                         <div class="stat-card__value"><?= e((string)$total_produk_aktif) ?></div>
                         <div class="stat-card__label">Produk Aktif (Tersedia)</div>
                     </div>
                     <div class="stat-card stat-card--warning">
-                        <div class="stat-card__header"><span class="stat-card__icon">⛔</span></div>
+                        <div class="stat-card__header"><span class="stat-card__icon"><i class="bi bi-slash-circle"></i></span></div>
                         <div class="stat-card__value"><?= e((string)$total_produk_nonaktif) ?></div>
                         <div class="stat-card__label">Produk Nonaktif</div>
                     </div>
@@ -487,7 +487,7 @@ $css_extra   = '/assets/css/admin.css';
                 <div class="stat-cards" style="grid-template-columns:repeat(1,1fr);margin-bottom:1.5rem;">
                     <div class="stat-card <?= $total_stok_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                         <div class="stat-card__header">
-                            <span class="stat-card__icon"><?= $total_stok_kritis > 0 ? '⚠️' : '✅' ?></span>
+                            <span class="stat-card__icon"><?= $total_stok_kritis > 0 ? '<i class="bi bi-exclamation-triangle-fill"></i>' : '<i class="bi bi-check-lg"></i>' ?></span>
                         </div>
                         <div class="stat-card__value"><?= e((string)$total_stok_kritis) ?></div>
                         <div class="stat-card__label">Bahan dengan Stok Kritis</div>

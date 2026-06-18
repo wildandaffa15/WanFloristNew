@@ -165,7 +165,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                 <?php if (!empty($errors['_global'])): ?>
                 <div class="alert alert-danger pem-global-error" role="alert">
-                    <span>⚠️</span>
+                    <span><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i></span>
                     <span><?= e($errors['_global']) ?></span>
                 </div>
                 <?php endif; ?>
@@ -180,7 +180,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <div class="pem-section">
                         <h2 class="pem-section-title">
-                            <span class="pem-section-icon" aria-hidden="true">👤</span>
+                            <span class="pem-section-icon" aria-hidden="true"><i class="bi bi-person"></i></span>
                             Data Pemesan
                         </h2>
 
@@ -233,7 +233,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <div class="pem-section">
                         <h2 class="pem-section-title">
-                            <span class="pem-section-icon" aria-hidden="true">📅</span>
+                            <span class="pem-section-icon" aria-hidden="true"><i class="bi bi-calendar"></i></span>
                             Jadwal &amp; Pembayaran
                         </h2>
 
@@ -272,7 +272,7 @@ $css_extra   = '/assets/css/pemesanan.css';
                                                 class="pem-radio-input"
                                             >
                                             <span class="pem-radio-label">
-                                                <span class="pem-radio-title">🏪 Ambil Sendiri</span>
+                                                <span class="pem-radio-title"><i class="bi bi-shop" aria-hidden="true"></i> Ambil Sendiri</span>
                                                 <span class="pem-radio-desc">Ambil langsung di toko</span>
                                             </span>
                                         </label>
@@ -285,7 +285,7 @@ $css_extra   = '/assets/css/pemesanan.css';
                                                 class="pem-radio-input"
                                             >
                                             <span class="pem-radio-label">
-                                                <span class="pem-radio-title">🛵 COD</span>
+                                                <span class="pem-radio-title"><i class="bi bi-truck" aria-hidden="true"></i> COD</span>
                                                 <span class="pem-radio-desc">Diantar ke lokasi</span>
                                             </span>
                                         </label>
@@ -299,7 +299,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <div class="pem-section">
                         <h2 class="pem-section-title">
-                            <span class="pem-section-icon" aria-hidden="true">🌸</span>
+                            <span class="pem-section-icon" aria-hidden="true"><i class="bi bi-flower1"></i></span>
                             Pilihan Produk
                         </h2>
 
@@ -376,19 +376,19 @@ $css_extra   = '/assets/css/pemesanan.css';
                                         class="btn-hapus-produk pem-btn-hapus"
                                         aria-label="Hapus baris produk ini"
                                         title="Hapus"
-                                    >✕</button>
+                                    ><i class="bi bi-x" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                             <?php endforeach; ?>
 
                         </div>
 
-                        <button
+                            <button
                             type="button"
                             id="btn-tambah-produk"
                             class="btn btn-secondary btn-sm pem-btn-tambah"
                         >
-                            + Tambah Produk
+                            <i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Produk
                         </button>
 
                         <template id="produk-row-template">
@@ -432,7 +432,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <div class="pem-section">
                         <h2 class="pem-section-title">
-                            <span class="pem-section-icon" aria-hidden="true">📝</span>
+                            <span class="pem-section-icon" aria-hidden="true"><i class="bi bi-file-earmark-text"></i></span>
                             Catatan Tambahan
                         </h2>
                         <div class="form-group">
@@ -450,7 +450,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <div class="pem-submit-wrap">
                         <button type="submit" class="btn btn-primary btn-lg btn-block">
-                            🌸 Buat Pesanan
+                            <i class="bi bi-flower1" aria-hidden="true"></i> Buat Pesanan
                         </button>
                     </div>
 
@@ -475,7 +475,7 @@ $css_extra   = '/assets/css/pemesanan.css';
 
                     <!-- Info box: shown by JS when metode = cod -->
                     <div id="pem-dp-info" class="alert alert-info pem-dp-info" style="display:none;" role="status">
-                        <span>ℹ️</span>
+                        <span><i class="bi bi-info-circle" aria-hidden="true"></i></span>
                         <div>
                             <strong>Informasi COD</strong><br>
                             Pesanan dengan metode COD akan diantar ke lokasi Anda. Pastikan nomor HP dan catatan alamat (jika ada) sudah benar.

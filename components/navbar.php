@@ -46,7 +46,7 @@ $nav_link_class = function (string $page) use ($active_page): string {
             <a href="<?= e(dirname($_SERVER['SCRIPT_NAME']) === '/' ? '/' : rtrim(str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']), '/') . '/') ?>index.php"
                class="wf-navbar__logo"
                aria-label="WanFlorist — Halaman Beranda">
-                🌸 WanFlorist
+                <i class="bi bi-flower1" aria-hidden="true"></i> WanFlorist
             </a>
 
             <ul class="wf-navbar__links" role="list">

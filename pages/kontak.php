@@ -33,7 +33,7 @@ $css_extra   = '/assets/css/public.css';
                 text-transform:uppercase;
                 color:rgba(255,255,255,0.65);
                 margin-bottom:0.75rem;
-            ">📱 Hubungi Kami</p>
+            "><i class="bi bi-whatsapp" aria-hidden="true"></i> Hubungi Kami</p>
             <h1 class="hero__title" style="font-size:clamp(2rem,5vw,2.75rem);">
                 Kami Senang Mendengar<br>dari Anda
             </h1>
@@ -108,7 +108,7 @@ $css_extra   = '/assets/css/public.css';
                             display:flex;align-items:center;justify-content:center;
                             font-size:1.5rem;
                             flex-shrink:0;
-                        " aria-hidden="true">📱</div>
+                        " aria-hidden="true"><i class="bi bi-whatsapp"></i></div>
                         <div>
                             <p style="
                                 font-family:'Inter',sans-serif;
@@ -133,7 +133,7 @@ $css_extra   = '/assets/css/public.css';
                                 margin:0;
                             ">Klik untuk chat langsung</p>
                         </div>
-                        <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true">→</span>
+                        <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
                     </a>
 
                     <a href="https://instagram.com/wanflorist.id"
@@ -159,7 +159,7 @@ $css_extra   = '/assets/css/public.css';
                             display:flex;align-items:center;justify-content:center;
                             font-size:1.5rem;
                             flex-shrink:0;
-                        " aria-hidden="true">📸</div>
+                        " aria-hidden="true"><i class="bi bi-instagram"></i></div>
                         <div>
                             <p style="
                                 font-family:'Inter',sans-serif;
@@ -184,7 +184,7 @@ $css_extra   = '/assets/css/public.css';
                                 margin:0;
                             ">Lihat koleksi terbaru kami</p>
                         </div>
-                        <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true">→</span>
+                        <span style="margin-left:auto;color:#9CA3AF;font-size:1.25rem;" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
                     </a>
 
                     <div style="
@@ -204,7 +204,7 @@ $css_extra   = '/assets/css/public.css';
                             display:flex;align-items:center;justify-content:center;
                             font-size:1.5rem;
                             flex-shrink:0;
-                        " aria-hidden="true">📍</div>
+                        " aria-hidden="true"><i class="bi bi-geo-alt"></i></div>
                         <div>
                             <p style="
                                 font-family:'Inter',sans-serif;
@@ -363,10 +363,10 @@ $css_extra   = '/assets/css/public.css';
             </p>
             <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
                 <a href="/pages/katalog.php" class="hero__btn">
-                    🌸 Lihat Katalog
+                    <i class="bi bi-flower1" aria-hidden="true"></i> Lihat Katalog
                 </a>
                 <a href="/pages/pemesanan.php" class="hero__btn hero__btn--outline">
-                    📋 Pesan Sekarang
+                    <i class="bi bi-card-list" aria-hidden="true"></i> Pesan Sekarang
                 </a>
             </div>
         </div>

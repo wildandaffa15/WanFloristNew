@@ -283,15 +283,17 @@ $css_extra   = '/assets/css/admin.css';
                     <p class="page-header__subtitle">Kelola katalog bunga, harga, dan status produk.</p>
                 </div>
                 <div class="page-header__actions">
-                    <button
-                        type="button"
-                        id="btn-show-tambah"
-                        class="btn btn--primary"
-                        aria-expanded="false"
-                        aria-controls="panel-tambah"
-                    >
-                        + Tambah Produk
-                    </button>
+                    <div class="admin-card" style="margin-bottom:0;padding:0.875rem 1.25rem;display:flex;align-items:center;justify-content:flex-end;">
+                        <button
+                            type="button"
+                            id="btn-show-tambah"
+                            class="btn btn--primary"
+                            aria-expanded="false"
+                            aria-controls="panel-tambah"
+                        >
+                            <i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Produk
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -301,7 +303,7 @@ $css_extra   = '/assets/css/admin.css';
                 border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;
                 font-family:'Inter',sans-serif;font-size:.9rem;display:flex;
                 align-items:center;gap:8px;">
-                <span aria-hidden="true">✅</span>
+                <span aria-hidden="true"><i class="bi bi-check-lg"></i></span>
                 <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
@@ -311,7 +313,7 @@ $css_extra   = '/assets/css/admin.css';
                 background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;
                 border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;
                 font-family:'Inter',sans-serif;font-size:.9rem;">
-                <strong>⚠️ Terjadi kesalahan:</strong>
+                <strong><i class="bi bi-exclamation-triangle-fill"></i> Terjadi kesalahan:</strong>
                 <ul style="margin:8px 0 0 16px;padding:0;">
                     <?php foreach ($errors as $err): ?>
                     <li><?= e($err) ?></li>
@@ -322,8 +324,8 @@ $css_extra   = '/assets/css/admin.css';
 
             <div id="panel-tambah" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
                 <div class="admin-card__header">
-                    <h2 class="admin-card__title">➕ Tambah Produk Baru</h2>
-                    <button type="button" id="btn-tutup-tambah" class="btn btn--ghost btn--sm" aria-label="Tutup form tambah">✕ Tutup</button>
+                    <h2 class="admin-card__title"><i class="bi bi-plus-lg"></i> Tambah Produk Baru</h2>
+                    <button type="button" id="btn-tutup-tambah" class="btn btn--ghost btn--sm" aria-label="Tutup form tambah"><i class="bi bi-x"></i> Tutup</button>
                 </div>
                 <div class="admin-card__body">
                     <form
@@ -428,8 +430,8 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
 
                         <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-                            <button type="submit" class="btn btn--primary">💾 Simpan Produk</button>
-                            <button type="reset"  class="btn btn--ghost">🔄 Reset</button>
+                            <button type="submit" class="btn btn--primary"><i class="bi bi-save"></i> Simpan Produk</button>
+                                <button type="reset"  class="btn btn--ghost"><i class="bi bi-arrow-repeat"></i> Reset</button>
                         </div>
                     </form>
                 </div>
@@ -437,8 +439,8 @@ $css_extra   = '/assets/css/admin.css';
 
             <div id="panel-edit" class="admin-card" style="display:none;margin-bottom:1.5rem;" aria-hidden="true">
                 <div class="admin-card__header">
-                    <h2 class="admin-card__title">✏️ Edit Produk</h2>
-                    <button type="button" id="btn-tutup-edit" class="btn btn--ghost btn--sm" aria-label="Tutup form edit">✕ Tutup</button>
+                    <h2 class="admin-card__title"><i class="bi bi-pencil"></i> Edit Produk</h2>
+                    <button type="button" id="btn-tutup-edit" class="btn btn--ghost btn--sm" aria-label="Tutup form edit"><i class="bi bi-x"></i> Tutup</button>
                 </div>
                 <div class="admin-card__body">
                     <form
@@ -535,7 +537,7 @@ $css_extra   = '/assets/css/admin.css';
                         </div>
 
                         <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-                            <button type="submit" class="btn btn--primary">💾 Perbarui Produk</button>
+                            <button type="submit" class="btn btn--primary"><i class="bi bi-save"></i> Perbarui Produk</button>
                             <button type="button" id="btn-tutup-edit-2" class="btn btn--ghost">Batal</button>
                         </div>
                     </form>
@@ -544,12 +546,12 @@ $css_extra   = '/assets/css/admin.css';
 
             <div class="admin-card">
                 <div class="admin-card__header">
-                    <h2 class="admin-card__title">📦 Daftar Produk (<?= count($produkList) ?> produk)</h2>
+                    <h2 class="admin-card__title"><i class="bi bi-box-seam"></i> Daftar Produk (<?= count($produkList) ?> produk)</h2>
                 </div>
                 <div class="table-responsive">
                     <?php if (empty($produkList)): ?>
                     <div class="admin-empty">
-                        <div class="admin-empty__icon">🌸</div>
+                        <div class="admin-empty__icon"><i class="bi bi-flower1"></i></div>
                         <p class="admin-empty__title">Belum ada produk</p>
                         <p class="admin-empty__message">Klik "Tambah Produk" untuk menambahkan produk pertama Anda.</p>
                     </div>
@@ -603,12 +605,12 @@ $css_extra   = '/assets/css/admin.css';
                                 </td>
 
                                 <td style="text-align:center;">
-                                    <?= $p['is_featured'] ? '⭐' : '—' ?>
+                                    <?= $p['is_featured'] ? '<i class="bi bi-star-fill" aria-hidden="true"></i>' : '—' ?>
                                 </td>
 
                                 <td>
                                     <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
-                                        <button
+                                            <button
                                             type="button"
                                             class="btn btn--ghost btn--sm btn-edit-produk"
                                             data-id="<?= e((string) $p['id_produk']) ?>"
@@ -620,8 +622,8 @@ $css_extra   = '/assets/css/admin.css';
                                             data-featured="<?= e((string) $p['is_featured']) ?>"
                                             data-foto="<?= e($p['foto'] ?? '') ?>"
                                             aria-label="Edit produk <?= e($p['nama_produk']) ?>"
-                                        >
-                                            ✏️ Edit
+                                            >
+                                            <i class="bi bi-pencil" aria-hidden="true"></i> Edit
                                         </button>
 
                                         <form method="POST" action="/admin/produk.php" style="margin:0;">
@@ -629,12 +631,12 @@ $css_extra   = '/assets/css/admin.css';
                                             <input type="hidden" name="csrf_token"     value="<?= e($csrf_token) ?>">
                                             <input type="hidden" name="id_produk"      value="<?= e((string) $p['id_produk']) ?>">
                                             <input type="hidden" name="current_status" value="<?= e($p['status']) ?>">
-                                            <button
+                                                <button
                                                 type="submit"
                                                 class="btn btn--sm <?= $p['status'] === 'tersedia' ? 'btn--danger-ghost' : 'btn--success-ghost' ?>"
                                                 aria-label="<?= $p['status'] === 'tersedia' ? 'Nonaktifkan' : 'Aktifkan' ?> produk <?= e($p['nama_produk']) ?>"
                                             >
-                                                <?= $p['status'] === 'tersedia' ? '🚫 Nonaktifkan' : '✅ Aktifkan' ?>
+                                                <?= $p['status'] === 'tersedia' ? '<i class="bi bi-x-circle" aria-hidden="true"></i> Nonaktifkan' : '<i class="bi bi-check-lg" aria-hidden="true"></i> Aktifkan' ?>
                                             </button>
                                         </form>
                                     </div>

@@ -77,10 +77,10 @@ if ($no_input !== '') {
 // Status DB: menunggu_konfirmasi | diproses | selesai | dibatalkan
 // Stepper stages (index 0–3): Pesanan Diterima, Diproses, Siap Kirim, Selesai
 $stepper_stages = [
-    ['label' => 'Pesanan Diterima', 'icon' => '✅', 'status_trigger' => 'menunggu_konfirmasi'],
-    ['label' => 'Diproses',         'icon' => '🌸', 'status_trigger' => 'diproses'],
-    ['label' => 'Siap Kirim',       'icon' => '🚚', 'status_trigger' => 'siap_kirim'],   // virtual
-    ['label' => 'Selesai',          'icon' => '🎉', 'status_trigger' => 'selesai'],
+    ['label' => 'Pesanan Diterima', 'icon' => 'bi bi-check-lg', 'status_trigger' => 'menunggu_konfirmasi'],
+    ['label' => 'Diproses',         'icon' => 'bi bi-flower1',   'status_trigger' => 'diproses'],
+    ['label' => 'Siap Kirim',       'icon' => 'bi bi-truck',     'status_trigger' => 'siap_kirim'],   // virtual
+    ['label' => 'Selesai',          'icon' => 'bi bi-flag',      'status_trigger' => 'selesai'],
 ];
 
 $status_to_step = [
@@ -161,7 +161,7 @@ $css_extra   = '/assets/css/public.css';
                     </label>
                     <div class="cp-search-row">
                         <div class="cp-input-icon-wrap">
-                            <span class="cp-input-icon" aria-hidden="true">🧾</span>
+                            <span class="cp-input-icon" aria-hidden="true"><i class="bi bi-receipt"></i></span>
                             <input
                                 type="text"
                                 id="no_pesanan"
@@ -176,7 +176,7 @@ $css_extra   = '/assets/css/public.css';
                             >
                         </div>
                         <button type="submit" class="btn btn-primary cp-search-btn">
-                            🔍 Cek Sekarang
+                            <i class="bi bi-search" aria-hidden="true"></i> Cek Sekarang
                         </button>
                     </div>
                 </div>
@@ -186,8 +186,8 @@ $css_extra   = '/assets/css/public.css';
 
         <?php if ($no_input !== '' && $not_found): ?>
         <section class="cp-result" aria-live="polite">
-            <div class="empty-state">
-                <div class="empty-state__icon" aria-hidden="true">🔍</div>
+                <div class="empty-state">
+                <div class="empty-state__icon" aria-hidden="true"><i class="bi bi-search"></i></div>
                 <h2 class="empty-state__title">Pesanan Tidak Ditemukan</h2>
                 <p class="empty-state__message">
                     Nomor pesanan tidak ditemukan. Periksa kembali nomor pesanan Anda.
@@ -237,7 +237,7 @@ $css_extra   = '/assets/css/public.css';
                                 <?php if ($state === 'done'): ?>
                                 ✓
                                 <?php elseif ($state === 'active'): ?>
-                                <?= e($stage['icon']) ?>
+                                <i class="<?= e($stage['icon']) ?>" aria-hidden="true"></i>
                                 <?php else: ?>
                                 <?= $idx + 1 ?>
                                 <?php endif; ?>
@@ -259,7 +259,7 @@ $css_extra   = '/assets/css/public.css';
                     $status_messages = [
                         'menunggu_konfirmasi' => 'Pesanan Anda telah masuk dan sedang menunggu konfirmasi dari toko.',
                         'diproses'            => 'Pesanan Anda sedang dirangkai oleh florist kami dengan penuh kasih.',
-                        'selesai'             => 'Pesanan Anda telah selesai dan siap diterima. Terima kasih sudah berbelanja! 🌸',
+                        'selesai'             => 'Pesanan Anda telah selesai dan siap diterima. Terima kasih sudah berbelanja!',
                     ];
                     $status_msg = $status_messages[$pesanan['status']] ?? '';
                     ?>
@@ -271,7 +271,7 @@ $css_extra   = '/assets/css/public.css';
 
                 <?php else: ?>
                 <div class="cp-cancelled-banner" role="alert">
-                    <div class="cp-cancelled-banner__icon" aria-hidden="true">❌</div>
+                    <div class="cp-cancelled-banner__icon" aria-hidden="true"><i class="bi bi-x-circle"></i></div>
                     <div>
                         <h3 class="cp-cancelled-banner__title">Pesanan Dibatalkan</h3>
                         <p class="cp-cancelled-banner__msg">
@@ -285,7 +285,7 @@ $css_extra   = '/assets/css/public.css';
 
                     <div class="cp-details-col">
                         <h3 class="cp-section-heading">
-                            <span aria-hidden="true">🛍️</span> Detail Produk
+                            <span aria-hidden="true"><i class="bi bi-bag"></i></span> Detail Produk
                         </h3>
 
                         <?php if (empty($details)): ?>
@@ -323,7 +323,7 @@ $css_extra   = '/assets/css/public.css';
                     <div class="cp-details-col">
 
                         <h3 class="cp-section-heading">
-                            <span aria-hidden="true">📋</span> Informasi Pesanan
+                            <span aria-hidden="true"><i class="bi bi-card-text"></i></span> Informasi Pesanan
                         </h3>
 
                         <div class="cp-info-card">
@@ -357,7 +357,7 @@ $css_extra   = '/assets/css/public.css';
                         </div>
 
                         <h3 class="cp-section-heading cp-section-heading--mt">
-                            <span aria-hidden="true">💳</span> Informasi Pembayaran
+                            <span aria-hidden="true"><i class="bi bi-credit-card"></i></span> Informasi Pembayaran
                         </h3>
 
                         <div class="cp-info-card">
@@ -366,7 +366,7 @@ $css_extra   = '/assets/css/public.css';
                                 <span class="cp-info-label">Down Payment (DP)</span>
                                 <?php if ($dp_row): ?>
                                 <span class="cp-info-value cp-payment-paid">
-                                    ✅ Sudah Dibayar
+                                    <i class="bi bi-check-lg" aria-hidden="true"></i> Sudah Dibayar
                                     <span class="cp-payment-sub">
                                         <?= format_rupiah((int) $dp_row['jumlah_dp']) ?>
                                     </span>
@@ -382,7 +382,7 @@ $css_extra   = '/assets/css/public.css';
                                 <span class="cp-info-label">Pelunasan</span>
                                 <?php if ($lunas_row): ?>
                                 <span class="cp-info-value cp-payment-paid">
-                                    ✅ Sudah Lunas
+                                    <i class="bi bi-check-lg" aria-hidden="true"></i> Sudah Lunas
                                     <span class="cp-payment-sub">
                                         <?= format_rupiah((int) $lunas_row['jumlah_lunas']) ?>
                                     </span>
@@ -411,7 +411,7 @@ $css_extra   = '/assets/css/public.css';
 
                         <?php if ($pesanan['metode_pengambilan'] === 'ambil_sendiri' && !$lunas_row): ?>
                         <div class="alert alert-info cp-dp-reminder" role="status">
-                            <span aria-hidden="true">ℹ️</span>
+                            <span aria-hidden="true"><i class="bi bi-info-circle"></i></span>
                             <div>
                                 <strong>Informasi Pembayaran</strong><br>
                                 Silakan lakukan pembayaran
@@ -433,7 +433,7 @@ $css_extra   = '/assets/css/public.css';
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        📱 Hubungi via WhatsApp
+                        <i class="bi bi-whatsapp" aria-hidden="true"></i> Hubungi via WhatsApp
                     </a>
                 </div>
 
@@ -444,7 +444,7 @@ $css_extra   = '/assets/css/public.css';
         <?php elseif ($no_input === ''): ?>
         <section class="cp-initial-hint">
             <div class="empty-state">
-                <div class="empty-state__icon" aria-hidden="true">📦</div>
+                <div class="empty-state__icon" aria-hidden="true"><i class="bi bi-box-seam"></i></div>
                 <p class="empty-state__message">
                     Masukkan nomor pesanan di atas, lalu klik <strong>Cek Sekarang</strong> untuk melihat status pesanan Anda.
                 </p>

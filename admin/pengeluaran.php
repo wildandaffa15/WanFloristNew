@@ -117,18 +117,7 @@ $css_extra   = '/assets/css/admin.css';
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
     <main class="admin-main">
-
-        <div class="admin-header">
-            <h1 class="admin-header__title">Pengeluaran</h1>
-            <div class="admin-header__actions">
-                <span style="font-size:0.85rem;color:#6B7280;">
-                    Halo, <?= e($_SESSION['username'] ?? 'Admin') ?>
-                </span>
-            </div>
-        </div>
-
         <div class="admin-content">
-
             <div class="page-header">
                 <div>
                     <h2 class="page-header__title">Pencatatan Pengeluaran</h2>
@@ -145,19 +134,19 @@ $css_extra   = '/assets/css/admin.css';
                             </div>
                             <div class="stat-card__label">Total Pengeluaran Bulan Ini</div>
                         </div>
-                        <span class="stat-card__icon" aria-hidden="true">💸</span>
+                        <span class="stat-card__icon" aria-hidden="true"><i class="bi bi-wallet2"></i></span>
                     </div>
                 </div>
             </div>
 
             <?php if ($success_msg !== ''): ?>
-            <div
+                <div
                 role="alert"
                 style="background:#D1FAE5;border:1px solid #6EE7B7;color:#065F46;
                        border-radius:10px;padding:0.875rem 1.25rem;margin-bottom:1.25rem;
                        font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;"
             >
-                <span aria-hidden="true">✅</span>
+                <span aria-hidden="true"><i class="bi bi-check-lg"></i></span>
                 <?= e($success_msg) ?>
             </div>
             <?php endif; ?>
@@ -182,7 +171,7 @@ $css_extra   = '/assets/css/admin.css';
 
                 <div class="admin-card" style="position:sticky;top:80px;">
                     <div class="admin-card__header">
-                        <h3 class="admin-card__title">➕ Tambah Pengeluaran</h3>
+                        <h3 class="admin-card__title"><i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Pengeluaran</h3>
                     </div>
                     <div class="admin-card__body">
                         <form method="POST" action="/admin/pengeluaran.php" novalidate>
@@ -281,7 +270,7 @@ $css_extra   = '/assets/css/admin.css';
 
                     <div class="admin-card" style="margin-bottom:1.25rem;">
                         <div class="admin-card__header">
-                            <h3 class="admin-card__title">🔍 Filter Tanggal</h3>
+                            <h3 class="admin-card__title"><i class="bi bi-search"></i> Filter Tanggal</h3>
                         </div>
                         <div class="admin-card__body" style="padding-top:1rem;">
                             <form method="GET" action="/admin/pengeluaran.php">
@@ -359,7 +348,7 @@ $css_extra   = '/assets/css/admin.css';
                     <div class="admin-card">
                         <div class="admin-card__header">
                             <h3 class="admin-card__title">
-                                📋 Daftar Pengeluaran
+                                <i class="bi bi-card-list"></i> Daftar Pengeluaran
                                 <?php if ($dari !== '' || $sampai !== ''): ?>
                                     <span style="font-size:0.8rem;font-weight:400;color:#6B7280;margin-left:0.5rem;">
                                         (<?php
@@ -375,7 +364,7 @@ $css_extra   = '/assets/css/admin.css';
 
                         <?php if (empty($list)): ?>
                         <div class="admin-empty">
-                            <div class="admin-empty__icon" aria-hidden="true">💸</div>
+                            <div class="admin-empty__icon" aria-hidden="true"><i class="bi bi-wallet2"></i></div>
                             <div class="admin-empty__title">Belum ada data pengeluaran</div>
                             <div class="admin-empty__message">
                                 <?php if ($dari !== '' || $sampai !== ''): ?>

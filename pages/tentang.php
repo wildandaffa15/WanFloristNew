@@ -33,7 +33,7 @@ $css_extra   = '/assets/css/public.css';
                 text-transform:uppercase;
                 color:rgba(255,255,255,0.65);
                 margin-bottom:0.75rem;
-            ">🌸 Kisah Kami</p>
+            "><i class="bi bi-flower1" aria-hidden="true"></i> Kisah Kami</p>
             <h1 class="hero__title" style="font-size:clamp(2rem,5vw,2.75rem);">
                 Tentang WanFlorist
             </h1>
@@ -69,21 +69,21 @@ $css_extra   = '/assets/css/public.css';
                         position:relative;
                         overflow:hidden;
                     " aria-hidden="true">
-                        🌸
+                        <i class="bi bi-flower1" aria-hidden="true"></i>
                         <span style="
                             position:absolute;
                             bottom:24px;
                             right:24px;
                             font-size:2.5rem;
                             opacity:0.4;
-                        ">🌷</span>
+                        "><i class="bi bi-flower2"></i></span>
                         <span style="
                             position:absolute;
                             top:20px;
                             left:20px;
                             font-size:2rem;
                             opacity:0.35;
-                        ">🌼</span>
+                        "><i class="bi bi-flower3"></i></span>
                     </div>
                 </div>
 
@@ -133,7 +133,7 @@ $css_extra   = '/assets/css/public.css';
                         border:1.5px solid #E9D5FF;
                         border-radius:12px;
                     ">
-                        <span style="font-size:1.5rem;" aria-hidden="true">📍</span>
+                        <span style="font-size:1.5rem;" aria-hidden="true"><i class="bi bi-geo-alt"></i></span>
                         <div>
                             <p style="
                                 font-family:'Inter',sans-serif;
@@ -199,7 +199,7 @@ $css_extra   = '/assets/css/public.css';
                         display:flex;align-items:center;justify-content:center;
                         font-size:1.75rem;
                         margin:0 auto 1.25rem;
-                    " aria-hidden="true">🌹</div>
+                    " aria-hidden="true"><i class="bi bi-flower1"></i></div>
                     <h3 style="
                         font-family:'Playfair Display',Georgia,serif;
                         font-size:1.125rem;
@@ -234,7 +234,7 @@ $css_extra   = '/assets/css/public.css';
                         display:flex;align-items:center;justify-content:center;
                         font-size:1.75rem;
                         margin:0 auto 1.25rem;
-                    " aria-hidden="true">💜</div>
+                    " aria-hidden="true"><i class="bi bi-heart-fill"></i></div>
                     <h3 style="
                         font-family:'Playfair Display',Georgia,serif;
                         font-size:1.125rem;
@@ -269,7 +269,7 @@ $css_extra   = '/assets/css/public.css';
                         display:flex;align-items:center;justify-content:center;
                         font-size:1.75rem;
                         margin:0 auto 1.25rem;
-                    " aria-hidden="true">🏡</div>
+                    " aria-hidden="true"><i class="bi bi-house-fill"></i></div>
                     <h3 style="
                         font-family:'Playfair Display',Georgia,serif;
                         font-size:1.125rem;
@@ -302,10 +302,10 @@ $css_extra   = '/assets/css/public.css';
             </p>
             <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
                 <a href="/pages/katalog.php" class="hero__btn">
-                    🌸 Lihat Katalog
+                    <i class="bi bi-flower1" aria-hidden="true"></i> Lihat Katalog
                 </a>
                 <a href="/pages/kontak.php" class="hero__btn hero__btn--outline">
-                    📱 Hubungi Kami
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i> Hubungi Kami
                 </a>
             </div>
         </div>

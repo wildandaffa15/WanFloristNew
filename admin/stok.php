@@ -88,23 +88,36 @@ $css_extra   = '/assets/css/admin.css';
 
     <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
-    <main class="admin-main" id="admin-main-content">
-
-        <div class="admin-header">
-            <h1 class="admin-header__title">🌿 Stok Bahan</h1>
-        </div>
-
+    <main class="admin-main">
         <div class="admin-content">
 
-            <div class="stat-cards" style="grid-template-columns: repeat(1, minmax(0, 320px));">
+            <div class="page-header">
+                <div>
+                    <h2 class="page-header__title">Stok Bahan</h2>
+                    <p class="page-header__subtitle">
+                        Kelola persediaan bahan dan pantau stok kritis untuk operasional toko.
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat-cards" style="grid-template-columns:repeat(1,minmax(0,320px));">
                 <div class="stat-card <?= $jumlah_kritis > 0 ? 'stat-card--danger' : 'stat-card--success' ?>">
                     <div class="stat-card__header">
                         <div>
-                            <div class="stat-card__value"><?= e((string) $jumlah_kritis) ?></div>
-                            <div class="stat-card__label">item stok kritis</div>
+                            <div class="stat-card__value">
+                                <?= e((string) $jumlah_kritis) ?>
+                            </div>
+                            <div class="stat-card__label">
+                                Item Stok Kritis
+                            </div>
                         </div>
+
                         <span class="stat-card__icon" aria-hidden="true">
-                            <?= $jumlah_kritis > 0 ? '⚠️' : '✅' ?>
+                            <?php if ($jumlah_kritis > 0): ?>
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                            <?php else: ?>
+                                <i class="bi bi-check-circle-fill"></i>
+                            <?php endif; ?>
                         </span>
                     </div>
                 </div>
@@ -116,7 +129,7 @@ $css_extra   = '/assets/css/admin.css';
                     border-radius:8px; padding:0.875rem 1rem; margin-bottom:1.25rem;
                     font-family:'Inter',sans-serif; font-size:0.9rem;
                 ">
-                    ✅ <?= e($success_msg) ?>
+                    <i class="bi bi-check-lg" aria-hidden="true"></i> <?= e($success_msg) ?>
                 </div>
             <?php endif; ?>
 
@@ -137,7 +150,7 @@ $css_extra   = '/assets/css/admin.css';
 
             <div class="admin-card" style="margin-bottom:1.5rem;">
                 <div class="admin-card__header">
-                    <h2 class="admin-card__title">➕ Tambah Bahan Baru</h2>
+                    <h2 class="admin-card__title"><i class="bi bi-plus-lg" aria-hidden="true"></i> Tambah Bahan Baru</h2>
                 </div>
                 <div class="admin-card__body">
                     <form method="POST" action="/admin/stok.php" novalidate>
@@ -233,8 +246,8 @@ $css_extra   = '/assets/css/admin.css';
             </div>
 
             <div class="admin-card">
-                <div class="admin-card__header">
-                    <h2 class="admin-card__title">📋 Daftar Bahan</h2>
+                    <div class="admin-card__header">
+                    <h2 class="admin-card__title"><i class="bi bi-card-list"></i> Daftar Bahan</h2>
                     <span style="font-family:'Inter',sans-serif; font-size:0.875rem; color:#6B7280;">
                         Total: <?= e((string) count($list_bahan)) ?> bahan
                     </span>

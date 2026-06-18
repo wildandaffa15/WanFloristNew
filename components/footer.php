@@ -27,7 +27,7 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="Hubungi WanFlorist via WhatsApp">
-                    <span class="wf-footer__social-icon" aria-hidden="true">📱</span>
+                    <span class="wf-footer__social-icon" aria-hidden="true"><i class="bi bi-whatsapp"></i></span>
                     WhatsApp
                 </a>
                 <a href="https://instagram.com/wanflorist"
@@ -35,7 +35,7 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="Ikuti WanFlorist di Instagram">
-                    <span class="wf-footer__social-icon" aria-hidden="true">📸</span>
+                    <span class="wf-footer__social-icon" aria-hidden="true"><i class="bi bi-instagram"></i></span>
                     Instagram
                 </a>
             </div>
@@ -65,12 +65,12 @@
             <h2 class="wf-footer__heading">Kontak &amp; Lokasi</h2>
             <address class="wf-footer__address">
                 <p class="wf-footer__address-line">
-                    <span aria-hidden="true">📍</span>
+                    <span aria-hidden="true"><i class="bi bi-geo-alt"></i></span>
                     Singojuruh, Banyuwangi<br>
                     Jawa Timur, Indonesia
                 </p>
                 <p class="wf-footer__address-line">
-                    <span aria-hidden="true">📱</span>
+                    <span aria-hidden="true"><i class="bi bi-whatsapp"></i></span>
                     <a href="https://wa.me/+6285746606624"
                        class="wf-footer__link"
                        target="_blank"
@@ -79,7 +79,7 @@
                     </a>
                 </p>
                 <p class="wf-footer__address-line">
-                    <span aria-hidden="true">📸</span>
+                    <span aria-hidden="true"><i class="bi bi-instagram"></i></span>
                     <a href="https://www.instagram.com/wanflorist.id/"
                        class="wf-footer__link"
                        target="_blank"
@@ -94,7 +94,7 @@
 
     <div class="wf-footer__bottom">
         <p class="wf-footer__copyright">
-            &copy; 2025 WanFlorist. Dibuat dengan 🌸 di Singojuruh, Banyuwangi.
+            &copy; 2025 WanFlorist. Dibuat dengan <i class="bi bi-flower1" aria-hidden="true"></i> di Singojuruh, Banyuwangi.
         </p>
     </div>
 </footer>

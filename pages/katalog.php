@@ -81,6 +81,17 @@ $stmt_kat = $pdo->prepare(
 $stmt_kat->execute();
 $all_kategori = $stmt_kat->fetchAll(PDO::FETCH_ASSOC);
 
+// Map legacy emoji values from seed data to Bootstrap Icon classes
+$ikon_map = [
+    '🌹' => 'bi bi-flower1',
+    '🌻' => 'bi bi-sun',
+    '🌷' => 'bi bi-flower2',
+    '🌸' => 'bi bi-flower1',
+    '💍' => 'bi bi-gem',
+    '🎓' => 'bi bi-mortarboard',
+    '🎁' => 'bi bi-gift',
+];
+
 function build_url(array $params): string
 {
     return '?' . http_build_query(
@@ -149,7 +160,16 @@ $active_page = 'produk';
                             <?= ($kategori === $kat['slug']) ? 'selected' : '' ?>
                         >
                             <?php if (!empty($kat['ikon_emoji'])): ?>
-                                <?= e($kat['ikon_emoji']) ?>
+                                <?php
+                                    $ikon = $kat['ikon_emoji'];
+                                    if (isset($ikon_map[$ikon])) {
+                                        ?><span aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
+                                    } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
+                                        ?><span aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
+                                    } else {
+                                        ?><span aria-hidden="true"><?= e($ikon) ?></span><?php
+                                    }
+                                ?>
                             <?php endif; ?>
                             <?= e($kat['nama_kategori']) ?>
                         </option>
@@ -196,7 +216,16 @@ $active_page = 'produk';
                     <?= ($kategori === $kat['slug']) ? 'aria-current="true"' : '' ?>
                 >
                     <?php if (!empty($kat['ikon_emoji'])): ?>
-                        <span aria-hidden="true"><?= e($kat['ikon_emoji']) ?></span>
+                        <?php
+                            $ikon = $kat['ikon_emoji'];
+                            if (isset($ikon_map[$ikon])) {
+                                ?><span aria-hidden="true"><i class="<?= e($ikon_map[$ikon]) ?>"></i></span><?php
+                            } elseif (str_starts_with($ikon, 'bi ') || str_starts_with($ikon, 'bi-')) {
+                                ?><span aria-hidden="true"><i class="<?= e($ikon) ?>"></i></span><?php
+                            } else {
+                                ?><span aria-hidden="true"><?= e($ikon) ?></span><?php
+                            }
+                        ?>
                     <?php endif; ?>
                     <?= e($kat['nama_kategori']) ?>
                 </a>
@@ -206,7 +235,7 @@ $active_page = 'produk';
 
         <?php if (empty($produk_list)): ?>
         <div class="empty-state" role="status">
-            <div class="empty-state__icon" aria-hidden="true">🌸</div>
+            <div class="empty-state__icon" aria-hidden="true"><i class="bi bi-flower1"></i></div>
             <h2 class="empty-state__title">Produk tidak ditemukan.</h2>
             <p class="empty-state__text">
                 Coba ubah kata kunci pencarian atau pilih kategori yang berbeda.
