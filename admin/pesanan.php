@@ -289,7 +289,6 @@ function pagination_url(int $pg, string $q, string $status): string
                             <?php endif; ?>
 
                             <?php
-                            // Tampilkan nomor halaman (maks 5 di tengah)
                             $range_start = max(1, min($page - 2, $total_pages - 4));
                             $range_end   = min($total_pages, $range_start + 4);
                             for ($pg = $range_start; $pg <= $range_end; $pg++):
@@ -324,7 +323,6 @@ function pagination_url(int $pg, string $q, string $status): string
     </main>
 </div>
 
-<!-- CSRF token untuk digunakan oleh modal JS -->
 <input type="hidden" id="csrf_token_modal" value="<?= e($csrf_token) ?>">
 
 <script src="/assets/js/admin-modal.js"></script>

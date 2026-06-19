@@ -139,7 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'catat
                     }
                 }
             }
-            // COD: tidak ada pemeriksaan DP
         }
 
         if (empty($errors)) {
@@ -782,8 +781,7 @@ $css_extra   = '/assets/css/admin.css';
                 }
                 lunasInfo.innerHTML = infoText;
                 lunasInfo.style.display = 'block';
-
-                // Isi otomatis jumlah pelunasan dengan nilai sisa
+\
                 if (lunasJumlah && sisa > 0) {
                     lunasJumlah.value = sisa;
                 }

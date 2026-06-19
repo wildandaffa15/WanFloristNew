@@ -540,17 +540,6 @@ $css_extra   = '/assets/css/admin.css';
     </main>
 </div>
 
-<style>
-@media print {
-    .wf-sidebar        { display: none; }
-    .wf-hamburger      { display: none; }
-    .admin-main        { margin-left: 0; }
-    .tab-panel         { display: block !important; }
-    .page-header__actions { display: none; }
-    .tab-nav           { display: none; }
-}
-</style>
-
 <script>
 (function () {
     'use strict';
@@ -586,7 +575,6 @@ $css_extra   = '/assets/css/admin.css';
                     activePanel.classList.add('tab-panel--active');
                 }
 
-                // Update URL (preserve dari/sampai, update tab param without reload)
                 var url = new URL(window.location.href);
                 url.searchParams.set('tab', target);
                 window.history.replaceState(null, '', url.toString());

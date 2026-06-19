@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'tamba
             $fotoName = $_FILES['foto']['name'];
             $fotoSize = $_FILES['foto']['size'];
 
-            // Validasi MIME via finfo (bukan $_FILES['type'])
             $finfo    = finfo_open(FILEINFO_MIME_TYPE);
             $mimeType = finfo_file($finfo, $fotoTmp);
             finfo_close($finfo);
@@ -172,14 +171,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit'
             }
 
             if (empty($errors)) {
-                $finalFoto = $currentProduk['foto']; // pertahankan foto lama by default
+                $finalFoto = $currentProduk['foto']; 
 
                 if ($hasFoto && $newFilename !== '') {
                     $destDir = __DIR__ . '/../assets/img/produk/';
                     move_uploaded_file($_FILES['foto']['tmp_name'], $destDir . $newFilename);
                     $finalFoto = $newFilename;
 
-                    // Hapus file upload lama (bukan foto seed bawaan)
                     $oldFoto    = $currentProduk['foto'];
                     $oldFotoPath = $destDir . $oldFoto;
                     if (
@@ -615,7 +613,6 @@ $css_extra   = '/assets/css/admin.css';
 
         </div>
     </main>
-
 </div>
 
 <script>
@@ -726,7 +723,6 @@ $css_extra   = '/assets/css/admin.css';
             }
         }
 
-        // Toggle status button handler
         var toggleStatusButtons = document.querySelectorAll('.btn-toggle-status');
         toggleStatusButtons.forEach(function (btn) {
             btn.addEventListener('click', function () {
