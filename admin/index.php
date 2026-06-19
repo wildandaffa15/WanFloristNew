@@ -126,7 +126,7 @@ $css_extra   = '/assets/css/admin.css';
                         Status Toko:
                         <span id="ownerStatusText"><?= e($status_toko['status'] === 'aktif' ? 'Aktif' : 'Nonaktif') ?></span>
                     </label>
-                    <input type="hidden" id="csrf_token_ajax" value="<?= e($csrf_token) ?>">
+                    <input type="hidden" id="csrf_token_endpoint" value="<?= e($csrf_token) ?>">
                 </div>
             </div>
 

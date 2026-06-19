@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     toggle.addEventListener('change', async function () {
         var statusText = document.getElementById('ownerStatusText');
-        var csrfInput  = document.getElementById('csrf_token_ajax');
+        var csrfInput  = document.getElementById('csrf_token_endpoint');
 
         if (!csrfInput) return;
 
         try {
-            var response = await fetch('/admin/ajax/toggle-status.php', {
+            var response = await fetch('/admin/endpoint/toggle-status.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ csrf_token: csrfInput.value })
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.checked = !this.checked;
                 alert('Gagal mengubah status: ' + (data.message || 'Terjadi kesalahan.'));
             }
-        } catch (err) {\
+        } catch (err) {
             this.checked = !this.checked;
         }
     });

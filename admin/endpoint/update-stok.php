@@ -1,29 +1,10 @@
 <?php
-/**
- * admin/ajax/update-stok.php
- *
- * Endpoint AJAX: update stok_saat_ini pada tabel stok_bahan.
- * Menerima POST dengan body JSON, mengembalikan JSON.
- *
- * Request body:
- *   { "csrf_token": "...", "id_bahan": 1, "stok_baru": 25 }
- *
- * Response sukses:
- *   { "success": true, "stok_baru": 25, "is_kritis": false }
- *
- * Response error:
- *   { "success": false, "message": "Pesan error" }
- *
- * Requirements: 16.1, 16.4
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/session.php';
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/helpers.php';
 
-// Selalu kembalikan JSON
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -156,7 +156,7 @@
         btnConfirm.disabled = true;
         btnConfirm.textContent = 'Menyimpan…';
 
-        fetch('/admin/ajax/update-status-pesanan.php', {
+        fetch('/admin/endpoint/update-status-pesanan.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -421,7 +421,7 @@ $css_extra   = '/assets/css/admin.css';
                 errorMsg.classList.remove('hidden');
                 inputStok.focus();
                 return;
-        fetch('/admin/ajax/update-stok.php', {
+        fetch('/admin/endpoint/update-stok.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

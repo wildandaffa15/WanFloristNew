@@ -1,18 +1,4 @@
 <?php
-/**
- * admin/ajax/toggle-status.php
- * Endpoint AJAX: Toggle status toko (aktif ↔ nonaktif)
- *
- * Menerima POST request dengan body JSON:
- *   { "csrf_token": "<token>" }
- *
- * Mengembalikan JSON:
- *   { "success": true,  "status_baru": "aktif"|"nonaktif" }
- *   { "success": false, "message": "<pesan error>" }
- *
- * Requirements: 8.6, 15.3
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/session.php';

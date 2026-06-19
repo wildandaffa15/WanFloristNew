@@ -33,7 +33,6 @@ function get_pdo(): PDO
     try {
         $pdo = new PDO($dsn, $user, $pass, $options);
     } catch (PDOException $e) {
-        // Jangan membocorkan detail koneksi ke browser
         error_log('Database connection failed: ' . $e->getMessage());
         http_response_code(503);
         die('Koneksi database gagal. Silakan coba beberapa saat lagi.');

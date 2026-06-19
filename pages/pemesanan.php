@@ -1,5 +1,5 @@
 <?php
-session_start(); // needed for CSRF
+session_start(); 
 require_once '../config/database.php';
 require_once '../config/helpers.php';
 $pdo = get_pdo();
@@ -458,7 +458,6 @@ $css_extra   = '/assets/css/pages/pemesanan.css';
                         <span id="pem-summary-total" class="pem-summary-total-value">Rp 0</span>
                     </div>
 
-                    <!-- Info box: shown by JS when metode = cod -->
                     <div id="pem-dp-info" class="alert alert-info pem-dp-info" role="status">
                         <span><i class="bi bi-info-circle" aria-hidden="true"></i></span>
                         <div>

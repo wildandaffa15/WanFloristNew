@@ -1,16 +1,4 @@
 <?php
-/**
- * admin/ajax/update-status-pesanan.php
- * Endpoint AJAX untuk mengubah status pesanan.
- *
- * Method : POST (application/json)
- * Input  : { "csrf_token": "...", "id_pesanan": 1, "status_baru": "diproses" }
- * Output : { "success": true,  "status_baru": "diproses" }
- *        | { "success": false, "message": "..." }
- *
- * Requirements: 8.3, 8.7, 15.3
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/session.php';
